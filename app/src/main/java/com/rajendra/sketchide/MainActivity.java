@@ -1,69 +1,81 @@
 package com.rajendra.sketchide;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    ImageButton buttonDrawerToggle;
+    Toolbar toolbar;
     NavigationView navigationView;
+    MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawerLayout = findViewById(R.id.drawerLayout);
-        buttonDrawerToggle = findViewById(R.id.buttonDrawerToggle);
-        navigationView = findViewById(R.id.navigationView);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigation_view);
 
-       // Navigation ImageButton Click to Open Navigation Menu
-        buttonDrawerToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.open();
+        // Set the toolbar as the action bar
+        setSupportActionBar(toolbar);
+
+        // Set click listener for the navigation icon
+        toolbar.setNavigationOnClickListener(v -> drawerLayout.open());
+
+        // Set item selected listener for navigation view
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            // Handle menu item selected
+            if (lastCheckedItem != null) {
+                lastCheckedItem.setChecked(false);
             }
-        });
 
-        //Navigation Item Click Action
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            // Check the current item
+            menuItem.setChecked(true);
+            lastCheckedItem = menuItem;
 
-                int ItemId = item.getItemId();
+            //Drawer Item Click Action
 
-                if (ItemId == R.id.navAbout){
-                    Toast.makeText(MainActivity.this, "Abuot Clicked", Toast.LENGTH_SHORT).show();
-                }
-                if (ItemId == R.id.navsettings){
-                    Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
-                }
-                if (ItemId == R.id.navinformation){
-                    Toast.makeText(MainActivity.this, "Information Clicked", Toast.LENGTH_SHORT).show();
-                }
-                if (ItemId == R.id.navtools){
-                    Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();
-                }
-                if (ItemId == R.id.navsign){
-                    Toast.makeText(MainActivity.this, "Sign Clicked", Toast.LENGTH_SHORT).show();
-                }
+            int ItemId = menuItem.getItemId();
 
-                drawerLayout.close();
-                return false;
+            if (ItemId == R.id.drawer_about) {
+                Toast.makeText(MainActivity.this, "Abuot Clicked", Toast.LENGTH_SHORT).show();
             }
+            if (ItemId == R.id.drawer_settings) {
+                Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+            }
+            if (ItemId == R.id.drawer_information) {
+                Toast.makeText(MainActivity.this, "Information Clicked", Toast.LENGTH_SHORT).show();
+            }
+            if (ItemId == R.id.drawer_tools) {
+                Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();
+            }
+            if (ItemId == R.id.drawer_sign) {
+                Toast.makeText(MainActivity.this, "Sign Clicked", Toast.LENGTH_SHORT).show();
+            }
+
+            drawerLayout.close();
+            return false;
         });
-
-
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_items, menu);
+        return true;
+    }
+
+
 }

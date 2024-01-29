@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SketchIDE</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="information">IDE Information</string>
+    <string name="tools">Tools</string>
+    <string name="sign">Sign</string>
+    <string name="website">www.androidbulb.in</string>
+    <string name="app_icon">App Icon</string>
 </resources>

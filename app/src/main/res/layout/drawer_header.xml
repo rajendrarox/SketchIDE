@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:gravity="bottom"
     android:padding="20dp"
-    android:background="#26C55B"
+    android:background="#414AFF"
     android:layout_height="180dp">
 
     <androidx.cardview.widget.CardView
@@ -29,14 +29,14 @@
         android:text="SketchIDE"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="15sp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="www.androidbulb.in"
-        android:textColor="#322E2E"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="13sp"/>
 

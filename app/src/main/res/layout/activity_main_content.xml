@@ -7,7 +7,7 @@
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF02FF9D">
+        android:background="#414AFF">
 
         <ImageButton
             android:id="@+id/buttonDrawerToggle"
@@ -15,7 +15,17 @@
             android:layout_height="wrap_content"
             android:src="@drawable/drawer_menu"
             android:background="@android:color/transparent"
+
             android:padding="5dp"/>
+        <TextView
+            android:id="@+id/activityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SketchIDE"
+            android:paddingLeft="15dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
     </Toolbar>
 
 </LinearLayout>

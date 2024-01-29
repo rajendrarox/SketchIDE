@@ -3,7 +3,7 @@
     <style name="Base.Theme.SketchIDE" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/darkBlue</item>
     </style>
 
     <style name="Theme.SketchIDE" parent="Base.Theme.SketchIDE" />

@@ -1,31 +1,30 @@
 <p align="center">
-  <img align="center" src="https://github.com/androidbulb/SketchIDE/blob/master/app/src/main/ic_launcher-playstore.png" width="30%">
+  <img src="https://github.com/androidbulb/SketchIDE/blob/master/app/src/main/ic_launcher-playstore.png" width="30%" alt="SketchIDE Logo">
 </p>
-
 
 # SketchIDE
 
-
-Welcome to SketchIDE! Here you'll find the source code of many classes in SketchIDE and, most importantly, the place to contribute to SketchIDE.
+Welcome to SketchIDE - your go-to platform for a stable Integrated Development Environment tailored for all Android developers. SketchIDE empowers you to create Android apps effortlessly, without the need for traditional coding, all from the convenience of your Android phone.
 
 ## Building the App
-To build the app, you must use Gradle. It's highly recommended to use Android Studio for the best experience.
+To build the app, leverage the power of Gradle and Android Studio for an unparalleled development experience.
 
-There are two build variants with different features:
+### Beta Version 0.1
+Be among the first to explore our initial testing release! Watch out for the Beta V0.1 version, coming soon.
 
-- `Beta V0.1:` This is first testing version release soon.
-
-To select the appropriate build variant in Android Studio, use the Build Variants tab or use the appropriate Gradle build command.
-
-
-
+Choose the appropriate build variant in Android Studio using the Build Variants tab or execute the corresponding Gradle build command.
 
 ## Contributing
 
-If you'd like to contribute to SketchIDE, follow these steps:
+Embark on the journey of contributing to SketchIDE and be a part of shaping the future of non-coding Android app development.
 
-1. Fork this repository.
-2. Make changes in your forked repository.
-3. Test out those changes.
-4. Create a pull request in this repository.
-5. Your pull request will be reviewed by the repository members and merged if accepted.
+1. **Fork:** Begin by forking this repository.
+2. **Make Changes:** Implement your enhancements in your forked repository.
+3. **Test:** Ensure your changes work flawlessly.
+4. **Pull Request:** Submit a pull request in this repository.
+5. **Review & Merge:** Your contribution will be reviewed and merged if accepted by the repository members.
+
+Join us in making SketchIDE the best tool for Android app development!
+
+---
+**Happy Coding with SketchIDE!**

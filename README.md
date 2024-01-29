@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="@mipmap/ic_launcher" style="width: 30%;" />
+  <img align="center" src="https://github.com/androidbulb/SketchIDE/blob/master/app/src/main/ic_launcher-playstore.png" width="30%">
 </p>
+
 
 # SketchIDE
 

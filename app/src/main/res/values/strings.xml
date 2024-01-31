@@ -7,4 +7,10 @@
     <string name="sign">Sign</string>
     <string name="website">www.androidbulb.in</string>
     <string name="app_icon">App Icon</string>
+    <string name="create_project">Create Project</string>
+    <string name="import_project">Import Project</string>
+    <string name="publish_app">Publish App</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+
 </resources>

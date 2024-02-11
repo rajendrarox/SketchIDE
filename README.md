@@ -27,4 +27,15 @@ Embark on the journey of contributing to SketchIDE and be a part of shaping the 
 Join us in making SketchIDE the best tool for Android app development!
 
 ---
-**Happy Coding with SketchIDE!**
+
+## Feedback and Support
+
+We value your feedback and are here to support you along the way. If you have any questions, suggestions, or issues, please don't hesitate to reach out to us.
+
+💬 Chat support: Visit our [Telegram Channel](https://t.me/sketchide) to chat support with us.
+
+📧 Email: You can also email us at appdeveloper400@gmail.com for assistance.
+
+## 🔥 Start building beautiful Android App SketchIDE! 🔥
+
+**🎉Happy coding with SketchIDE! 🎉**

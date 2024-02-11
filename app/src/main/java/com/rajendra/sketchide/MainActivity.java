@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_sign) {
-                Toast.makeText(MainActivity.this, "Sign Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Sign Clicked1", Toast.LENGTH_SHORT).show();
             }
 
             drawerLayout.close();

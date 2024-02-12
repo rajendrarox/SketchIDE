@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:icon="@drawable/about" android:id="@+id/drawer_about" android:title="@string/about" android:checkable="true"/>
+    <item android:icon="@drawable/settings" android:id="@+id/drawer_settings" android:title="@string/settings" android:checkable="true"/>
+    <item android:icon="@drawable/about" android:id="@+id/drawer_information" android:title="@string/information" android:checkable="true"/>
+    <item android:icon="@drawable/tools" android:id="@+id/drawer_tools" android:title="@string/tools" android:checkable="true"/>
+    <item android:icon="@drawable/sign" android:id="@+id/drawer_sign" android:title="@string/sign" android:checkable="true"/>
+</menu>

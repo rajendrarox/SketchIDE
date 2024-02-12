@@ -36,6 +36,6 @@ We value your feedback and are here to support you along the way. If you have an
 
 📧 Email: You can also email us at developerrajendrahelp@gmail.com for assistance.
 
-## 🔥 Start building beautiful Android App SketchIDE! 🔥
 
-**🎉Happy coding with SketchIDE! 🎉**
+## 🎉Happy coding with SketchIDE! 🎉
+

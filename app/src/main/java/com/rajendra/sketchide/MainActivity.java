@@ -1,5 +1,7 @@
 package com.rajendra.sketchide;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
             int ItemId = menuItem.getItemId();
 
             if (ItemId == R.id.drawer_about) {
-                Toast.makeText(MainActivity.this, "Abuot Clicked", Toast.LENGTH_SHORT).show();
+                // Define the URL of the external link
+                String url = "https://github.com/androidbulb/SketchIDE/tree/Design"; // Replace this with your desired URL
+                // Create an intent with ACTION_VIEW action and the URL data
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                // Start the activity
+                startActivity(intent);
             }
             if (ItemId == R.id.drawer_settings) {
                 Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();

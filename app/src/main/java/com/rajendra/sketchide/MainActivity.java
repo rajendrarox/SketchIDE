@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.rajendra.sketchide.ui.activities.InformationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_information) {
-                Toast.makeText(MainActivity.this, "Information Clicked", Toast.LENGTH_SHORT).show();
+                Intent ideInformationIntent = new Intent(MainActivity.this, InformationActivity.class);
+                startActivity(ideInformationIntent);
             }
             if (ItemId == R.id.drawer_tools) {
                 Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();

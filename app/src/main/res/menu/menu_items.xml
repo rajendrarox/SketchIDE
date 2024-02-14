@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
     <item android:icon="@drawable/search" android:title="@string/search" app:showAsAction="ifRoom"/>
-    <item android:icon="@drawable/sort" android:title="@string/sort" app:showAsAction="ifRoom"/>
-    <item android:title="@string/create_project" app:showAsAction="never"/>
-    <item android:title="@string/import_project" app:showAsAction="never"/>
-    <item android:title="@string/publish_app" app:showAsAction="never"/>
+    <item android:icon="@drawable/sort" android:title="@string/sort" app:showAsAction="ifRoom"
+        android:id="@+id/menu"/>
+    <item android:title="@string/create_project" app:showAsAction="never"
+        android:id="@+id/create_project"/>
+
+    <item android:title="@string/import_project" app:showAsAction="never"
+        android:id="@+id/importproject"/>
+    <item android:title="@string/publish_app" app:showAsAction="never"
+        android:id="@+id/publish"/>
 </menu>

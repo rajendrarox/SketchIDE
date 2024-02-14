@@ -13,32 +13,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.rajendra.sketchide.databinding.ActivityInformationBinding;
+import com.rajendra.sketchide.databinding.ActivityMainBinding;
 import com.rajendra.sketchide.ui.activities.InformationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    DrawerLayout drawerLayout;
+    private ActivityMainBinding binding;
+
     Toolbar toolbar;
-    NavigationView navigationView;
     MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.navigation_view);
+        toolbar = binding.toolbar; // Initialize the toolbar
 
-        // Set the toolbar as the action bar
         setSupportActionBar(toolbar);
 
         // Set click listener for the navigation icon
-        toolbar.setNavigationOnClickListener(v -> drawerLayout.open());
+        binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());
 
         // Set item selected listener for navigation view
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
+        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             // Handle menu item selected
             if (lastCheckedItem != null) {
                 lastCheckedItem.setChecked(false);
@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Sign Clicked", Toast.LENGTH_SHORT).show();
             }
 
-            drawerLayout.close();
-            return false;
+            binding.drawerLayout.close();
+            return true;
         });
     }
 
@@ -86,6 +86,4 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_items, menu);
         return true;
     }
-
-
 }

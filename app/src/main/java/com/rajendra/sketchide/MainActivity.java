@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());
 
 
-
         // Set item selected listener for navigation view
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             // Handle menu item selected
@@ -82,17 +81,34 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_items, arg0);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem arg0) {
-        if (arg0.getItemId() == R.id.create_project) {
-            // Display a toast message
-            Toast.makeText(this, "Create Project Clicked", Toast.LENGTH_SHORT).show();
-            return true; // Indicate that the menu item selection has been handled
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.search_bar) {
+            // Handle search bar click
+            Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired search functionality here
+            return true;
+        } else if (id == R.id.menu) {
+            // Handle menu click
+            Toast.makeText(this, "Sort clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired sorting functionality here
+            return true;
+        } else if (id == R.id.create_project) {
+            // Handle create project click
+            Toast.makeText(this, "Create project clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired project creation functionality here
+            return true;
+        } else if (id == R.id.contribute) {
+            // Handle create project click
+            Toast.makeText(this, "SketchIDE clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired project creation functionality here
+            return true;
+
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-
-        // If the selected menu item is not "Show Source Code", let the superclass handle it
-        return super.onOptionsItemSelected(arg0);
     }
-
-
 }

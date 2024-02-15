@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
-
+// Home OptionMenu
     public boolean onCreateOptionsMenu(Menu arg0) {
         super.onCreateOptionsMenu(arg0);
         getMenuInflater().inflate(R.menu.menu_items, arg0);
@@ -102,9 +102,10 @@ public class MainActivity extends AppCompatActivity {
             // Add your desired project creation functionality here
             return true;
         } else if (id == R.id.contribute) {
-            // Handle create project click
-            Toast.makeText(this, "SketchIDE clicked", Toast.LENGTH_SHORT).show();
-            // Add your desired project creation functionality here
+            String url = "https://github.com/androidbulb/SketchIDE/tree/Design";
+            Intent intentContribute = new Intent(Intent.ACTION_VIEW);
+            intentContribute.setData(Uri.parse(url));
+            startActivity(intentContribute);
             return true;
 
         } else {

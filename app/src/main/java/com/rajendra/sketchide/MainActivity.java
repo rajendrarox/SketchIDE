@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
-import com.rajendra.sketchide.ui.activities.InformationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set click listener for the navigation icon
         binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());
-
 
 
         // Set item selected listener for navigation view
@@ -62,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_information) {
-                Intent ideInformationIntent = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(ideInformationIntent);
+                Toast.makeText(MainActivity.this, "Drawer Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_tools) {
                 Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();
@@ -76,23 +73,41 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
-
+// Home OptionMenu
     public boolean onCreateOptionsMenu(Menu arg0) {
         super.onCreateOptionsMenu(arg0);
         getMenuInflater().inflate(R.menu.menu_items, arg0);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem arg0) {
-        if (arg0.getItemId() == R.id.create_project) {
-            // Display a toast message
-            Toast.makeText(this, "Create Project Clicked", Toast.LENGTH_SHORT).show();
-            return true; // Indicate that the menu item selection has been handled
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.search_bar) {
+            // Handle search bar click
+            Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired search functionality here
+            return true;
+        } else if (id == R.id.menu) {
+            // Handle menu click
+            Toast.makeText(this, "Sort clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired sorting functionality here
+            return true;
+        } else if (id == R.id.create_project) {
+            // Handle create project click
+            Toast.makeText(this, "Create project clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired project creation functionality here
+            return true;
+        } else if (id == R.id.contribute) {
+            String url = "https://github.com/androidbulb/SketchIDE/tree/Design";
+            Intent intentContribute = new Intent(Intent.ACTION_VIEW);
+            intentContribute.setData(Uri.parse(url));
+            startActivity(intentContribute);
+            return true;
+
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-
-        // If the selected menu item is not "Show Source Code", let the superclass handle it
-        return super.onOptionsItemSelected(arg0);
     }
-
-
 }

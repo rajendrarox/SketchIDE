@@ -18,6 +18,10 @@
         android:id="@+id/create_project"
         android:title="@string/create_project"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/contribute"
+        android:title="Contribute"
+        app:showAsAction="never"/>
 
 
 </menu>

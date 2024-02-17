@@ -24,7 +24,27 @@ Embark on the journey of contributing to SketchIDE and be a part of shaping the 
 4. **Pull Request:** Submit a pull request in this repository.
 5. **Review & Merge:** Your contribution will be reviewed and merged if accepted by the repository members.
 
+
+### Commit Message
+
+When you make changes to one or more files, you need to commit those changes with a commit message. Here are some guidelines:
+
+- Keep the commit message short and detailed.
+- Use one of these commit types as a prefix:
+    - `feat:` for a feature, possibly improving something already existing.
+    - `fix:` for a fix, such as a bug fix.
+    - `Design:` for Added new Design or UI.
+    - `refactor:` for refactoring a specific section of the codebase.
+    - `test:` for everything related to testing.
+    - `docs:` for everything related to documentation.
+
+Examples:
+- `feat: Speed up compiling with new technique`
+- `fix: Fix crash during launch on certain phones`
+- `refactor: Reformat code in File.java`
+
 Join us in making SketchIDE the best tool for Android app development!
+
 
 ---
 
@@ -32,7 +52,8 @@ Join us in making SketchIDE the best tool for Android app development!
 
 We value your feedback and are here to support you along the way. If you have any questions, suggestions, or issues, please don't hesitate to reach out to us.
 
-💬 Chat support: Visit our [Telegram Channel](https://t.me/sketchide) to chat support with us.
+💬 Updates: Visit our [Telegram Channel](https://t.me/sketchide) for Updates.
+💬 Chat support: Visit our [Telegram Group](https://t.me/sketchidegroup) to chat support with us.
 
 📧 Email: You can also email us at developerrajendrahelp@gmail.com for assistance.
 

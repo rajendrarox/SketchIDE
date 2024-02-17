@@ -16,4 +16,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "SketchIDE"
 include(":app")
-include(":common")

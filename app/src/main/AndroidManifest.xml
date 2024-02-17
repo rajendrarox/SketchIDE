@@ -22,12 +22,6 @@
             </intent-filter>
         </activity>
 
-    <activity
-        android:name="com.rajendra.sketchide.ui.activities.InformationActivity"
-        android:exported="true" />
-    <activity
-        android:name="com.rajendra.sketchide.ui.activities.InformationReaderActivity"
-        android:exported="true" />
     </application>
 
 </manifest>

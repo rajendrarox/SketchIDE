@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
-import com.rajendra.sketchide.ui.activities.InformationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_information) {
-                Intent ideInformationIntent = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(ideInformationIntent);
+                Toast.makeText(MainActivity.this, "Drawer Clicked", Toast.LENGTH_SHORT).show();
             }
             if (ItemId == R.id.drawer_tools) {
                 Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();

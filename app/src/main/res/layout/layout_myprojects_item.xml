@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
-    android:layout_marginTop="0dp"
+    android:layout_marginTop="4.0dp"
     android:layout_marginRight="8dp"
     android:layout_marginBottom="4.0dp"
     android:elevation="8dp"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        />
 
         <LinearLayout
             android:id="@+id/project_one"
@@ -115,17 +115,6 @@
                     android:textSize="12sp"
                     tools:text="01" />
             </RelativeLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/project_option_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

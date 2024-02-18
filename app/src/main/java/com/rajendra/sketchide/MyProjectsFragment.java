@@ -75,6 +75,7 @@ public class MyProjectsFragment extends Fragment {
         arrProjectModel.add(new ProjectModel(R.drawable.android_icon, "Test App", "Test_App", "com.test.com", "0.2", "05"));
         arrProjectModel.add(new ProjectModel(R.drawable.android_icon, "Book App", "Book_App", "com.demo.project", "0.1", "06"));
         arrProjectModel.add(new ProjectModel(R.drawable.android_icon, "SketchIDE App", "SketchIDE", "com.sketchide", "1.1", "07"));
+        arrProjectModel.add(new ProjectModel(R.drawable.android_icon, "SketchIDE App", "SketchIDE", "com.sketchide", "1.1", "07"));
 
         // Add more dummy data as needed
     }

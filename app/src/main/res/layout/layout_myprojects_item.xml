@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
-    android:layout_marginTop="0dp"
+    android:layout_marginTop="4.0dp"
     android:layout_marginRight="8dp"
     android:layout_marginBottom="4.0dp"
     android:elevation="8dp"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        />
 
         <LinearLayout
             android:id="@+id/project_one"
@@ -64,7 +64,7 @@
                         android:id="@+id/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/ColorDarkGray"
+                        android:textColor="@color/black"
                         android:textSize="14sp"
                         tools:text="@string/app_name" />
 
@@ -78,7 +78,7 @@
                             android:id="@+id/project_name"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textColor="#801717"
+                            android:textColor="#727272"
                             android:textSize="12sp"
                             tools:text="ProjectDemo" />
 
@@ -87,7 +87,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:textColor="@color/blue"
+                            android:textColor="@color/ColorGray"
                             android:textSize="11sp"
                             tools:text="1.0(1)" />
                     </LinearLayout>
@@ -96,7 +96,7 @@
                         android:id="@+id/package_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#DD2C00"
+                        android:textColor="@color/ColorGray"
                         android:textSize="12sp"
                         tools:text="@string/website" />
                 </LinearLayout>
@@ -115,17 +115,6 @@
                     android:textSize="12sp"
                     tools:text="01" />
             </RelativeLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/project_option_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

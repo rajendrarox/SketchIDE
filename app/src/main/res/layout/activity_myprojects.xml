@@ -7,20 +7,15 @@
     android:orientation="vertical"
     tools:context=".MyProjectsFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/projects_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/layout_myprojects_item"
             />
 
 
-    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

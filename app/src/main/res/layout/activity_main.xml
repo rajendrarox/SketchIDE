@@ -13,7 +13,7 @@
             android:id="@+id/layout_coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
+            >
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -33,11 +33,11 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/content"
+                android:name="com.rajendra.sketchide.MyProjectsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:name="com.rajendra.sketchide.MyProjectsFragment"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                tools:layout="@layout/activity_myprojects" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/create_new_project"
@@ -45,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_margin="16dp"
-                android:src="@drawable/settings"
+                android:tint="@color/colorPrimary"
+                android:src="@drawable/plus"
                 android:contentDescription="@string/create_new_project_button_description"
                 tools:ignore="ContentDescription" />
 

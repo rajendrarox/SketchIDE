@@ -1,15 +1,12 @@
 package com.rajendra.sketchide.activities;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.rajendra.sketchide.MyProjectsFragment;
 import com.rajendra.sketchide.R;
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,42 +45,33 @@ public class MainActivity extends AppCompatActivity {
 
         // Testing inProgress
         createNewProjectFloatingBtn = binding.createNewProject;
-        binding.createNewProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.myproject_dialog);
-                EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
-                TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
-                TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);
-                dialogCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Your code to handle button click goes here
-                        Toast.makeText(v.getContext(),"Cancelled",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
+        binding.createNewProject.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.myproject_dialog);
+            EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
+            TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
+            TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);
+            dialogCancel.setOnClickListener(v1 -> {
+                // Your code to handle button click goes here
+                Toast.makeText(v1.getContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            });
 
-                dialogOkay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Your code to handle button click goes here
-                        Toast.makeText(v.getContext(),"Okay",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
+            dialogOkay.setOnClickListener(v12 -> {
+                // Your code to handle button click goes here
+                Toast.makeText(v12.getContext(),"Okay",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            });
 
-                // Dialog Size Match_Parent
-                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                layoutParams.copyFrom(dialog.getWindow().getAttributes());
-                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                dialog.getWindow().setAttributes(layoutParams);
+            // Dialog Size Match_Parent
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setAttributes(layoutParams);
 
 
-                dialog.show();
-            }
+            dialog.show();
         });
 
 

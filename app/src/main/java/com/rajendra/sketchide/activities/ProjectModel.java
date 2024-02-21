@@ -1,5 +1,6 @@
-
 package com.rajendra.sketchide.activities;
+
+import java.util.ArrayList;
 
 public class ProjectModel {
     public int projectIcon;
@@ -19,11 +20,16 @@ public class ProjectModel {
     }
 
     // Constructor for input
-    public ProjectModel(String appName) {
+    public ProjectModel(String appName, ArrayList<ProjectModel> existingProjects) {
         this.appName = appName;
-
+        // Generate a new projectId
+        int maxProjectId = 0;
+        for (ProjectModel project : existingProjects) {
+            int projectId = Integer.parseInt(project.projectId);
+            if (projectId > maxProjectId) {
+                maxProjectId = projectId;
+            }
+        }
+        this.projectId = String.valueOf(maxProjectId + 1);
     }
-
-
-
 }

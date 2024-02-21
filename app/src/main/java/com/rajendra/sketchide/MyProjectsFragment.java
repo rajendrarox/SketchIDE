@@ -76,9 +76,11 @@ public class MyProjectsFragment extends Fragment {
                 // Your code to handle button click goes here
                 String appName = edittextAppName.getText().toString();
                 if (!appName.isEmpty()) {
+                    // Calculate the next projectId
+                    int nextProjectId = arrProjectModel.size() + 1;
 
                     // Add items in RecyclerView
-                    arrProjectModel.add(0, new ProjectModel(R.drawable.android_icon,appName,"Demo_App","com.demo.app","0.1","02"));
+                    arrProjectModel.add(0, new ProjectModel(R.drawable.android_icon, appName, "Demo_App", "com.demo.app", "0.1", String.valueOf(nextProjectId)));
                     adapter.notifyItemInserted(0);
                     recyclerView.scrollToPosition(0);
                 } else {

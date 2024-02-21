@@ -28,6 +28,8 @@ public class MyProjectsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             // Handle any arguments here if needed
+
+
         }
     }
 
@@ -38,9 +40,12 @@ public class MyProjectsFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_myprojects, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.projects_recycler_view);
+        // Floating Button Action Id Defined
+
 
         // Layout manager is used to show recyclerview in a linear layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         // Adding dummy data to the ArrayList
         addDummyData();

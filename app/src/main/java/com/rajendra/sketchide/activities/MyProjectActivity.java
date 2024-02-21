@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class MyProjectActivity extends AppCompatActivity {
 
     //Array get from ProjectModel
+
     ArrayList<ProjectModel> arrProjectModel = new ArrayList<>();
 
         @Override
@@ -21,6 +22,7 @@ public class MyProjectActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_myprojects);
             RecyclerView recyclerView = findViewById(R.id.projects_recycler_view);
+
 
             // Layout manger is use to show recyclerview in linear you can set grid
             recyclerView.setLayoutManager(new LinearLayoutManager(this));

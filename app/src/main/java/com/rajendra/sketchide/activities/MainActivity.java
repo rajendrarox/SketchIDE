@@ -1,21 +1,26 @@
 package com.rajendra.sketchide.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.rajendra.sketchide.MyProjectsFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rajendra.sketchide.R;
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = null;
 
     Toolbar toolbar;
+    FloatingActionButton createNewProjectFloatingBtn;
+
     MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
@@ -35,6 +42,40 @@ public class MainActivity extends AppCompatActivity {
         toolbar = binding.toolbar; // Initialize the toolbar
 
         setSupportActionBar(toolbar);
+
+        // Testing inProgress
+        createNewProjectFloatingBtn = binding.createNewProject;
+        binding.createNewProject.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.myproject_dialog);
+            EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
+            TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
+            TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);
+            dialogCancel.setOnClickListener(v1 -> {
+                // Your code to handle button click goes here
+                Toast.makeText(v1.getContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            });
+
+            dialogOkay.setOnClickListener(v12 -> {
+                // Your code to handle button click goes here
+                Toast.makeText(v12.getContext(),"Okay",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            });
+
+            // Dialog Size Match_Parent
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setAttributes(layoutParams);
+
+
+            dialog.show();
+        });
+
+
+
 
         // Set click listener for the navigation icon
         binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="create_new_project_button_description">Create new project</string>
+    <string name="advance_settings">Advance Settings</string>
+    <string name="tap_to_change_icon">Tap to change icon</string>
 </resources>

@@ -1,3 +1,4 @@
+
 package com.rajendra.sketchide.activities;
 
 public class ProjectModel {
@@ -8,7 +9,7 @@ public class ProjectModel {
     public String projectVersion;
     public String projectId;
 
-    public  ProjectModel(int projectIcon, String appName,String projectName,String packageName ,String projectVersion,String projectId){
+    public ProjectModel(int projectIcon, String appName, String projectName, String packageName, String projectVersion, String projectId) {
         this.projectIcon = projectIcon;
         this.appName = appName;
         this.projectName = projectName;
@@ -16,5 +17,13 @@ public class ProjectModel {
         this.projectVersion = projectVersion;
         this.projectId = projectId;
     }
+
+    // Constructor for input
+    public ProjectModel(String appName) {
+        this.appName = appName;
+
+    }
+
+
 
 }

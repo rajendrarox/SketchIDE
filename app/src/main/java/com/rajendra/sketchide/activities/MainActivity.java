@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton createNewProjectFloatingBtn;
+
     MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
@@ -50,18 +53,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Dialog dialog = new Dialog(MainActivity.this);
                 dialog.setContentView(R.layout.myproject_dialog);
-                EditText edittextName = dialog.findViewById(R.id.nameInput);
-                EditText edittextTitle = dialog.findViewById(R.id.titleInput);
-                Button button1 = dialog.findViewById(R.id.cancelButton);
-                Button button2 = dialog.findViewById(R.id.createButton);
-                button2.setOnClickListener(new View.OnClickListener() {
+                EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
+                TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
+                TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);
+                dialogCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Your code to handle button click goes here
-                       Toast.makeText(v.getContext(),"Button Clicked",Toast.LENGTH_SHORT).show();
-                       dialog.dismiss();
+                        Toast.makeText(v.getContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 });
+
+                dialogOkay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Your code to handle button click goes here
+                        Toast.makeText(v.getContext(),"Okay",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                // Dialog Size Match_Parent
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(dialog.getWindow().getAttributes());
+                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                dialog.getWindow().setAttributes(layoutParams);
+
+
                 dialog.show();
             }
         });

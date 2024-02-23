@@ -63,3 +63,23 @@ We value your feedback and are here to support you along the way. If you have an
 
 ## 🎉Happy coding with SketchIDE! 🎉
 
+## License
+
+```
+SketchIDE is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SketchIDE is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with SketchIDE.  If not, see <https://www.gnu.org/licenses/>.
+```
+
+Any violations to the license can be reported either by opening an issue or writing a mail to us
+directly.
+

@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?colorPrimary"
             tools:text="@string/create_project" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

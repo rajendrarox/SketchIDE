@@ -22,6 +22,10 @@
         android:id="@+id/contribute"
         android:title="Contribute"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/test"
+        android:title="testitem"
+        app:showAsAction="never"/>
 
 
 </menu>

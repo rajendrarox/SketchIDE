@@ -7,32 +7,23 @@
         android:layout_height="match_parent"
         tools:context=".activities.EditorActivity">
 
-        <LinearLayout
-            android:id="@+id/layout_coordinator"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/light_outlineVariant" />
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/light_outlineVariant"
-                    />
+        </com.google.android.material.appbar.AppBarLayout>
 
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/navigation_views"
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                 />
-
-        </LinearLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationViews"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -15,11 +15,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rajendra.sketchide.R;
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private FloatingActionButton createProjectFloatingBtn;
     private ActivityMainBinding binding;
-    private Toolbar toolbar;
+
+    Toolbar toolbar;
+    FloatingActionButton createProjectFloatingBtn;
+
+    MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +30,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize the toolbar
-        toolbar = binding.toolbar;
+        toolbar = binding.toolbar; // Initialize the toolbar
+
         setSupportActionBar(toolbar);
+
+        var actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
 
         // Find and initialize the FloatingActionButton
         createProjectFloatingBtn = findViewById(R.id.create_new_project);
-
-        // Set click listener for the navigation icon
-        binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());
 
         // Set item selected listener for navigation view
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {

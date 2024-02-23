@@ -1,168 +1,99 @@
 package com.rajendra.sketchide.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rajendra.sketchide.R;
 import com.rajendra.sketchide.databinding.ActivityMainBinding;
 
-import java.util.Objects;
-
 public class MainActivity extends BaseActivity {
 
-  private ActivityMainBinding binding;
+    private ActivityMainBinding binding;
 
-  Toolbar toolbar;
-  FloatingActionButton createNewProjectFloatingBtn;
+    Toolbar toolbar;
+    FloatingActionButton createProjectFloatingBtn;
 
-  MenuItem lastCheckedItem; // Keep track of the last checked item
+    MenuItem lastCheckedItem; // Keep track of the last checked item
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    binding = ActivityMainBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-    toolbar = binding.toolbar; // Initialize the toolbar
+        toolbar = binding.toolbar; // Initialize the toolbar
 
-    setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
-    var actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
-    binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
-    actionBarDrawerToggle.syncState();
+        var actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
 
-    // Testing inProgress
-    createNewProjectFloatingBtn = binding.createNewProject;
-    binding.createNewProject.setOnClickListener(v -> {
-      Dialog dialog = new Dialog(MainActivity.this);
-      dialog.setContentView(R.layout.myproject_dialog);
-      EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
-      TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
-      TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);
-      dialogCancel.setOnClickListener(v1 -> {
-        // Your code to handle button click goes here
-        Toast.makeText(v1.getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-        dialog.dismiss();
-      });
+        // Find and initialize the FloatingActionButton
+        createProjectFloatingBtn = findViewById(R.id.create_new_project);
 
-      dialogOkay.setOnClickListener(v12 -> {
-        // Your code to handle button click goes here
-        Toast.makeText(v12.getContext(), "Okay", Toast.LENGTH_SHORT).show();
-        dialog.dismiss();
-      });
+        // Set item selected listener for navigation view
+        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
+            // Handle menu item selected
+            // Your existing code here...
+            return true;
+        });
 
-      // Dialog Size Match_Parent
-      WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-      layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
-      layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-      layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-      dialog.getWindow().setAttributes(layoutParams);
-
-
-      dialog.show();
-    });
-
-
-    // Set click listener for the navigation icon
-    binding.toolbar.setNavigationOnClickListener(v -> binding.drawerLayout.open());
-
-
-    // Set item selected listener for navigation view
-    binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
-      // Handle menu item selected
-      if (lastCheckedItem != null) {
-        lastCheckedItem.setChecked(true);
-      }
-
-      // Check the current item
-      menuItem.setChecked(true);
-      lastCheckedItem = menuItem;
-
-      //Drawer Item Click Action
-
-      int ItemId = menuItem.getItemId();
-
-      if (ItemId == R.id.drawer_about) {
-        // Define the URL of the external link
-        String url = "https://github.com/androidbulb/SketchIDE/tree/Design"; // Replace this with your desired URL
-        // Create an intent with ACTION_VIEW action and the URL data
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        // Start the activity
-        startActivity(intent);
-      }
-      if (ItemId == R.id.drawer_settings) {
-        Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
-      }
-      if (ItemId == R.id.drawer_information) {
-        Toast.makeText(MainActivity.this, "Information Clicked", Toast.LENGTH_SHORT).show();
-      }
-      if (ItemId == R.id.drawer_tools) {
-        Toast.makeText(MainActivity.this, "Tools Clicked", Toast.LENGTH_SHORT).show();
-      }
-      if (ItemId == R.id.drawer_sign) {
-        Toast.makeText(MainActivity.this, "Sign Clicked", Toast.LENGTH_SHORT).show();
-      }
-
-      binding.drawerLayout.close();
-      return true;
-    });
-    //MyProjectFragment Call
-    Fragment fragment = getSupportFragmentManager().findFragmentById(androidx.fragment.R.id.fragment_container_view_tag);
-    CoordinatorLayout coordinator = findViewById(R.id.layout_coordinator);
-
-  }
-
-  // Home OptionMenu
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.menu_items, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    int id = item.getItemId();
-
-    if (id == R.id.search_bar) {
-      // Handle search bar click
-      Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show();
-      // Add your desired search functionality here
-      return true;
-    } else if (id == R.id.menu) {
-      // Handle menu click
-      Toast.makeText(this, "Sort clicked", Toast.LENGTH_SHORT).show();
-      // Add your desired sorting functionality here
-      return true;
-    } else if (id == R.id.create_project) {
-      // Handle create project click
-      Toast.makeText(this, "Create project clicked", Toast.LENGTH_SHORT).show();
-      // Add your desired project creation functionality here
-      return true;
-    } else if (id == R.id.contribute) {
-      String url = "https://github.com/androidbulb/SketchIDE";
-      Intent intentContribute = new Intent(Intent.ACTION_VIEW);
-      intentContribute.setData(Uri.parse(url));
-      startActivity(intentContribute);
-      return true;
-
-    } else {
-      return super.onOptionsItemSelected(item);
+        // MyProjectFragment Call
+        Fragment fragment = getSupportFragmentManager().findFragmentById(androidx.fragment.R.id.fragment_container_view_tag);
     }
-  }
+
+    // Method to return the FloatingActionButton instance
+    public FloatingActionButton getCreateProjectFloatingBtn() {
+        return createProjectFloatingBtn;
+    }
+
+    // Inflate the options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_items, menu);
+        return true;
+    }
+
+    // Handle options menu item selection
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        // Handle menu item clicks
+        if (id == R.id.search_bar) {
+            // Handle search bar click
+            Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired search functionality here
+            return true;
+        } else if (id == R.id.menu) {
+            // Handle menu click
+            Toast.makeText(this, "Sort clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired sorting functionality here
+            return true;
+        } else if (id == R.id.create_project) {
+            // Handle create project click
+            Toast.makeText(this, "Create project clicked", Toast.LENGTH_SHORT).show();
+            // Add your desired project creation functionality here
+            return true;
+        } else if (id == R.id.contribute) {
+            // Handle contribute click
+            String url = "https://github.com/androidbulb/SketchIDE/tree/Design";
+            Intent intentContribute = new Intent(Intent.ACTION_VIEW);
+            intentContribute.setData(Uri.parse(url));
+            startActivity(intentContribute);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

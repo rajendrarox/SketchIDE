@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity {
     Toolbar toolbar;
     FloatingActionButton createProjectFloatingBtn;
 
-    MenuItem lastCheckedItem; // Keep track of the last checked item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class MainActivity extends BaseActivity {
 
         setSupportActionBar(toolbar);
 
-        var actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.app_name, R.string.app_name);
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 

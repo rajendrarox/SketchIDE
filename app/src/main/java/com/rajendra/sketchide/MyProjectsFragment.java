@@ -51,7 +51,7 @@ public class MyProjectsFragment extends Fragment {
         addDummyData();
 
         // Creating adapter and setting it to the RecyclerView
-        adapter = new MyProjectsAdapter(getContext(), arrProjectModel);
+        adapter = new MyProjectsAdapter(getActivity(), arrProjectModel);
         recyclerView.setAdapter(adapter);
 
         // Access MainActivity to get create_project FloatingActionButton
@@ -62,7 +62,7 @@ public class MyProjectsFragment extends Fragment {
         // Floating Button Action
         createNewProjectFloatingBtn.setOnClickListener(v -> {
             Dialog dialog = new Dialog(requireContext());
-            dialog.setContentView(R.layout.myproject_dialog);
+            dialog.setContentView(R.layout.dialog_myproject);
             EditText edittextAppName = dialog.findViewById(R.id.edittext_app_name);
             TextView dialogCancel = dialog.findViewById(R.id.dialog_cancel);
             TextView dialogOkay = dialog.findViewById(R.id.dialog_okay);

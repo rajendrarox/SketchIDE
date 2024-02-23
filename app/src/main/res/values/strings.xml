@@ -19,5 +19,13 @@
     <string name="tap_to_change_icon">Tap to change icon</string>
     <string name="cancel">Cancel</string>
     <string name="okay">Okay</string>
+    <string name="editor">Editor</string>
+    <string name="config">Configuration</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="backup">Backup</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="save">Save</string>
 
 </resources>

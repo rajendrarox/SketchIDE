@@ -2,46 +2,83 @@ package com.rajendra.sketchide.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.rajendra.sketchide.R;
+import com.rajendra.sketchide.adapters.ViewPagerEditorAdapter;
 import com.rajendra.sketchide.databinding.ActivityEditorBinding;
 
 public class EditorActivity extends BaseActivity {
+    private NavigationView navigationView;
+    private TabLayout tabLayout; // Declare TabLayout variable
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private DrawerLayout drawerLayout;
 
-    private ActivityEditorBinding binding;
-    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEditorBinding.inflate(getLayoutInflater());
+        ActivityEditorBinding binding = ActivityEditorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        toolbar = binding.toolbar; // Initialize the toolbar
-
+        Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
-        getSupportActionBar().setSubtitle("01");
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayoutView, binding.toolbar, R.string.app_name, R.string.app_name);
-        binding.drawerLayoutView.addDrawerListener(actionBarDrawerToggle);
+        ViewPager2 viewPager2 = binding.viewPager;
+        navigationView = binding.navigationViews;
+        tabLayout = binding.tabLayout; // Initialize TabLayout variable
+        drawerLayout = binding.drawerLayoutView;
+
+        ViewPagerEditorAdapter adapter = new ViewPagerEditorAdapter(this);
+        viewPager2.setAdapter(adapter);
+        new TabLayoutMediator(tabLayout, viewPager2,
+                (tab, position) -> tab.setText(adapter.getTabTitle(position))
+        ).attach();
+
+        // Customize ActionBarDrawerToggle and set custom toggle icon
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false); // Disable default hamburger icon
+        actionBarDrawerToggle.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.drag_indicator)); // Set custom icon
+        actionBarDrawerToggle.setToolbarNavigationClickListener(view -> {
+            // Handle toggle icon click to open/close drawer
+            if (drawerLayout.isDrawerOpen(navigationView)) {
+                drawerLayout.closeDrawer(navigationView);
+            } else {
+                drawerLayout.openDrawer(navigationView);
+            }
+        });
         actionBarDrawerToggle.syncState();
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-    // Set item selected listener for navigation view
-        binding.navigationViews.setNavigationItemSelectedListener(menuItem -> {
-        // Handle menu item selected
-        // Your existing code here...
-        return true;
-    });
-
-
-}
-
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            // Handle menu item selected
+            // Your existing code here...
+            return true;
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editor_item, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle other menu items
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

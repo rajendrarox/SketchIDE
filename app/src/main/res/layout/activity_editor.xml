@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.EditorActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layout_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -15,9 +26,30 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/light_outlineVariant" />
-
+                />
         </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        />
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/layout_coordinator"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigationViews"
@@ -26,4 +58,5 @@
             android:layout_gravity="start" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

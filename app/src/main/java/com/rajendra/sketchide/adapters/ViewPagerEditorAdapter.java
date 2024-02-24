@@ -40,4 +40,8 @@ public class ViewPagerEditorAdapter extends FragmentStateAdapter {
             return "Component";
         }
     }
+    // Method to determine whether to show Undo and Redo menu items
+    public boolean shouldShowUndoRedoMenu(int position) {
+        return position == 0; // Show only for the "View" fragment
+    }
 }

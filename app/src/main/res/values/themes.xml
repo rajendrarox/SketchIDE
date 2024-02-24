@@ -29,5 +29,11 @@
         <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
 
         <item name="android:windowLightStatusBar">true</item>
+
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <!-- Customize the shape appearance as needed -->
+        <item name="cornerSize">8dp</item>
     </style>
 </resources>

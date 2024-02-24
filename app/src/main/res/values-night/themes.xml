@@ -27,7 +27,10 @@
         <item name="colorSurfaceInverse">@color/dark_inverseSurface</item>
         <item name="colorOnSurfaceInverse">@color/dark_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/dark_inversePrimary</item>
+        <!-- Define a custom shape appearance for medium-sized components -->
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
 
         <item name="android:windowLightStatusBar">false</item>
+
     </style>
 </resources>

@@ -12,8 +12,6 @@
     <string name="publish_app">Publish App</string>
     <string name="search">Search</string>
     <string name="sort">Sort</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_new_project_button_description">Create new project</string>
     <string name="advance_settings">Advance Settings</string>
     <string name="tap_to_change_icon">Tap to change icon</string>

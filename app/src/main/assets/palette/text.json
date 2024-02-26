@@ -1,0 +1,10 @@
+[
+  {
+    "name": "TextView",
+    "className": "com.rajendra.sketchide.editor.palette.text.TextViewDesign",
+    "iconName": "ic_palette_text_view",
+    "defaultAttributes": {
+      "android:text": "Hello, SketchIDE User!"
+    }
+  }
+]

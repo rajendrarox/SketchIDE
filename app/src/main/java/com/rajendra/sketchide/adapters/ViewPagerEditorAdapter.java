@@ -18,7 +18,7 @@ public class ViewPagerEditorAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            return new ViewFragment();
+            return ViewFragment.newInstance();
         } else if (position == 1) {
             return new LogicFragment();
         } else {

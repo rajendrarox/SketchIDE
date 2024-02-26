@@ -54,10 +54,7 @@ dependencies {
   androidTestImplementation("androidx.test.ext:junit:1.1.5")
   androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
   implementation("com.github.androidbulb:CircleImageViewLibrary:1.0")
-  implementation("com.google.android.material:material:1.5.0-alpha01")
-  implementation ("com.google.android.material:material:1.5.0-rc01")
-
-
-
-
+  implementation("com.blankj:utilcodex:1.31.1")
+  implementation("com.google.code.gson:gson:2.10.1")
+  implementation("org.apache.commons:commons-text:1.11.0")
 }

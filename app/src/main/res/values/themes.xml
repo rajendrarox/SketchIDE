@@ -1,39 +1,47 @@
-
 <resources>
-    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/light_primary</item>
-        <item name="colorOnPrimary">@color/light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/light_secondary</item>
-        <item name="colorOnSecondary">@color/light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/light_tertiary</item>
-        <item name="colorOnTertiary">@color/light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/light_onTertiaryContainer</item>
-        <item name="colorError">@color/light_error</item>
-        <item name="colorOnError">@color/light_onError</item>
-        <item name="colorErrorContainer">@color/light_errorContainer</item>
-        <item name="colorOnErrorContainer">@color/light_onErrorContainer</item>
-        <item name="colorOutline">@color/light_outline</item>
-        <item name="android:colorBackground">@color/light_background</item>
-        <item name="colorOnBackground">@color/light_onBackground</item>
-        <item name="colorSurface">@color/light_surface</item>
-        <item name="colorOnSurface">@color/light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/light_onSurfaceVariant</item>
-        <item name="colorSurfaceInverse">@color/light_inverseSurface</item>
-        <item name="colorOnSurfaceInverse">@color/light_inverseOnSurface</item>
-        <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
 
-        <item name="android:windowLightStatusBar">true</item>
+  <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+    <item name="colorPrimary">@color/light_primary</item>
+    <item name="colorOnPrimary">@color/light_onPrimary</item>
+    <item name="colorPrimaryContainer">@color/light_primaryContainer</item>
+    <item name="colorOnPrimaryContainer">@color/light_onPrimaryContainer</item>
+    <item name="colorSecondary">@color/light_secondary</item>
+    <item name="colorOnSecondary">@color/light_onSecondary</item>
+    <item name="colorSecondaryContainer">@color/light_secondaryContainer</item>
+    <item name="colorOnSecondaryContainer">@color/light_onSecondaryContainer</item>
+    <item name="colorTertiary">@color/light_tertiary</item>
+    <item name="colorOnTertiary">@color/light_onTertiary</item>
+    <item name="colorTertiaryContainer">@color/light_tertiaryContainer</item>
+    <item name="colorOnTertiaryContainer">@color/light_onTertiaryContainer</item>
+    <item name="colorError">@color/light_error</item>
+    <item name="colorOnError">@color/light_onError</item>
+    <item name="colorErrorContainer">@color/light_errorContainer</item>
+    <item name="colorOnErrorContainer">@color/light_onErrorContainer</item>
+    <item name="colorOutline">@color/light_outline</item>
+    <item name="android:colorBackground">@color/light_background</item>
+    <item name="colorOnBackground">@color/light_onBackground</item>
+    <item name="colorSurface">@color/light_surface</item>
+    <item name="colorOnSurface">@color/light_onSurface</item>
+    <item name="colorSurfaceVariant">@color/light_surfaceVariant</item>
+    <item name="colorOnSurfaceVariant">@color/light_onSurfaceVariant</item>
+    <item name="colorSurfaceInverse">@color/light_inverseSurface</item>
+    <item name="colorOnSurfaceInverse">@color/light_inverseOnSurface</item>
+    <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
 
-    </style>
+    <item name="android:windowLightStatusBar">true</item>
 
-    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <!-- Customize the shape appearance as needed -->
-        <item name="cornerSize">8dp</item>
-    </style>
+  </style>
+
+  <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <!-- Customize the shape appearance as needed -->
+    <item name="cornerSize">8dp</item>
+  </style>
+
+  <style name="ToolbarButtonStyle">
+    <item name="android:layout_width">35dp</item>
+    <item name="android:layout_height">35dp</item>
+    <item name="android:padding">5dp</item>
+    <item name="android:scaleType">fitCenter</item>
+    <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+  </style>
 </resources>

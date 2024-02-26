@@ -28,4 +28,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="delete_view">Delete view</string>
+    <string name="msg_delete_view">Do you want to remove the view?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="select_arg_type">Select argument type</string>
+
 </resources>

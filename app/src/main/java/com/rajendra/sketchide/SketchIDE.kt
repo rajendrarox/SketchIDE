@@ -8,4 +8,14 @@ class SketchIDE : Application() {
     super.onCreate()
     DynamicColors.applyToActivitiesIfAvailable(this)
   }
+
+  companion object {
+    @JvmStatic
+    lateinit var instance: SketchIDE
+      private set
+  }
+
+  init {
+    instance = this
+  }
 }

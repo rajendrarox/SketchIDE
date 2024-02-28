@@ -58,7 +58,7 @@ class AttributeInitializer @JvmOverloads constructor(
     val keys = viewAttributeMap[view]!!.keySet()
     val allAttrs = getAllAttributesForView(view)
 
-    return allAttrs.filter { keys.contains(it[Constants.KEY_ATTRIBUTE_NAME]) }
+    return allAttrs.filter { keys.none { key -> key == it[Constants.KEY_ATTRIBUTE_NAME].toString() } }
   }
 
   @Suppress("UNCHECKED_CAST")

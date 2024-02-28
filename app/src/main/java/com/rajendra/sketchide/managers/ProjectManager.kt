@@ -15,15 +15,15 @@ class ProjectManager private constructor() {
     CompletableFuture.runAsync { initPalette() }
   }
 
-  fun getPalette(position: Int) = paletteList[position]
+  fun getPalette(position: Int) = if (position < paletteList.size) paletteList[position] else paletteList[0]
 
   private fun initPalette() {
     paletteList.clear()
-//    paletteList.add(convertJsonToObject(Constants.PALETTE_COMMON))
+    paletteList.add(convertJsonToObject(Constants.PALETTE_COMMON))
     paletteList.add(convertJsonToObject(Constants.PALETTE_TEXT))
 //    paletteList.add(convertJsonToObject(Constants.PALETTE_BUTTONS))
-//    paletteList.add(convertJsonToObject(Constants.PALETTE_WIDGETS))
-//    paletteList.add(convertJsonToObject(Constants.PALETTE_LAYOUTS))
+    paletteList.add(convertJsonToObject(Constants.PALETTE_WIDGETS))
+    paletteList.add(convertJsonToObject(Constants.PALETTE_LAYOUTS))
 //    paletteList.add(convertJsonToObject(Constants.PALETTE_CONTAINERS))
 //    paletteList.add(convertJsonToObject(Constants.PALETTE_GOOGLE))
 //    paletteList.add(convertJsonToObject(Constants.PALETTE_LEGACY))

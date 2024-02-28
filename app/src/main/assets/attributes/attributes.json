@@ -176,7 +176,7 @@
     {
       "name": "android:gravity",
       "methodName": "setGravity",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:gravity",
       "argumentType": "flag",
       "arguments": [
@@ -200,7 +200,7 @@
     {
       "name": "android:orientation",
       "methodName": "setOrientation",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:orientation",
       "argumentType": "enum",
       "arguments": [

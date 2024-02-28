@@ -4,7 +4,6 @@ import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
@@ -38,7 +37,6 @@ import com.rajendra.sketchide.editor.dialogs.FlagDialog
 import com.rajendra.sketchide.editor.dialogs.NumberDialog
 import com.rajendra.sketchide.editor.dialogs.SizeDialog
 import com.rajendra.sketchide.editor.dialogs.StringDialog
-import com.rajendra.sketchide.editor.dialogs.interfaces.OnSaveValueListener
 import com.rajendra.sketchide.managers.IdManager
 import com.rajendra.sketchide.managers.UndoRedoManager
 import com.rajendra.sketchide.utils.ArgumentUtil
@@ -47,7 +45,6 @@ import com.rajendra.sketchide.utils.FileUtils
 import com.rajendra.sketchide.utils.InvokeUtils
 import com.rajendra.sketchide.utils.parser.XmlLayoutGenerator
 import com.rajendra.sketchide.utils.parser.XmlLayoutParser
-import kotlin.math.abs
 
 @Suppress("UNCHECKED_CAST")
 class EditorLayout @JvmOverloads constructor(
@@ -435,7 +432,13 @@ class EditorLayout @JvmOverloads constructor(
       }
       MaterialAlertDialogBuilder(context)
         .setTitle(R.string.select_arg_type)
-        .setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, argumentTypes)) { _, w ->
+        .setAdapter(
+          ArrayAdapter(
+            context,
+            android.R.layout.simple_list_item_1,
+            argumentTypes
+          )
+        ) { _, w ->
           showAttributeEdit(view, attributeKey, argumentTypes[w])
         }
         .show()
@@ -448,9 +451,12 @@ class EditorLayout @JvmOverloads constructor(
     val currentAttr = initializer.getAttributeFromKey(attributeKey, allAttrs)
     val attributeMap = viewAttributeMap[view]
 
-    val savedValue = if (attributeMap!!.containsKey(attributeKey)) attributeMap[attributeKey] else ""
-    val defaultValue = if (currentAttr.containsKey(Constants.KEY_DEFAULT_VALUE)) currentAttr[Constants.KEY_DEFAULT_VALUE].toString() else null
-    val constant = if (currentAttr.containsKey(Constants.KEY_CONSTANT)) currentAttr[Constants.KEY_CONSTANT].toString() else null
+    val savedValue =
+      if (attributeMap!!.containsKey(attributeKey)) attributeMap[attributeKey] else ""
+    val defaultValue =
+      if (currentAttr.containsKey(Constants.KEY_DEFAULT_VALUE)) currentAttr[Constants.KEY_DEFAULT_VALUE].toString() else null
+    val constant =
+      if (currentAttr.containsKey(Constants.KEY_CONSTANT)) currentAttr[Constants.KEY_CONSTANT].toString() else null
 
     var dialog: AttributeDialog? = null
 
@@ -458,12 +464,23 @@ class EditorLayout @JvmOverloads constructor(
       Constants.ARGUMENT_TYPE_SIZE -> dialog = SizeDialog(context, savedValue ?: "")
       Constants.ARGUMENT_TYPE_COLOR -> dialog = ColorDialog(context, savedValue ?: "")
       Constants.ARGUMENT_TYPE_BOOLEAN -> dialog = BooleanDialog(context, savedValue ?: "")
-      Constants.ARGUMENT_TYPE_STRING -> dialog = StringDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_STRING)
-      Constants.ARGUMENT_TYPE_TEXT -> dialog = StringDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_TEXT)
-      Constants.ARGUMENT_TYPE_INT -> dialog = NumberDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_INT)
-      Constants.ARGUMENT_TYPE_FLOAT -> dialog = NumberDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_FLOAT)
-      Constants.ARGUMENT_TYPE_FLAG -> dialog = FlagDialog(context, savedValue ?: "", currentAttr["arguments"] as ArrayList<String>)
-      Constants.ARGUMENT_TYPE_ENUM -> dialog = EnumDialog(context, savedValue ?: "", currentAttr["arguments"] as ArrayList<String>)
+      Constants.ARGUMENT_TYPE_STRING -> dialog =
+        StringDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_STRING)
+
+      Constants.ARGUMENT_TYPE_TEXT -> dialog =
+        StringDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_TEXT)
+
+      Constants.ARGUMENT_TYPE_INT -> dialog =
+        NumberDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_INT)
+
+      Constants.ARGUMENT_TYPE_FLOAT -> dialog =
+        NumberDialog(context, savedValue ?: "", Constants.ARGUMENT_TYPE_FLOAT)
+
+      Constants.ARGUMENT_TYPE_FLAG -> dialog =
+        FlagDialog(context, savedValue ?: "", currentAttr["arguments"] as ArrayList<String>)
+
+      Constants.ARGUMENT_TYPE_ENUM -> dialog =
+        EnumDialog(context, savedValue ?: "", currentAttr["arguments"] as ArrayList<String>)
     }
     if (dialog == null) return
 
@@ -547,7 +564,11 @@ class EditorLayout @JvmOverloads constructor(
 
               if (index != newIndex) {
                 parent.removeView(shadow)
-                parent.addView(shadow, newIndex)
+                try {
+                  parent.addView(shadow, newIndex)
+                } catch (err: IllegalStateException) {
+                  err.printStackTrace()
+                }
               }
             } else {
               if (shadow !== parent) addWidget(shadow, parent, event)
@@ -557,8 +578,8 @@ class EditorLayout @JvmOverloads constructor(
 
         DragEvent.ACTION_DROP -> {
           removeWidget(shadow)
-          if (childCount >= 1) {
-            if (getChildAt(0) !is ViewGroup) {
+          if (this@EditorLayout.childCount >= 1) {
+            if (this@EditorLayout.getChildAt(0) !is ViewGroup) {
               Toast.makeText(
                 context,
                 "Can't add more than one widget in the editor.",
@@ -566,7 +587,9 @@ class EditorLayout @JvmOverloads constructor(
               ).show()
               return@setOnDragListener true
             } else {
-              if (parent is EditorLayout) parent = getChildAt(0) as ViewGroup
+              if (parent is EditorLayout) {
+                parent = this@EditorLayout.getChildAt(0) as ViewGroup
+              }
             }
           }
 

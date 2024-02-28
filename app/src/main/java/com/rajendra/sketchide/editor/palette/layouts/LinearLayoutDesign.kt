@@ -1,16 +1,14 @@
-package com.rajendra.sketchide.editor.palette.text
+package com.rajendra.sketchide.editor.palette.layouts
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.rajendra.sketchide.utils.Utils
 
-@SuppressLint("AppCompatCustomView")
-class TextViewDesign @JvmOverloads constructor(
+class LinearLayoutDesign @JvmOverloads constructor(
   context: Context, attrs: AttributeSet? = null
-) : TextView(context, attrs) {
+) : LinearLayout(context, attrs) {
 
   private var drawStroke = true
   private var isBlueprint = false

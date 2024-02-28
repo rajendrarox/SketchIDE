@@ -1,0 +1,12 @@
+[
+  {
+    "name": "View",
+    "className": "com.rajendra.sketchide.editor.palette.widgets.ViewDesign",
+    "iconName": "ic_palette_view",
+    "defaultAttributes": {
+      "android:layout_width": "match_parent",
+      "android:layout_height": "30dp",
+      "android:padding": "8dp"
+    }
+  }
+]

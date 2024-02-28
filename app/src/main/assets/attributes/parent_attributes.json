@@ -3,14 +3,14 @@
     {
       "name": "android:layout_weight",
       "methodName": "setLayoutWeight",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_weight",
       "argumentType": "float"
     },
     {
       "name": "android:layout_margin",
       "methodName": "setLayoutMargin",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_margin",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -18,7 +18,7 @@
     {
       "name": "android:layout_marginLeft",
       "methodName": "setLayoutMarginLeft",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_marginLeft",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -26,7 +26,7 @@
     {
       "name": "android:layout_marginRight",
       "methodName": "setLayoutMarginRight",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_marginRight",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -34,7 +34,7 @@
     {
       "name": "android:layout_marginTop",
       "methodName": "setLayoutMarginTop",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_marginTop",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -42,7 +42,7 @@
     {
       "name": "android:layout_marginBottom",
       "methodName": "setLayoutMarginBottom",
-      "className": "LinearLayoutCaller",
+      "className": "layouts.LinearLayoutCaller",
       "attributeName": "android:layout_marginBottom",
       "argumentType": "dimension",
       "dimensionUnit": "dp"

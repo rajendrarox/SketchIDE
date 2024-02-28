@@ -182,7 +182,7 @@ public class EditorActivity extends BaseActivity {
     adapter.submitPaletteList(projectManager.getPalette(0));
 
     binding.paletteNavigation.setOnItemSelectedListener(item -> {
-//      adapter.submitPaletteList(projectManager.getPalette(item.getItemId()));
+      adapter.submitPaletteList(projectManager.getPalette(item.getItemId()));
       binding.paletteText.setText("Palette");
       binding.title.setText(item.getTitle());
       return true;

@@ -22,17 +22,21 @@ To contribute to SketchIDE, you'll need the following:
 
 ## Proposing Changes
 
-Before making any significant changes, consider opening an issue to discuss them with the maintainers.
+Before proposing a change, it is always recommended to open an issue and discuss it with the
+maintainers.
 
+**The `main` branch is protected and requires all the commits to be signed with your GPG key and the
+commit history to be linear.**
+See [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
+.
 
+To contribute to this project,
 
-To contribute:
-
-1. Fork the repository.
-2. Clone the forked repository to your local machine.
-3. Open the project in Android Studio.
-4. Make your changes.
-5. Create a pull request with a descriptive title and clear description.
+- Fork the repo.
+- Clone the forked repo to your local machine.
+- Open the project.
+- Make your changes.
+- Create a pull request. Give a proper title and description to your PR.
 
 ## Issues & Pull Requests
 

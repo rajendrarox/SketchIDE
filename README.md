@@ -20,6 +20,7 @@ Choose the appropriate build variant in Android Studio using the Build Variants 
 
 ## 🤝 Contributing
 
+See The[ Contributing guide.](./CONTRIBUTING.md)
 Embark on the journey of contributing to SketchIDE and be a part of shaping the future of non-coding Android app development.
 
 1. **Fork:** Begin by forking this repository.

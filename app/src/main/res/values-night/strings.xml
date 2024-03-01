@@ -11,4 +11,9 @@
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
     <string name="save">Save</string>
+    <string name="activity">Activity</string>
+    <string name="view">View</string>
+    <string name="component">Component</string>
+    <string name="drawer">Drawer</string>
+    <string name="more_block">More Block</string>
 </resources>

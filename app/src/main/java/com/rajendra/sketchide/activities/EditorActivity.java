@@ -7,12 +7,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -55,6 +58,7 @@ public class EditorActivity extends BaseActivity {
     // Declare TabLayout variable
     TabLayout tabLayout = binding.tabLayout; // Initialize TabLayout variable
     DrawerLayout drawerLayout = binding.drawerLayoutView;
+
 
     adapter = new ViewPagerEditorAdapter(this); // Initialize adapter
     viewPager2.setAdapter(adapter); // Set adapter to ViewPager2

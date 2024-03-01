@@ -26,12 +26,18 @@
     <string name="redo">Redo</string>
     <string name="save">Save</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Coming Soon..</string>
 
     <string name="delete_view">Delete view</string>
     <string name="msg_delete_view">Do you want to remove the view?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="select_arg_type">Select argument type</string>
+    <string name="activity">Activity</string>
+    <string name="view">View</string>
+    <string name="component">Component</string>
+    <string name="drawer">Drawer</string>
+    <string name="more_block">More Block</string>
+
 
 </resources>

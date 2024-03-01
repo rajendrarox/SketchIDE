@@ -16,10 +16,10 @@ To build the app, leverage the power of Gradle and Android Studio for an unparal
 ### 🤖Beta Version 0.1
 Be among the first to explore our initial testing release! Watch out for the Beta V0.1 version, coming soon.
 
-Choose the appropriate build variant in Android Studio using the Build Variants tab or execute the corresponding Gradle build command.
 
 ## 🤝 Contributing
 
+Choose the appropriate build variant in Android Studio using the Build Variants tab or execute the corresponding Gradle build command.
 See The[ Contributing guide.](./CONTRIBUTING.md)
 Embark on the journey of contributing to SketchIDE and be a part of shaping the future of non-coding Android app development.
 

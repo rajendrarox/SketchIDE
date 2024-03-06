@@ -10,7 +10,10 @@
         android:id="@+id/navigationRailView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/menu_nav_rail_logic_item" />
+        app:menu="@menu/menu_nav_rail_logic_item"
+        />
+
+
     <fragment
         android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
@@ -20,22 +23,6 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_logic_fragment_graph"/>
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="end">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/create_new_project"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="20dp"
-        android:contentDescription="@string/create_new_project_button_description"
-        android:src="@drawable/plus"
-        tools:ignore="ContentDescription" />
-    </LinearLayout>
 
 
 

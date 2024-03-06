@@ -49,12 +49,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#ffececec" />
+            android:background="@color/light_primaryContainer" />
         <LinearLayout
             android:id="@+id/layout_btn_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffffff"
+            android:background="?attr/colorSurfaceBright"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="8dp"

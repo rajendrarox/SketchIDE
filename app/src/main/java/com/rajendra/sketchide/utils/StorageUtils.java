@@ -109,6 +109,7 @@ public class StorageUtils {
                     try {
                         JSONObject jo = new JSONObject(lines.get(0));
                         ProjectModel projectModel = new ProjectModel(jo);
+                        projectModel.setProjectId(projectId);
                         allProjects.add(projectModel);
                     } catch (JSONException e) {
                         Log.e("GET_PROJECT_INFO", e.getMessage());

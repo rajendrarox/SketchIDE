@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rajendra.sketchide.R;
-import com.rajendra.sketchide.activities.ProjectModel;
 import com.rajendra.sketchide.adapters.EventLogicAdapter;
-import com.rajendra.sketchide.adapters.MyProjectsAdapter;
 import com.rajendra.sketchide.models.LogicModel;
 
 import java.util.ArrayList;

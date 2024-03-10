@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void requestOrUpdatePermissions() {
-        read = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        read = minSdk29 || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         write = minSdk29 || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         permissions = new ArrayList<>();
         if (!read) {

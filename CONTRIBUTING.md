@@ -11,8 +11,8 @@ To contribute to SketchIDE, you'll need the following:
 - Android Studio.
 - JDK 17 (preferably the one bundled with Android Studio).
 
-> **NOTE:**  
-> At the time of writing, the stable version of Android Studio (Hedgehog) comes bundled with JDK 17.
+> [!NOTE]  
+> At the time of writing, the stable version of Android Studio (Android Studio Iguana | 2023.2.1) comes bundled with JDK 17.
 
 ## Building the Project
 

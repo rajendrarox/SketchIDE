@@ -52,6 +52,11 @@ Join us in making SketchIDE the best tool for Android app development!
 
 ---
 
+> [!Warning]
+> We'd like to provide clear guidance regarding the utilization of Scope Storage Permission in our platform. It's imperative that you refrain from altering this permission due to Play
+> Store Guidelines. Additionally, for those using SketchIDE and considering updates, please avoid uninstalling the application . Instead, opt to install updates over the existing app
+> to prevent potential loss of your projects  [Read Guidelines](https://developer.android.com/about/versions/11/privacy/storage).
+
 ## 📢Feedback and Support
 
 We value your feedback and are here to support you along the way. If you have any questions, suggestions, or issues, please don't hesitate to reach out to us.

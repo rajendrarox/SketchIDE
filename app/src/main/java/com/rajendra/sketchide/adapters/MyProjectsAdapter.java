@@ -55,7 +55,7 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
             public boolean onLongClick(View v) {
                 Dialog dialogOptions = new Dialog(context);
                 dialogOptions.setContentView(R.layout.dialog_myproject_options);
-                //find buttons ides
+                //find buttons.json ides
                 TextView editor = dialogOptions.findViewById(R.id.editor);
                 TextView config = dialogOptions.findViewById(R.id.config);
                 TextView delete = dialogOptions.findViewById(R.id.delete);

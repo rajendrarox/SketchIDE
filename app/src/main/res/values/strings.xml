@@ -1,50 +1,50 @@
 <resources>
-    <string name="app_name">SketchIDE</string>
-    <string name="about">About</string>
-    <string name="settings">Settings</string>
-    <string name="information">IDE Information</string>
-    <string name="tools">Tools</string>
-    <string name="sign">Sign</string>
-    <string name="website">www.androidbulb.in</string>
-    <string name="app_icon">App Icon</string>
-    <string name="create_project">Create Project</string>
-    <string name="import_project">Import Project</string>
-    <string name="publish_app">Publish App</string>
-    <string name="search">Search</string>
-    <string name="sort">Sort</string>
-    <string name="create_new_project_button_description">Create new project</string>
-    <string name="advance_settings">Advance Settings</string>
-    <string name="tap_to_change_icon">Tap to change icon</string>
-    <string name="cancel">Cancel</string>
-    <string name="okay">Okay</string>
-    <string name="editor">Editor</string>
-    <string name="config">Configuration</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
-    <string name="backup">Backup</string>
-    <string name="undo">Undo</string>
-    <string name="redo">Redo</string>
-    <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Coming Soon..</string>
+  <string name="app_name">SketchIDE</string>
+  <string name="about">About</string>
+  <string name="settings">Settings</string>
+  <string name="information">IDE Information</string>
+  <string name="tools">Tools</string>
+  <string name="sign">Sign</string>
+  <string name="website">www.androidbulb.in</string>
+  <string name="app_icon">App Icon</string>
+  <string name="create_project">Create Project</string>
+  <string name="import_project">Import Project</string>
+  <string name="publish_app">Publish App</string>
+  <string name="search">Search</string>
+  <string name="sort">Sort</string>
+  <string name="create_new_project_button_description">Create new project</string>
+  <string name="advance_settings">Advance Settings</string>
+  <string name="tap_to_change_icon">Tap to change icon</string>
+  <string name="cancel">Cancel</string>
+  <string name="okay">Okay</string>
+  <string name="editor">Editor</string>
+  <string name="config">Configuration</string>
+  <string name="delete">Delete</string>
+  <string name="rename">Rename</string>
+  <string name="backup">Backup</string>
+  <string name="undo">Undo</string>
+  <string name="redo">Redo</string>
+  <string name="save">Save</string>
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Coming Soon..</string>
 
-    <string name="delete_view">Delete view</string>
-    <string name="msg_delete_view">Do you want to remove the view?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="select_arg_type">Select argument type</string>
-    <string name="activity">Activity</string>
-    <string name="view">View</string>
-    <string name="component">Component</string>
-    <string name="drawer">Drawer</string>
-    <string name="more_block">More Block</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+  <string name="delete_view">Delete view</string>
+  <string name="msg_delete_view">Do you want to remove the view?</string>
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
+  <string name="select_arg_type">Select argument type</string>
+  <string name="activity">Activity</string>
+  <string name="view">View</string>
+  <string name="component">Component</string>
+  <string name="drawer">Drawer</string>
+  <string name="more_block">More Block</string>
+  <!-- Strings used for fragments for navigation -->
+  <string name="first_fragment_label">First Fragment</string>
+  <string name="second_fragment_label">Second Fragment</string>
+  <string name="next">Next</string>
+  <string name="previous">Previous</string>
 
-    <string name="lorem_ipsum">
+  <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -81,5 +81,8 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
 
-
+  <string name="file_access_title">File Access Permission</string>
+  <string name="file_access_message">This app needs permission to access files in your device\'s storage to function properly. Please grant permission to continue.</string>
+  <string name="grant_permission">Grant Permission</string>
+  <string name="exit">Exit</string>
 </resources>

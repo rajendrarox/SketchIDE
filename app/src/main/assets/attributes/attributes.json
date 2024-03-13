@@ -522,14 +522,14 @@
     {
       "name": "app:background",
       "methodName": "setBackgroundColor",
-      "className": "FABCaller",
+      "className": "buttons.FABCaller",
       "attributeName": "app:background",
       "argumentType": "color"
     },
     {
       "name": "app:fabSize",
       "methodName": "setSize",
-      "className": "FABCaller",
+      "className": "buttons.FABCaller",
       "attributeName": "app:fabSize",
       "argumentType": "enum",
       "arguments": [
@@ -542,7 +542,7 @@
     {
       "name": "app:fabCustomSize",
       "methodName": "setCustomSize",
-      "className": "FABCaller",
+      "className": "buttons.FABCaller",
       "attributeName": "app:fabCustomSize",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -550,7 +550,7 @@
     {
       "name": "app:elevation",
       "methodName": "setCompatElevation",
-      "className": "FABCaller",
+      "className": "buttons.FABCaller",
       "attributeName": "app:elevation",
       "argumentType": "dimension",
       "dimensionUnit": "dp"
@@ -560,7 +560,7 @@
     {
       "name": "android:checked",
       "methodName": "setChecked",
-      "className": "SwitchCaller",
+      "className": "buttons.SwitchCaller",
       "attributeName": "android:checked",
       "argumentType": "boolean"
     }
@@ -569,7 +569,7 @@
     {
       "name": "android:checked",
       "methodName": "setChecked",
-      "className": "SwitchCaller",
+      "className": "buttons.SwitchCaller",
       "attributeName": "android:checked",
       "argumentType": "boolean"
     }
@@ -603,6 +603,24 @@
       "methodName": "setFillViewport",
       "className": "containers.ScrollViewCaller",
       "attributeName": "android:fillViewport",
+      "argumentType": "boolean"
+    }
+  ],
+  "android.widget.CheckBox": [
+    {
+      "name": "android:checked",
+      "methodName": "setChecked",
+      "className": "buttons.CheckBoxCaller",
+      "attributeName": "android:checked",
+      "argumentType": "boolean"
+    }
+  ],
+  "android.widget.RadioButton": [
+    {
+      "name": "android:checked",
+      "methodName": "setChecked",
+      "className": "buttons.RadioButtonCaller",
+      "attributeName": "android:checked",
       "argumentType": "boolean"
     }
   ]

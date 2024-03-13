@@ -13,7 +13,7 @@ class BooleanDialog(context: Context, savedValue: String) : AttributeDialog(
     LayoutBooleanDialogBinding.inflate(getDialog().layoutInflater)
 
   init {
-    // Initialize radio buttons
+    // Initialize radio buttons.json
     val rbTrue: AppCompatRadioButton = binding.rbTrue
     val rbFalse: AppCompatRadioButton = binding.rbFalse
 

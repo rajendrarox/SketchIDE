@@ -21,7 +21,7 @@ class ProjectManager private constructor() {
     paletteList.clear()
     paletteList.add(convertJsonToObject(Constants.PALETTE_COMMON))
     paletteList.add(convertJsonToObject(Constants.PALETTE_TEXT))
-//    paletteList.add(convertJsonToObject(Constants.PALETTE_BUTTONS))
+    paletteList.add(convertJsonToObject(Constants.PALETTE_BUTTONS))
     paletteList.add(convertJsonToObject(Constants.PALETTE_WIDGETS))
     paletteList.add(convertJsonToObject(Constants.PALETTE_LAYOUTS))
 //    paletteList.add(convertJsonToObject(Constants.PALETTE_CONTAINERS))

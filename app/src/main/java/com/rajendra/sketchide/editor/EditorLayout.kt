@@ -32,6 +32,7 @@ import com.rajendra.sketchide.databinding.ShowAttributesDialogBinding
 import com.rajendra.sketchide.editor.dialogs.AttributeDialog
 import com.rajendra.sketchide.editor.dialogs.BooleanDialog
 import com.rajendra.sketchide.editor.dialogs.ColorDialog
+import com.rajendra.sketchide.editor.dialogs.DimensionDialog
 import com.rajendra.sketchide.editor.dialogs.EnumDialog
 import com.rajendra.sketchide.editor.dialogs.FlagDialog
 import com.rajendra.sketchide.editor.dialogs.NumberDialog
@@ -462,6 +463,10 @@ class EditorLayout @JvmOverloads constructor(
 
     when (argumentType) {
       Constants.ARGUMENT_TYPE_SIZE -> dialog = SizeDialog(context, savedValue ?: "")
+      Constants.ARGUMENT_TYPE_DIMENSION -> dialog = DimensionDialog(
+        context, savedValue ?: "",
+        currentAttr["dimensionUnit"].toString()
+      )
       Constants.ARGUMENT_TYPE_COLOR -> dialog = ColorDialog(context, savedValue ?: "")
       Constants.ARGUMENT_TYPE_BOOLEAN -> dialog = BooleanDialog(context, savedValue ?: "")
       Constants.ARGUMENT_TYPE_STRING -> dialog =

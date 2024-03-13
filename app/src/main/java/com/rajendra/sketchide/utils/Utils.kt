@@ -1,10 +1,15 @@
 package com.rajendra.sketchide.utils
 
+import android.Manifest
+import android.Manifest.permission
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Point
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.SizeUtils
 
 object Utils {
@@ -38,5 +43,16 @@ object Utils {
       7f,
       5f
     )
+  }
+
+  @JvmStatic
+  fun isPermissionGranted(context: Context): Boolean {
+    return (ContextCompat.checkSelfPermission(
+      context,
+      permission.READ_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+      context,
+      permission.WRITE_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED)
   }
 }

@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.rajendra.sketchide.R;
 import com.rajendra.sketchide.activities.EditorActivity;
 import com.rajendra.sketchide.models.ProjectModel;
@@ -53,39 +55,45 @@ public class MyProjectsAdapter extends RecyclerView.Adapter<MyProjectsAdapter.Vi
         holder.LayoutProjectItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Dialog dialogOptions = new Dialog(context);
-                dialogOptions.setContentView(R.layout.dialog_myproject_options);
-                //find buttons.json ides
-                TextView editor = dialogOptions.findViewById(R.id.editor);
-                TextView config = dialogOptions.findViewById(R.id.config);
-                TextView delete = dialogOptions.findViewById(R.id.delete);
-                TextView rename = dialogOptions.findViewById(R.id.rename);
-                TextView backup = dialogOptions.findViewById(R.id.backup);
-                TextView settings = dialogOptions.findViewById(R.id.settings);
+                // Inflate custom dialog view
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View dialogView = inflater.inflate(R.layout.dialog_myproject_options, null);
 
-                //Click action dialog Item
-                editor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intentEditor = new Intent(context, EditorActivity.class);
-                        context.startActivity(intentEditor);
+                // Create the AlertDialog
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context);
+                dialogBuilder.setView(dialogView);
 
-                        dialogOptions.dismiss();
-                    }
+                // Create and show the dialog
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
 
+                // Find buttons by their IDs
+                TextView editor = dialogView.findViewById(R.id.editor);
+                TextView config = dialogView.findViewById(R.id.config);
+                TextView delete = dialogView.findViewById(R.id.delete);
+                TextView rename = dialogView.findViewById(R.id.rename);
+                TextView backup = dialogView.findViewById(R.id.backup);
+                TextView settings = dialogView.findViewById(R.id.settings);
+
+                // Click action for dialog items
+                editor.setOnClickListener(v1 -> {
+                    Intent intentEditor = new Intent(context, EditorActivity.class);
+                    context.startActivity(intentEditor);
+                    dialog.dismiss();
                 });
 
-                // Dialog Size Match_Parent
+                // Add similar OnClickListener implementations for config, delete, rename, backup, and settings here...
+
+                // Set dialog window size to match parent width
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                layoutParams.copyFrom(Objects.requireNonNull(dialogOptions.getWindow()).getAttributes());
+                layoutParams.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
                 layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                 layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                dialogOptions.getWindow().setAttributes(layoutParams);
-
-                dialogOptions.show();
+                dialog.getWindow().setAttributes(layoutParams);
 
                 return true;
             }
+
         });
 
         // Click listener for RecyclerView items

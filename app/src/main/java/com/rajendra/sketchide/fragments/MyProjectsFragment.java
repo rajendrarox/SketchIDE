@@ -23,6 +23,7 @@ import com.rajendra.sketchide.utils.StorageUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MyProjectsFragment extends Fragment {
   // Array to store ProjectModel objects
@@ -47,13 +48,13 @@ public class MyProjectsFragment extends Fragment {
     RecyclerView recyclerView = view.findViewById(R.id.projects_recycler_view);
 
     // Layout manager is used to show recyclerview in a linear layout
-    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
     // Adding dummy data to the ArrayList
 //        arrProjectModel.add(getDummyData(1, "My"));
 
     // Creating adapter and setting it to the RecyclerView
-    arrProjectModel.addAll(StorageUtils.getProjectsInfo(getContext()));
+    arrProjectModel.addAll(StorageUtils.getProjectsInfo(requireContext()));
     adapter = new MyProjectsAdapter(getActivity(), arrProjectModel);
     recyclerView.setAdapter(adapter);
 

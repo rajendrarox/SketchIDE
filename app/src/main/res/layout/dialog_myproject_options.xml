@@ -1,80 +1,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
+    <TextView
+        android:id="@+id/editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent">
+        android:text="@string/editor"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="20dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+    <TextView
+        android:id="@+id/config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/config"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 
-            <TextView
-                android:id="@+id/editor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/editor"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 
-            <TextView
-                android:id="@+id/config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/config"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
+    <TextView
+        android:id="@+id/rename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rename"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 
-            <TextView
-                android:id="@+id/delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
+    <TextView
+        android:id="@+id/backup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/backup"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 
-            <TextView
-                android:id="@+id/rename"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rename"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
-
-            <TextView
-                android:id="@+id/backup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/backup"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
-
-            <TextView
-                android:id="@+id/settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:textColor="?attr/colorOnSurface"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:background="@drawable/textview_background"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:background="@drawable/ripple_effect"/>
 </LinearLayout>

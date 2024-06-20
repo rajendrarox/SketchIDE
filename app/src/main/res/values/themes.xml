@@ -27,6 +27,7 @@
     <item name="colorSurfaceInverse">@color/light_inverseSurface</item>
     <item name="colorOnSurfaceInverse">@color/light_inverseOnSurface</item>
     <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
+    <item name="colorControlHighlight">@color/color_control_highlight</item>
 
     <item name="android:windowLightStatusBar">true</item>
 

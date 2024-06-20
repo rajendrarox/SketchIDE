@@ -60,4 +60,5 @@
     <color name="dark_surfaceTint">#D0BCFF</color>
     <color name="dark_outlineVariant">#49454F</color>
     <color name="dark_scrim">#000000</color>
+    <color name="color_control_highlight">#6E6E6E</color>
 </resources>

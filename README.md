@@ -69,22 +69,28 @@ We value your feedback and are here to support you along the way. If you have an
 
 ## 🎉Happy coding with SketchIDE! 🎉
 
-## License
+## SketchIDE Licensing Information
 
 ```
-SketchIDE is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
 
-SketchIDE is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+SketchIDE is free software: you can redistribute it and/or modify it under the terms of both the MIT License and the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
-You should have received a copy of the GNU General Public License
-along with SketchIDE.  If not, see <https://www.gnu.org/licenses/>.
+SketchIDE is distributed with the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the MIT License and the CC BY 4.0 License for more details.
+
 ```
+
+---
+A copy of the license should be included with SketchIDE. If not, you can view the MIT License at [MIT License](https://opensource.org/licenses/MIT) and the CC BY 4.0 License at [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
+
+---
+
+### Explanation of Changes
+1. **Clarified License Types**: Since MIT and CC BY 4.0 are specified, I removed references to the GNU General Public License to avoid confusion.
+2. **License Links**: Added direct links to both the MIT and CC BY 4.0 licenses for easy reference.
+3. **Warranty Disclaimer**: Retained the warranty disclaimer and associated it with both licenses, ensuring legal clarity.
+
+This revised text provides a consistent description of the licensing terms and clearly links to the licenses under which SketchIDE is distributed.
+
 
 Any violations to the license can be reported either by opening an issue or writing a mail to us
 directly.

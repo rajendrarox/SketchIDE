@@ -8,9 +8,9 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/androidbulb/SketchIDE)
 ![GitHub issues](https://img.shields.io/github/issues/androidbulb/SketchIDE)
 
-Welcome to SketchIDE - your go-to platform for a stable Integrated Development Environment tailored for all Android developers. SketchIDE empowers you to create Android apps effortlessly, without the need for traditional coding, all from the convenience of your Android phone.
+Welcome to SketchIDE - A "Tool" designed to allow you to build native, cross-platform applications (Android, iOS, Web, Desktop) using a single programming language—no coding required.
 
-## 📱Building the App
+## 📱Building the Android, iOS, Web, Desktop
 To build the app, leverage the power of Gradle and Android Studio for an unparalleled development experience.
 
 ### 🤖Beta Version 0.1

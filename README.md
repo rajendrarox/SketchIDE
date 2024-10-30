@@ -84,13 +84,6 @@ A copy of the license should be included with SketchIDE. If not, you can view th
 
 ---
 
-### Explanation of Changes
-1. **Clarified License Types**: Since MIT and CC BY 4.0 are specified, I removed references to the GNU General Public License to avoid confusion.
-2. **License Links**: Added direct links to both the MIT and CC BY 4.0 licenses for easy reference.
-3. **Warranty Disclaimer**: Retained the warranty disclaimer and associated it with both licenses, ensuring legal clarity.
-
-This revised text provides a consistent description of the licensing terms and clearly links to the licenses under which SketchIDE is distributed.
-
 
 Any violations to the license can be reported either by opening an issue or writing a mail to us
 directly.

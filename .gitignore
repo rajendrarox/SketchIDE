@@ -9,6 +9,28 @@
 .externalNativeBuild.
 /.gradle/
 
+# Gradle
+/build/
+/packages/rn-tester/build
+/packages/rn-tester/android/app/.cxx/
+/packages/rn-tester/android/app/build/
+/packages/rn-tester/android/app/gradle/
+/packages/rn-tester/android/app/gradlew
+/packages/rn-tester/android/app/gradlew.bat
+/packages/react-native/ReactAndroid/build/
+/packages/react-native/ReactAndroid/.cxx/
+/packages/react-native/ReactAndroid/gradle/
+/packages/react-native/ReactAndroid/gradlew
+/packages/react-native/ReactAndroid/gradlew.bat
+/packages/react-native/ReactAndroid/external-artifacts/build/
+/packages/react-native/ReactAndroid/external-artifacts/artifacts/
+/packages/react-native/ReactAndroid/hermes-engine/build/
+/packages/react-native/ReactAndroid/hermes-engine/.cxx/
+/packages/helloworld/android/app/build/
+/packages/helloworld/android/build/
+/packages/react-native-popup-menu-android/android/build/
+/packages/react-native-test-library/android/build/
+
 # IntelliJ
 *.iml
 .idea/workspace.xml
@@ -29,6 +51,27 @@
 local.properties
 # Android Studio Navigation editor temp files
 .navigation/
-.dart_tool
+
 .idea/runConfigurations
 .github/workflows
+
+# Android
+.idea
+.gradle
+local.properties
+*.iml
+/packages/react-native/android/*
+!/packages/react-native/android/README.md
+
+# Android Studio
+.project
+.settings
+.classpath
+
+# Flutter
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+

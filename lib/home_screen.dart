@@ -3,6 +3,8 @@ import 'project_dialog.dart'; // Import your dialog for project creation
 import 'file_service.dart'; // Import the file service for file operations
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -15,10 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SketchIDE"),
+        title: const Text("SketchIDE"),
       ),
       body: projects.isEmpty
-          ? Center(child: Text("No projects created yet"))
+          ? const Center(child: Text("No projects created yet"))
           : ListView.builder(
               itemCount: projects.length,
               itemBuilder: (context, index) {
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () async {
           final newProject = await showDialog<Map<String, String>>(
             context: context,
-            builder: (_) => ProjectDialog(),
+            builder: (_) => const ProjectDialog(),
           );
 
           if (newProject != null) {
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

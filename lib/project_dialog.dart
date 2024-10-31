@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProjectDialog extends StatefulWidget {
+  const ProjectDialog({super.key});
+
   @override
   _ProjectDialogState createState() => _ProjectDialogState();
 }
@@ -14,28 +16,28 @@ class _ProjectDialogState extends State<ProjectDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Create New Project"),
+      title: const Text("Create New Project"),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _appNameController,
-              decoration: InputDecoration(labelText: "Enter App Name"),
+              decoration: const InputDecoration(labelText: "Enter App Name"),
             ),
             TextField(
               controller: _projectNameController,
-              decoration: InputDecoration(labelText: "Enter Project Name"),
+              decoration: const InputDecoration(labelText: "Enter Project Name"),
             ),
             TextField(
               controller: _packageNameController,
-              decoration: InputDecoration(labelText: "Enter App Package Name"),
+              decoration: const InputDecoration(labelText: "Enter App Package Name"),
             ),
             TextButton(
               onPressed: () async {
                 // Implement logo selection (left as exercise)
               },
-              child: Text("Select App Logo"),
+              child: const Text("Select App Logo"),
             ),
           ],
         ),
@@ -45,7 +47,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Cancel"),
+          child: const Text("Cancel"),
         ),
         TextButton(
           onPressed: () {
@@ -56,7 +58,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
               'appLogo': _appLogo,
             });
           },
-          child: Text("Create"),
+          child: const Text("Create"),
         ),
       ],
     );

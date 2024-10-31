@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/androidbulb/SketchIDE/blob/master/app/src/main/ic_launcher-playstore.png" width="30%" alt="SketchIDE Logo">
+  <img src="https://github.com/sketchide/SketchIDE/blob/master/android/app/src/main/ic_launcher-playstore.png">
 </p>
 
 # 📊 SketchIDE

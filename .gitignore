@@ -167,4 +167,8 @@ analysis_benchmark.json
 # IDX Project
 .idx
 
+# IDX Project
+.idx
 
+# VS Code
+.vscode

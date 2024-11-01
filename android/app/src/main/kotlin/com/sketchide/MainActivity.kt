@@ -1,4 +1,4 @@
-package com.example.sketchide
+package com.sketchide
 
 import io.flutter.embedding.android.FlutterActivity
 

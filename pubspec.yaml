@@ -17,6 +17,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.14.1
+  change_app_package_name: ^1.4.0
 
 flutter_icons: # Moved outside of the 'flutter' section
   android: true

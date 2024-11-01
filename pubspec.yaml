@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   path_provider: ^2.0.11 # Scope Storage path
-  flutter_native_splash: ^2.0.4 # Splash Screen
+  flutter_native_splash: ^2.4.2 # Splash Screen
   logging: ^1.2.0 # file serve
 dev_dependencies:
   flutter_test:

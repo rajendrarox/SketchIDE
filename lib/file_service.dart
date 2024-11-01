@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:logging/logging.dart';
 
 class FileService {
+  final _logger = Logger('FileService'); // Create a Logger instance
+
   // Function to get the app's directory path
   Future<Directory> getAppDirectory() async {
     // Get the top-level external storage directory
@@ -40,9 +43,9 @@ class FileService {
       // Write the data to the file
       await projectFile.writeAsString(projectData);
 
-      print("Project saved at ${projectFile.path}");
+      _logger.info('Project saved at ${projectFile.path}'); // Log success
     } catch (e) {
-      print("Error saving project data: $e");
+      _logger.severe('Error saving project data: $e'); // Log error
     }
   }
 }

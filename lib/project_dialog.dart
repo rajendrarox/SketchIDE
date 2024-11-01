@@ -1,13 +1,14 @@
+
 import 'package:flutter/material.dart';
 
 class ProjectDialog extends StatefulWidget {
   const ProjectDialog({super.key});
 
   @override
-  _ProjectDialogState createState() => _ProjectDialogState();
+  ProjectDialogState createState() => ProjectDialogState(); 
 }
 
-class _ProjectDialogState extends State<ProjectDialog> {
+class ProjectDialogState extends State<ProjectDialog> { 
   final TextEditingController _appNameController = TextEditingController();
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _packageNameController = TextEditingController();

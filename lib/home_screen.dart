@@ -1,15 +1,17 @@
+
 import 'package:flutter/material.dart'; // Import Flutter's material design package
 import 'project_dialog.dart'; // Import your dialog for project creation
 import 'file_service.dart'; // Import the file service for file operations
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState(); // Make public
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> { // Make public
   List<Map<String, String>> projects = []; // List to hold project details
   final FileService fileService = FileService(); // Create an instance of FileService
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sketchide/project_dialog.dart';
 import 'package:sketchide/projects_screen.dart';
 
 void main() {

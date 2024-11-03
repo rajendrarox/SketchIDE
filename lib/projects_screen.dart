@@ -37,12 +37,17 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               itemCount: allproject.length,
               itemBuilder: (_, index) {
                 return ListTile(
-                  leading: Text(allproject[index][DbHandler.COLUMN_PROJECT_ID]
-                      .toString()),
-                  title: Text(allproject[index][DbHandler.COLUMN_APP_NAME]),
-                  subtitle:
-                      Text(allproject[index][DbHandler.COLUMN_PROJECT_NAME]),
-                );
+                    leading: Text(allproject[index][DbHandler.COLUMN_PROJECT_ID]
+                        .toString()),
+                    title: Text(allproject[index][DbHandler.COLUMN_APP_NAME]),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(allproject[index][DbHandler.COLUMN_PROJECT_NAME]),
+                        Text(allproject[index]
+                            [DbHandler.COLUMN_APP_PACKAGE_NAME]),
+                      ],
+                    ));
               },
             )
           : const Center(
@@ -51,8 +56,10 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           /// Adding a new project
-          bool check = await dbRef!
-              .addProject(appName: "My App", projectName: "My_Project");
+          bool check = await dbRef!.addProject(
+              appName: "My App",
+              projectName: "My_Project",
+              appPackageName: "com.example.my_app");
           if (check) {
             getProjects();
           }

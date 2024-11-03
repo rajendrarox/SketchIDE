@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sketchide/data/local/db_handler.dart';
+import 'package:sketchide/ui/widgets/project_create.dart';
 
 class ProjectsScreen extends StatefulWidget {
-  const ProjectsScreen({super.key});
+  const ProjectsScreen({super.key, required this.title});
+
+  final String title;
 
   @override
   State<ProjectsScreen> createState() => _ProjectsScreenState();
@@ -28,7 +32,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Projects"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
       ),
 
       /// Display list of projects or a message if empty
@@ -54,16 +59,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               child: Text("No Projects Yet"),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          /// Adding a new project
-          bool check = await dbRef!.addProject(
-              appName: "My App",
-              projectName: "My_Project",
-              appPackageName: "com.example.my_app");
-          if (check) {
-            getProjects();
-          }
+        onPressed: () {
+          FocusScope.of(context).unfocus(); // Dismiss the keyboard
+          Get.to(() => const CreateProject()); // Navigate to CreateProject
         },
+
         child: const Icon(Icons.add),
       ),
     );

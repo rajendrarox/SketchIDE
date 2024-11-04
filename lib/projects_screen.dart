@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sketchide/data/local/db_handler.dart';
 import 'package:sketchide/ui/widgets/project_create.dart';
-import 'dart:io';
 
 class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({super.key, required this.title});
@@ -42,16 +41,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           ? ListView.builder(
               itemCount: allproject.length,
               itemBuilder: (_, index) {
-                final appLogoPath = allproject[index][DbHandler.COLUMN_APP_LOGO_PATH];
-                
                 return ListTile(
-                  trailing: Text(allproject[index][DbHandler.COLUMN_PROJECT_ID]
+                    leading: Text(allproject[index][DbHandler.COLUMN_PROJECT_ID]
                         .toString()),
-                    leading:  appLogoPath != null
-      ? appLogoPath.isNotEmpty
-          ? Image.file(File(appLogoPath)) // Load image if path exists
-          : const SizedBox.shrink()
-      : const SizedBox.shrink(),
                     title: Text(allproject[index][DbHandler.COLUMN_APP_NAME]),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

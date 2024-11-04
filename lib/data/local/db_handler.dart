@@ -18,6 +18,7 @@ class DbHandler {
   static const String COLUMN_APP_NAME = "app_name";
   static const String COLUMN_PROJECT_NAME = "project_name";
   static const String COLUMN_APP_PACKAGE_NAME = "app_package_name";
+  static const String COLUMN_APP_LOGO_PATH = "app_logo_path";
 
   Database? myDB;
 
@@ -50,7 +51,8 @@ class DbHandler {
           "$COLUMN_PROJECT_ID INTEGER PRIMARY KEY,"
           "$COLUMN_APP_NAME TEXT,"
           "$COLUMN_PROJECT_NAME TEXT,"
-          "$COLUMN_APP_PACKAGE_NAME TEXT"
+          "$COLUMN_APP_PACKAGE_NAME TEXT,"
+          "$COLUMN_APP_LOGO_PATH TEXT"
           ")");
 
       /// Create all your table here
@@ -60,20 +62,32 @@ class DbHandler {
   /// all queries
   /// Create Project
   Future<bool> addProject(
-      {required String appName, required String projectName, required String appPackageName}) async {
+      {required String appName,
+      required String projectName,
+      required String appPackageName,
+      required File appLogo}) async {
     var db = await getDB();
 
-    int rowsEffected = await db.insert(TABLE_PROJECT,
-        {COLUMN_APP_NAME: appName, COLUMN_PROJECT_NAME: projectName, COLUMN_APP_PACKAGE_NAME: appPackageName});
+    // Store App Icon in File System
+    final appDir = await getApplicationDocumentsDirectory();
+    final appLogoName = '${DateTime.now().millisecondsSinceEpoch}.png'; // Example filename
+    final appLogoPath = join(appDir.path, appLogoName);
+    await appLogo.copy(appLogoPath);
+
+    int rowsEffected = await db.insert(TABLE_PROJECT, {
+      COLUMN_APP_NAME: appName,
+      COLUMN_PROJECT_NAME: projectName,
+      COLUMN_APP_PACKAGE_NAME: appPackageName,
+      COLUMN_APP_LOGO_PATH: appLogoPath
+    });
 
     return rowsEffected > 0;
   }
 
   Future<List<Map<String, dynamic>>> getAllProject() async {
-  var db = await getDB();
-  List<Map<String, dynamic>> projectData = await db.query(TABLE_PROJECT);
+    var db = await getDB();
+    List<Map<String, dynamic>> projectData = await db.query(TABLE_PROJECT);
 
-  return projectData;
-}
-  
+    return projectData;
+  }
 }

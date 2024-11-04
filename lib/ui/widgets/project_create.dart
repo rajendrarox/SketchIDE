@@ -1,17 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sketchide/data/local/db_handler.dart';
 import 'package:sketchide/projects_screen.dart';
+import 'dart:io';
 
-class CreateProject extends StatelessWidget {
+class CreateProject extends StatefulWidget {
   const CreateProject({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController appNameController = TextEditingController();
-    final TextEditingController packageNameController = TextEditingController();
-    final TextEditingController projectNameController = TextEditingController();
+  State<CreateProject> createState() => _CreateProjectState();
+}
 
+class _CreateProjectState extends State<CreateProject> {
+  final TextEditingController appNameController = TextEditingController();
+  final TextEditingController packageNameController = TextEditingController();
+  final TextEditingController projectNameController = TextEditingController();
+  File? _selectedImage;
+
+  // Function to pick an image from the gallery
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Function to create a new project
+  Future<void> _createProject() async {
+    final appName = appNameController.text;
+    final packageName = packageNameController.text;
+    final projectName = projectNameController.text;
+
+    // Validate input fields
+    if (appName.isEmpty || packageName.isEmpty || projectName.isEmpty) {
+      Get.snackbar(
+        "Warning",
+        "Please fill in all fields.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    // Add the project to the database
+    DbHandler dbHandler = DbHandler.getInstence;
+    bool success = await dbHandler.addProject(
+      appName: appName,
+      projectName: projectName,
+      appPackageName: packageName,
+      appLogo: _selectedImage ?? File(''), // Handle case where image is not selected
+    );
+
+    if (!mounted) return; // Check if the widget is still in the widget tree
+
+    if (success) {
+      Get.snackbar("Success", "Project created successfully!");
+      Navigator.pop(context); // Go back to the previous screen
+      Get.offAll(() => const ProjectsScreen(title: "Projects")); // Navigate back to ProjectsScreen
+    } else {
+      Get.snackbar("Error", "Failed to create project.");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create Project"),
@@ -22,6 +78,30 @@ class CreateProject extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                "Select App Logo",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Center(
+                child: GestureDetector(
+                  onTap: _pickImage,
+                  child: _selectedImage != null
+                      ? Image.file(
+                          _selectedImage!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.camera_alt, size: 50),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 32),
               const Text(
                 "Enter Application Name",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -74,37 +154,7 @@ class CreateProject extends StatelessWidget {
                     child: const Text("Cancel"),
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      final appName = appNameController.text;
-                      final packageName = packageNameController.text;
-                      final projectName = projectNameController.text;
-
-                      // Validate input fields
-                      if (appName.isEmpty || packageName.isEmpty || projectName.isEmpty) {
-                        Get.snackbar("Warning", "Please fill in all fields.",
-                          snackPosition: SnackPosition.BOTTOM);
-                        return; // Exit if validation fails
-                      }
-
-                      // Add the project to the database
-                      DbHandler dbHandler = DbHandler.getInstence;
-                      bool success = await dbHandler.addProject(
-                        appName: appName,
-                        projectName: projectName,
-                        appPackageName: packageName,
-                      );
-
-                      if (success) {
-                        // Show a success message
-                        Get.snackbar("Success", "Project created successfully!");
-
-                        // Navigate back to ProjectsScreen and refresh it
-                        Navigator.pop(context); // Pop CreateProject screen
-                        Get.offAll(() => const ProjectsScreen(title: "Projects")); // Navigate back to ProjectsScreen
-                      } else {
-                        Get.snackbar("Error", "Failed to create project.");
-                      }
-                    },
+                    onPressed: _createProject, // Create project button action
                     child: const Text("Create Project"),
                   ),
                 ],

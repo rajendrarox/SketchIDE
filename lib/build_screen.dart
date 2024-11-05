@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'view_screen/view_screen.dart';       // Import the view screen
+import 'event_screen.dart';      // Import the event screen
+import 'component_screen.dart';  // Import the component screen
 
 void main() {
   runApp(const BuildDesign());
@@ -29,7 +32,21 @@ class BuildScreen extends StatefulWidget {
   State<BuildScreen> createState() => _BuildScreenState();
 }
 
-class _BuildScreenState extends State<BuildScreen> {
+class _BuildScreenState extends State<BuildScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,9 +107,22 @@ class _BuildScreenState extends State<BuildScreen> {
             },
           ),
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'View'),
+            Tab(text: 'Event'),
+            Tab(text: 'Component'),
+          ],
+        ),
       ),
-      body: const Center(
-        child: Text('Build Screen'), // Main content of the screen
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          ViewScreen(),       // Using the ViewScreen widget
+          EventScreen(),      // Using the EventScreen widget
+          ComponentScreen(),  // Using the ComponentScreen widget
+        ],
       ),
     );
   }

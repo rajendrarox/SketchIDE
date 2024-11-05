@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sketchide/data/local/db_handler.dart';
-import 'package:sketchide/ui/widgets/build_screen.dart';
+import 'package:sketchide/build_screen.dart';
 import 'package:sketchide/ui/widgets/project_create.dart';
 import 'dart:io';
 
@@ -96,7 +96,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BuildScreen(),
+                          builder: (context) => const BuildScreen(),
                         ),
                       );
                     },

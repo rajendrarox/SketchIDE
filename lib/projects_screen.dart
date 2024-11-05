@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sketchide/data/local/db_handler.dart';
+import 'package:sketchide/ui/widgets/build_screen.dart';
 import 'package:sketchide/ui/widgets/project_create.dart';
 import 'dart:io';
 
@@ -55,21 +56,21 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   ),
                   child: ListTile(
                     leading: Padding(
-                      padding: const EdgeInsets.all(
-                          1.0), // Adds an 8-pixel margin around the avatar
+                      padding: const EdgeInsets.all(1.0),
                       child: appLogoPath != null && appLogoPath.isNotEmpty
                           ? CircleAvatar(
                               backgroundImage: FileImage(File(appLogoPath)),
-                              radius: 25, // Sets the size of the avatar
+                              radius: 25,
                             )
                           : const CircleAvatar(
                               radius: 25,
                               child: Icon(
                                 Icons.image,
-                                size:100, // Size of the placeholder icon inside the CircleAvatar
+                                size:
+                                    20, // Size of the placeholder icon inside the CircleAvatar
                               ),
                             ),
-                    ), // Placeholder if no logo
+                    ),
                     title: Text(
                       allproject[index][DbHandler.COLUMN_APP_NAME],
                       style: const TextStyle(
@@ -77,19 +78,6 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         fontSize: 16.0,
                       ),
                     ),
-
-                final appLogoPath = allproject[index][DbHandler.COLUMN_APP_LOGO_PATH];
-                
-                return ListTile(
-                  trailing: Text(allproject[index][DbHandler.COLUMN_PROJECT_ID]
-                        .toString()),
-                    leading:  appLogoPath != null
-      ? appLogoPath.isNotEmpty
-          ? Image.file(File(appLogoPath)) // Load image if path exists
-          : const SizedBox.shrink()
-      : const SizedBox.shrink(),
-                    title: Text(allproject[index][DbHandler.COLUMN_APP_NAME]),
-
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -103,6 +91,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                       allproject[index][DbHandler.COLUMN_PROJECT_ID].toString(),
                       style: TextStyle(color: Colors.grey[600]),
                     ),
+                    // Add onTap to ListTile to navigate to the details screen
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BuildScreen(),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

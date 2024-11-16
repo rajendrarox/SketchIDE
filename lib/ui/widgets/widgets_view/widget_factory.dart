@@ -7,15 +7,15 @@ class WidgetFactory {
     return [
       Draggable<String>(
         data: 'LinearH',
-        feedback: LinearHWidget(),
+        feedback: const LinearHWidget(),
         childWhenDragging: Container(),
-        child: LinearHWidget(),
+        child: const LinearHWidget(),
       ),
       Draggable<String>(
         data: 'LinearV',
-        feedback: LinearVWidget(),
+        feedback: const LinearVWidget(),
         childWhenDragging: Container(),
-        child: LinearVWidget(),
+        child: const LinearVWidget(),
       ),
       // Add more draggable widgets here
     ];

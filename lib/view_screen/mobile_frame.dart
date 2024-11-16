@@ -38,27 +38,27 @@ class _MobileFrameState extends State<MobileFrame> {
                     decoration: BoxDecoration(
                       color: Colors.blue[900], // Darker blue for the status bar
                       borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 6,
                           spreadRadius: 2,
-                          offset: const Offset(0, 2),
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Icon(Icons.signal_cellular_4_bar, color: Colors.white),
                             SizedBox(width: 4),
                             Icon(Icons.wifi, color: Colors.white),
                           ],
                         ),
-                        const Text('100%', style: TextStyle(color: Colors.white)),
-                        const Icon(Icons.battery_full, color: Colors.white),
+                        Text('100%', style: TextStyle(color: Colors.white)),
+                        Icon(Icons.battery_full, color: Colors.white),
                       ],
                     ),
                   ),
@@ -98,7 +98,7 @@ class _MobileFrameState extends State<MobileFrame> {
                                 color: Colors.grey[300], // Placeholder color for the widget
                               ),
                             );
-                          }).toList(),
+                          }),
                           // Feedback for dragging
                           if (candidateData.isNotEmpty)
                             Container(

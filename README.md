@@ -3,10 +3,18 @@
 </p>
 
 # 📊 SketchIDE
-![GitHub contributors](https://img.shields.io/github/contributors/androidbulb/SketchIDE)
-![GitHub last commit](https://img.shields.io/github/last-commit/androidbulb/SketchIDE)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/androidbulb/SketchIDE)
-![GitHub issues](https://img.shields.io/github/issues/androidbulb/SketchIDE)
+<p align="center">
+  <a href="https://t.me/sketchidegroup">
+    <img src="https://img.shields.io/badge/Telegram-Group-blue?logo=telegram" alt="Telegram Group">
+  </a>
+  <a href="https://t.me/sketchide">
+    <img src="https://img.shields.io/badge/Telegram-Channel-blue?logo=telegram" alt="Telegram Channel">
+  </a>
+  <img src="https://img.shields.io/github/contributors/androidbulb/SketchIDE" alt="GitHub Contributors">
+  <img src="https://img.shields.io/github/last-commit/androidbulb/SketchIDE" alt="GitHub Last Commit">
+  <img src="https://img.shields.io/github/issues-pr/androidbulb/SketchIDE" alt="GitHub Pull Requests">
+  <img src="https://img.shields.io/github/issues/androidbulb/SketchIDE" alt="GitHub Issues">
+</p>
 
 Welcome to SketchIDE - A "Tool" designed to allow you to build native, cross-platform applications (Android, iOS, Web, Desktop) using a single programming language—no coding required.
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'view_screen/view_screen.dart'; // Import the view screen
+import 'view_screen.dart'; // Import the view screen
 import 'event_screen.dart'; // Import the event screen
 import 'component_screen.dart'; // Import the component screen
 import 'build_navigation_screen.dart'; // Import the drawer screen
@@ -121,7 +121,7 @@ class _BuildScreenState extends State<BuildScreen> with SingleTickerProviderStat
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Row(
             children: [
-              Icon(Icons.mobile_friendly_rounded, size: 24.0), // Small icon on the left
+              const Icon(Icons.mobile_friendly_rounded, size: 24.0), // Small icon on the left
               const SizedBox(width: 8.0),
               Expanded(
                 child: DropdownButtonHideUnderline(

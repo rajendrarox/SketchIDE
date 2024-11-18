@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'view_screen/mobile_frame.dart';
-import 'ui/widgets/widgets_view/widget_factory.dart';
+import '../../../../view_screen/mobile_frame.dart';
+import '../../widgets_view/widget_factory.dart';
 
 class ViewScreen extends StatelessWidget {
   const ViewScreen({super.key});

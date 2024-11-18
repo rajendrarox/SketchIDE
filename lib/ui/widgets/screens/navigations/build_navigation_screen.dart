@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'event_screen.dart'; // Import the event screen
-import 'component_screen.dart'; // Import the component screen
+import '../tabs/event_screen.dart'; // Import the event screen
+import '../tabs/component_screen.dart'; // Import the component screen
 
 class BuildNavigationScreen extends StatelessWidget {
   const BuildNavigationScreen({super.key});
@@ -80,7 +80,7 @@ class BuildNavigationScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.code),
             title: const Text('Show Source Code'),
-            subtitle: const Text('View all types of code (e.g., Dart, JavaScript)'),
+            subtitle: const Text('View surcecode like dart etc.'),
             onTap: () {
               // Add action for viewing source code
             },

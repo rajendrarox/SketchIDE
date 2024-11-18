@@ -1,5 +1,5 @@
 name: sketchide
-description: "A new Flutter project."
+description: "SketchIDE create cross platform applocation."
 publish_to: 'none'
 version: 0.1.0
 
@@ -10,9 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   path_provider: ^2.1.5 # Scope Storage path
-  flutter_native_splash: ^2.4.2 # Splash Screen
+  flutter_native_splash: ^2.4.3 # Splash Screen
   logging: ^1.2.0 # file serve
-  sqflite: ^2.4.0
+  sqflite: ^2.4.1
   path: ^1.9.0
   get: ^4.6.6
   image_picker: ^1.1.2
@@ -21,7 +21,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.1
   change_app_package_name: ^1.4.0
 

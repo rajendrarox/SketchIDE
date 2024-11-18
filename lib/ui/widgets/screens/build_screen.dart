@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'view_screen.dart'; // Import the view screen
-import 'event_screen.dart'; // Import the event screen
-import 'component_screen.dart'; // Import the component screen
-import 'build_navigation_screen.dart'; // Import the drawer screen
+import 'tabs/view_screen.dart'; // Import the view screen
+import 'tabs/event_screen.dart'; // Import the event screen
+import 'tabs/component_screen.dart'; // Import the component screen
+import 'navigations/build_navigation_screen.dart'; // Import the drawer screen
 
 void main() {
   runApp(const BuildDesign());

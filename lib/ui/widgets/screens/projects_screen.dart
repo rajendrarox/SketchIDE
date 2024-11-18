@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sketchide/data/local/db_handler.dart';
-import 'package:sketchide/build_screen.dart';
+import 'package:sketchide/utils/my_utils/db_handler.dart';
+import 'package:sketchide/ui/widgets/screens/build_screen.dart';
 import 'package:sketchide/models/message_handler.dart';
 import 'package:sketchide/ui/widgets/project_create.dart';
 import 'dart:io';

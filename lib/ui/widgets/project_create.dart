@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sketchide/data/local/db_handler.dart';
-import 'package:sketchide/projects_screen.dart';
+import 'package:sketchide/utils/my_utils/db_handler.dart';
+import 'package:sketchide/ui/widgets/screens/projects_screen.dart';
 import 'dart:io';
 
 class CreateProject extends StatefulWidget {

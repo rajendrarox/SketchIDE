@@ -71,7 +71,7 @@ class _EventScreenState extends State<EventScreen> {
                   label: Text('Drawer'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.account_tree_rounded),
+                  icon: Icon(Icons.extension_rounded),
                   label: Text('More Block'),
                 ),
               ],

@@ -77,7 +77,7 @@ class BuildNavigationScreen extends StatelessWidget {
           ),
         ),
       ),
-      ...items.map((item) => buildNavigationTile(context, item)).toList(),
+      ...items.map((item) => buildNavigationTile(context, item)),
     ];
   }
 

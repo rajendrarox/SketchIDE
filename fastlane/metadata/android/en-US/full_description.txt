@@ -1,0 +1,1 @@
+Welcome to SketchIDE - A "Tool" designed to allow you to build native, cross-platform applications (Android, iOS, Web, Desktop) using a single programming language—no coding required.

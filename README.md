@@ -21,6 +21,16 @@ Welcome to SketchIDE - A "Tool" designed to allow you to build native, cross-pla
 ## 📱Building the Android, iOS, Web, Desktop
 To build the app, leverage the power of Gradle and Android Studio for an unparalleled development experience.
 
+## 🏙️ Screenshots
+<table>
+  <tr>
+    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpeg"></td>
+    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpeg"></td>
+    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpeg"></td>
+    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpeg"></td>
+  </tr>
+</table>
+
 ### 🤖Beta Version 0.1
 Be among the first to explore our initial testing release! Watch out for the Beta V0.1 version, coming soon.
 

@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="https://github.com/sketchide/SketchIDE/blob/master/android/app/src/main/ic_launcher-playstore.png">
+  <img src="https://github.com/sketchide/SketchIDE/blob/master/android/app/src/main/ic_launcher-playstore.png" width="120">
 </p>
 
 # 📊 SketchIDE
+
 <p align="center">
   <a href="https://t.me/sketchidegroup">
     <img src="https://img.shields.io/badge/Telegram-Group-blue?logo=telegram" alt="Telegram Group">
@@ -10,99 +11,171 @@
   <a href="https://t.me/sketchide">
     <img src="https://img.shields.io/badge/Telegram-Channel-blue?logo=telegram" alt="Telegram Channel">
   </a>
-  <img src="https://img.shields.io/github/contributors/androidbulb/SketchIDE" alt="GitHub Contributors">
-  <img src="https://img.shields.io/github/last-commit/androidbulb/SketchIDE" alt="GitHub Last Commit">
-  <img src="https://img.shields.io/github/issues-pr/androidbulb/SketchIDE" alt="GitHub Pull Requests">
-  <img src="https://img.shields.io/github/issues/androidbulb/SketchIDE" alt="GitHub Issues">
+  <img src="https://img.shields.io/github/contributors/sketchide/SketchIDE" alt="GitHub Contributors">
+  <img src="https://img.shields.io/github/last-commit/sketchide/SketchIDE" alt="GitHub Last Commit">
+  <img src="https://img.shields.io/github/issues-pr/sketchide/SketchIDE" alt="GitHub Pull Requests">
+  <img src="https://img.shields.io/github/issues/sketchide/SketchIDE" alt="GitHub Issues">
 </p>
 
-Welcome to SketchIDE - A "Tool" designed to allow you to build native, cross-platform applications (Android, iOS, Web, Desktop) using a single programming language—no coding required.
-
-## 📱Building the Android, iOS, Web, Desktop
-To build the app, leverage the power of Gradle and Android Studio for an unparalleled development experience.
-
-## 🏙️ Screenshots
-<table>
-  <tr>
-    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpeg"></td>
-    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpeg"></td>
-    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpeg"></td>
-    <td><img width="200px" src="https://github.com/rajendrarox/SketchIDE/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpeg"></td>
-  </tr>
-</table>
-
-### 🤖Beta Version 0.1
-Be among the first to explore our initial testing release! Watch out for the Beta V0.1 version, coming soon.
-
-
-## 🤝 Contributing
-
-Choose the appropriate build variant in Android Studio using the Build Variants tab or execute the corresponding Gradle build command.
-See The[ Contributing guide.](./CONTRIBUTING.md)
-Embark on the journey of contributing to SketchIDE and be a part of shaping the future of non-coding Android app development.
-
-1. **Fork:** Begin by forking this repository.
-2. **Make Changes:** Implement your enhancements in your forked repository.
-3. **Test:** Ensure your changes work flawlessly.
-4. **Pull Request:** Submit a pull request in this repository.
-5. **Review & Merge:** Your contribution will be reviewed and merged if accepted by the repository members.
-
-
-### Commit Message Guidelines
-
-When making changes, please adhere to the following commit message guidelines:
-
-- Keep the commit message short and detailed.
-- Use one of these commit types as a prefix:
-    - `feat:` for a feature, possibly improving something already existing.
-    - `fix:` for a bug fix.
-    - `design:` for UI/UX improvements.
-    - `refactor:` for refactoring a specific section of the codebase.
-    - `test:` for everything related to testing.
-    - `docs:` for documentation updates.
-
-Examples:
-- `feat: Speed up compiling with new technique`
-- `fix: Fix crash during launch on certain phones`
-- `design: Update Design something related UI`
-
-Join us in making SketchIDE the best tool for Android app development!
+**SketchIDE** is an offline mobile IDE that allows anyone to build **native Android & iOS apps visually** – no coding required. Inspired by Sketchware Pro but built using **Flutter** for modern, cross-platform compatibility.
 
 ---
 
-> [!Warning]
-> We'd like to provide clear guidance regarding the utilization of Scope Storage Permission in our platform. It's imperative that you refrain from altering this permission due to Play
-> Store Guidelines. Additionally, for those using SketchIDE and considering updates, please avoid uninstalling the application . Instead, opt to install updates over the existing app
-> to prevent potential loss of your projects  [Read Guidelines](https://developer.android.com/about/versions/11/privacy/storage).
+## 🌟 Core Features
 
-## 📢Feedback and Support
+* **Block-based Visual Programming** (logic without typing code)
+* **Drag-and-Drop UI Builder** with Material 3 widgets
+* **Project Export** in `.ide` format (like Sketchware `.swb`)
+* **Code Preview & Editor** (for advanced users)
+* **Offline Builds**
 
-We value your feedback and are here to support you along the way. If you have any questions, suggestions, or issues, please don't hesitate to reach out to us.
+  * **Option 1:** Export Flutter project → Build locally with Android Studio/Xcode
+  * **Option 2:** Cloud CI/CD build (Codemagic / GitHub Actions)
+* **Scoped Storage Compliant** (projects stored in sandbox)
+* **Cross‑platform Output:** Android (APK/AAB) & iOS (IPA)
+* **Plugin System** for custom components and blocks
 
-💬 Updates: Visit our [Telegram Channel](https://t.me/sketchide) for Updates.
-💬 Chat support: Visit our [Telegram Group](https://t.me/sketchidegroup) to chat support with us.
+---
 
-📧 Email: You can also email us at developerrajendrahelp@gmail.com for assistance.
+## 📱 How Users Create Apps in SketchIDE
 
-
-## 🎉Happy coding with SketchIDE! 🎉
-
-## SketchIDE Licensing Information
-
+```mermaid
+graph TD
+    A[Open SketchIDE] --> B[Create New Project or Import .ide File]
+    B --> C[Design UI with Drag & Drop Widgets]
+    C --> D[Add Logic using Block Editor]
+    D --> E[Preview Application]
+    E --> F{Choose Build Option}
+    F --> |Offline| G[Export Flutter Project & Build Locally]
+    F --> |Cloud| H[Build via Cloud CI/CD]
+    H --> I[Receive APK/IPA]
+    G --> I
+    I --> J[App Ready for Distribution]
 ```
 
+---
+
+## 🐽 Roadmap
+
+* [x] Create project
+* [ ] UI Canvas with drag & drop
+* [ ] Logic block editor (Blockly)
+* [ ] Project import/export (`.ide`)
+* [ ] Android offline APK builder
+* [ ] iOS Xcode project exporter
+* [ ] Custom widget templates
+* [ ] Marketplace for templates
+
+---
+
+## Folder Structure
+
+```bash
+SketchIDE/
+├── lib/
+│   ├── core/                # Constants, utils, error handling
+│   ├── data/                # Hive/SQLite models and persistence
+│   ├── features/
+│   │   ├── project/         # Project create/edit/export
+│   │   ├── builder/         # UI drag & drop editor
+│   │   ├── blocks/          # Visual programming engine
+│   │   ├── preview/         # Live preview renderer
+│   │   ├── settings/        # App settings & theme
+│   │   └── cloud_build/     # CI/CD integration
+│   └── main.dart            # Entry point
+├── assets/                  # Icons, templates
+├── export_templates/        # Flutter boilerplate
+└── fastlane/                # Play Store metadata
+```
+
+---
+
+## 🧰 Contributor Workflow
+
+```mermaid
+graph TD
+    A[Fork Repository] --> B[Clone Locally]
+    B --> C[Setup Flutter & Dependencies]
+    C --> D[Choose Issue or Feature]
+    D --> E[Implement Changes]
+    E --> F[Test & Validate]
+    F --> G[Commit with Conventional Format]
+    G --> H[Push to Fork]
+    H --> I[Create Pull Request]
+    I --> J[Code Review & Merge]
+```
+
+### Roles
+
+* **UI Builder Team**: Drag & drop widgets
+* **Block Editor Team**: Logic block engine
+* **Build/Export Team**: Android & iOS build pipeline
+* **Core System Team**: Database & project handling
+* **QA Team**: Unit and widget testing
+
+---
+
+## 🤝 How to Contribute
+
+1. **Fork** this repo
+2. **Clone & Setup:** `flutter pub get`
+3. **Pick an Issue** from GitHub Issues
+4. **Develop & Test** locally
+5. **Submit Pull Request** with description
+
+#### Commit Types
+
+* `feat:` new feature
+* `fix:` bug fix
+* `design:` UI/UX change
+* `refactor:` internal improvements
+* `test:` testing related
+* `docs:` documentation
+
+---
+
+## ⚠️ Permissions & Guidelines
+
+### **Storage Policy**
+- Do **not** modify **Scoped Storage policies** (required for Google Play compliance).
+- Avoid uninstalling the app **before upgrading** to prevent project loss.
+
+### **Why Scoped Storage?**
+- Google Play policies no longer allow unrestricted file access.
+- **SketchIDE** follows these rules to ensure app stability and compliance.
+
+### **How SketchIDE Handles Files**
+- Projects are stored securely in the **App Sandbox**:  
+  `/Android/data/com.sketchide.app/files/projects`
+- **Export/Import** uses **SAF (Storage Access Framework)** for safe file handling.
+
+### **Benefits**
+- No risk of Play Store rejection.
+- Secure and future-proof file storage.
+- Easy **backup** and **restore** process.
+
+---
+
+## 📢 Support & Feedback
+
+* **Telegram Group:** [Join](https://t.me/sketchidegroup)
+* **Telegram Channel:** [Updates](https://t.me/sketchide)
+* **Email:** [developerrajendrahelp@gmail.com](mailto:developerrajendrahelp@gmail.com)
+
+---
+
+## 🎉 License
+
+SketchIDE is licensed under **MIT** and **CC BY 4.0**.
+
+```text
 SketchIDE is free software: you can redistribute it and/or modify it under the terms of both the MIT License and the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
-SketchIDE is distributed with the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the MIT License and the CC BY 4.0 License for more details.
-
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
 
----
-A copy of the license should be included with SketchIDE. If not, you can view the MIT License at [MIT License](https://opensource.org/licenses/MIT) and the CC BY 4.0 License at [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
+View licenses: [MIT](https://opensource.org/licenses/MIT) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ---
 
-
-Any violations to the license can be reported either by opening an issue or writing a mail to us
-directly.
-
+**🎉 Happy Coding with SketchIDE! 🎉**

@@ -25,6 +25,11 @@
 
 * **Block-based Visual Programming** (logic without typing code)
 * **Drag-and-Drop UI Builder** with Material 3 widgets
+* **Sketchware Pro-style Property Editor** with color-coded property boxes
+* **Sequential Widget ID Generation** (text1, text2, text3, etc.)
+* **Smart Widget Management** with auto-selection and CRUD operations
+* **Real-time Flutter Code Generation** from visual widgets
+* **Project File Management** (main.dart, custom pages, widgets)
 * **Project Export** in `.ide` format (like Sketchware `.swb`)
 * **Code Preview & Editor** (for advanced users)
 * **Offline Builds**
@@ -37,20 +42,49 @@
 
 ---
 
+## 🎨 Latest Features (v2.0)
+
+### **Sketchware Pro-style Property Editor**
+- **Color-coded Property Boxes**: Each property type has its own color and icon
+- **Smart Layout**: 100x70px property boxes with headers and values
+- **Property Types**: Text (Blue), Size (Green), Color (Purple), Number (Orange), Spacing (Teal), Boolean (Indigo)
+- **See All Button**: Floating button to access full property editor
+
+### **Sequential Widget ID Generation**
+- **Smart Naming**: `text1`, `text2`, `text3` instead of random timestamps
+- **Type-based Counting**: Automatically counts existing widgets of the same type
+- **Clean IDs**: Easy to identify and manage widgets
+
+### **Smart Widget Management**
+- **Auto-selection**: When a widget is deleted, automatically selects the next available widget
+- **Property Panel Visibility**: Shows when widgets exist, hides when none are available
+- **CRUD Operations**: Create, Read, Update, Delete widgets with visual feedback
+- **Success Messages**: Confirmation messages for all operations
+
+### **Real-time Flutter Code Generation**
+- **Live Code Updates**: Widget changes immediately reflect in generated Dart code
+- **File Management**: Supports main.dart and custom page files
+- **Code Synchronization**: Visual widgets stay in sync with generated code
+- **Default Hello World**: New projects start with a complete Flutter app structure
+
+---
+
 ## 📱 How Users Create Apps in SketchIDE
 
 ```mermaid
 graph TD
     A[Open SketchIDE] --> B[Create New Project or Import .ide File]
     B --> C[Design UI with Drag & Drop Widgets]
-    C --> D[Add Logic using Block Editor]
-    D --> E[Preview Application]
-    E --> F{Choose Build Option}
-    F --> |Offline| G[Export Flutter Project & Build Locally]
-    F --> |Cloud| H[Build via Cloud CI/CD]
-    H --> I[Receive APK/IPA]
-    G --> I
-    I --> J[App Ready for Distribution]
+    C --> D[Edit Widget Properties with Sketchware Pro-style Editor]
+    D --> E[Real-time Flutter Code Generation]
+    E --> F[Add Logic using Block Editor]
+    F --> G[Preview Application]
+    G --> H{Choose Build Option}
+    H --> |Offline| I[Export Flutter Project & Build Locally]
+    H --> |Cloud| J[Build via Cloud CI/CD]
+    J --> K[Receive APK/IPA]
+    I --> K
+    K --> L[App Ready for Distribution]
 ```
 
 ---
@@ -58,7 +92,13 @@ graph TD
 ## 🐽 Roadmap
 
 * [x] Create project
-* [ ] UI Canvas with drag & drop
+* [x] UI Canvas with drag & drop
+* [x] Widget property editor (Sketchware Pro style)
+* [x] Sequential widget ID generation
+* [x] Widget CRUD operations (Create, Read, Update, Delete)
+* [x] Auto-selection and smart property panel
+* [x] Flutter code generation from widgets
+* [x] Project file management (main.dart, custom pages)
 * [ ] Logic block editor (Blockly)
 * [ ] Project import/export (`.ide`)
 * [ ] Android offline APK builder
@@ -122,9 +162,22 @@ SketchIDE/
 │   │   │       └── project_viewmodel.dart
 │   │   │
 │   │   ├── builder/                 # Drag & drop UI editor
-│   │   │   ├── view/
-│   │   │   │   ├── builder_canvas.dart
-│   │   │   │   └── widget_palette.dart
+│   │   │   ├── screens/
+│   │   │   │   ├── builder_screen.dart
+│   │   │   │   └── property_editor_screen.dart
+│   │   │   ├── widgets/
+│   │   │   │   ├── droppable_mobile_frame.dart
+│   │   │   │   ├── draggable_widget_palette.dart
+│   │   │   │   ├── property_editor_panel.dart
+│   │   │   │   └── dart_file_selector.dart
+│   │   │   ├── models/
+│   │   │   │   ├── widget_data.dart
+│   │   │   │   ├── dart_file_bean.dart
+│   │   │   │   └── history_manager.dart
+│   │   │   ├── services/
+│   │   │   │   ├── code_generator.dart
+│   │   │   │   ├── dart_file_manager.dart
+│   │   │   │   └── file_sync_service.dart
 │   │   │   └── viewmodel/
 │   │   │       └── builder_viewmodel.dart
 │   │   │

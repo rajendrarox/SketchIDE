@@ -37,19 +37,25 @@ This document explains the **frameworks**, **features**, **storage structure**, 
 
 1. **Project Creation**
     - App name, package name, icon, default Dart structure
+    - Default "Hello World" Flutter app with MaterialApp, Scaffold, AppBar, Center, Text
 2. **UI/Logic Visual Editor**
-    - Layout builder (JSON-based)
-    - Block programming for app logic
+    - Drag & drop widget palette with Material 3 components
+    - Sketchware Pro-style property editor with color-coded property boxes
+    - Sequential widget ID generation (text1, text2, text3, etc.)
+    - Real-time Flutter code generation from visual widgets
+    - Smart widget management with auto-selection and CRUD operations
 3. **Project Management**
     - Edit project settings
     - Delete project
     - Export project (source) / Export \& Sign (build)
+    - File management (main.dart, custom pages, widgets)
 4. **Search \& Filter**
     - Quick project lookup
 5. **UI**
     - Drawer navigation
     - Floating action button for creating projects
     - Project list with icons and metadata
+    - Mobile frame with status bar and toolbar simulation
 
 ### **Storage Compliance**
 
@@ -58,7 +64,7 @@ This document explains the **frameworks**, **features**, **storage structure**, 
 
 ---
 
-## **3. Offline SDK Integration**
+## **5. Offline SDK Integration**
 
 ### **Why Offline?**
 
@@ -68,7 +74,7 @@ This document explains the **frameworks**, **features**, **storage structure**, 
 
 ---
 
-### **3.1 SDK Components**
+### **5.1 SDK Components**
 
 Minimum required for offline Flutter build:
 
@@ -81,7 +87,7 @@ Minimum required for offline Flutter build:
 
 ---
 
-### **3.2 SDK Storage Path**
+### **5.2 SDK Storage Path**
 
 Stored in app’s sandbox:
 
@@ -161,6 +167,34 @@ This document explains the **frameworks**, **features**, **storage structure**, 
 ### **Storage Compliance**
 - Uses **Scoped Storage** → All files saved inside the app sandbox  
 - **SAF** for import/export operations
+
+---
+
+## **4. Widget System & Property Editor**
+
+### **4.1 Widget Types Supported**
+- **Layout Widgets**: Column, Row, Stack, Center, Scaffold, MaterialApp
+- **Basic Widgets**: Text, Button, TextField, Image, Checkbox, Switch, ProgressBar, AppBar
+- **Sequential ID Generation**: Each widget gets a unique ID like `text1`, `text2`, `text3`
+
+### **4.2 Property Editor Features**
+- **Sketchware Pro-style Design**: Color-coded property boxes with icons
+- **Property Types**:
+  - Text properties (Blue): text, hintText, title
+  - Size properties (Green): width, height
+  - Color properties (Purple): color, backgroundColor
+  - Number properties (Orange): fontSize, value
+  - Spacing properties (Teal): margin, padding
+  - Boolean properties (Indigo): checked
+- **Smart Layout**: 100x70px property boxes with headers and values
+- **Auto-selection**: Automatically selects next widget when one is deleted
+- **Property Panel Visibility**: Shows when widgets exist, hides when none available
+
+### **4.3 Code Generation**
+- **Real-time Sync**: Widget changes immediately reflect in generated Dart code
+- **File Management**: Supports main.dart and custom page files
+- **Default Structure**: New projects start with complete Flutter app structure
+- **Widget Persistence**: Widgets are saved to JSON files per Dart file
 
 ---
 

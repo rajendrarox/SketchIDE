@@ -73,6 +73,109 @@ graph TD
 ```bash
 SketchIDE/
 ├── lib/
+│   ├── core/                        # Core utilities & constants
+│   │   ├── constants/
+│   │   │   ├── app_paths.dart
+│   │   │   ├── app_strings.dart
+│   │   │   └── dependencies.dart
+│   │   ├── error/
+│   │   │   ├── exceptions.dart
+│   │   │   └── failure.dart
+│   │   ├── utils/
+│   │   │   ├── file_helper.dart
+│   │   │   ├── logger.dart
+│   │   │   └── validators.dart
+│   │   └── di.dart                  # Dependency Injection (GetIt)
+│   │
+│   ├── data/                        # Persistence layer
+│   │   ├── datasources/
+│   │   │   ├── hive_service.dart    # Hive DB for metadata
+│   │   │   ├── sqlite_service.dart  # SQLite for complex UI/logic
+│   │   │   └── json_service.dart    # JSON import/export
+│   │   ├── models/
+│   │   │   ├── project_model.dart
+│   │   │   ├── ui_node_model.dart
+│   │   │   └── logic_block_model.dart
+│   │   └── repositories/
+│   │       └── project_repository_impl.dart
+│   │
+│   ├── domain/                      # Business Logic (Use Cases)
+│   │   ├── entities/
+│   │   │   ├── project.dart
+│   │   │   ├── ui_node.dart
+│   │   │   └── logic_block.dart
+│   │   ├── repositories/
+│   │   │   └── project_repository.dart
+│   │   └── usecases/
+│   │       ├── create_project.dart
+│   │       ├── delete_project.dart
+│   │       ├── get_all_projects.dart
+│   │       ├── update_project.dart
+│   │       └── build_project.dart
+│   │
+│   ├── features/
+│   │   ├── project/                 # CRUD UI for projects
+│   │   │   ├── view/
+│   │   │   │   ├── project_list_page.dart
+│   │   │   │   └── project_editor_page.dart
+│   │   │   └── viewmodel/
+│   │   │       └── project_viewmodel.dart
+│   │   │
+│   │   ├── builder/                 # Drag & drop UI editor
+│   │   │   ├── view/
+│   │   │   │   ├── builder_canvas.dart
+│   │   │   │   └── widget_palette.dart
+│   │   │   └── viewmodel/
+│   │   │       └── builder_viewmodel.dart
+│   │   │
+│   │   ├── blocks/                  # Visual programming engine
+│   │   │   ├── view/
+│   │   │   │   └── block_editor_page.dart
+│   │   │   └── viewmodel/
+│   │   │       └── block_viewmodel.dart
+│   │   │
+│   │   ├── preview/                 # Live preview renderer
+│   │   │   ├── view/
+│   │   │   │   └── preview_page.dart
+│   │   │   └── viewmodel/
+│   │   │       └── preview_viewmodel.dart
+│   │   │
+│   │   ├── settings/                # App theme & settings
+│   │   │   ├── view/
+│   │   │   │   └── settings_page.dart
+│   │   │   └── viewmodel/
+│   │   │       └── settings_viewmodel.dart
+│   │   │
+│   │   └── cloud_build/             # CI/CD integration
+│   │       ├── view/
+│   │       │   └── cloud_build_page.dart
+│   │       └── viewmodel/
+│   │           └── cloud_build_viewmodel.dart
+│   │
+│   ├── build/                       # **Core builder system**
+│   │   ├── project_compiler_service.dart   # (ProjectBuilder)
+│   │   ├── manifest_generator.dart         # (Ix)
+│   │   ├── source_code_generator.dart      # (Jx)
+│   │   ├── component_generator.dart        # (Lx)
+│   │   ├── layout_generator.dart           # (Ox)
+│   │   ├── dependency_manager.dart         # (qq)
+│   │   ├── build_dialog_controller.dart    # (tq)
+│   │   └── project_path_registry.dart      # (yq)
+│   │
+│   └── main.dart                   # App Entry Point
+│
+├── assets/                         # Icons, templates
+│   ├── icons/
+│   └── templates/
+│
+├── export_templates/               # Flutter project boilerplate
+│   ├── base_project/
+│   └── plugin_templates/
+│
+└── fastlane/                       # Play Store Metadata
+
+```
+=======
 │   ├── core/                # Constants, utils, error handling
 │   ├── data/                # Hive/SQLite models and persistence
 │   ├── features/

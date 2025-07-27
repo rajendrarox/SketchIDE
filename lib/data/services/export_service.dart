@@ -7,23 +7,24 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:archive/archive.dart';
-import '../../domain/models/project.dart';
+import '../../models/sketchide_project.dart';
 import '../widgets/export_location_dialog.dart';
 
 class ExportService {
   /// Export a project to .ide format with multiple location options
-  static Future<bool> exportProject(Project project) async {
+  static Future<bool> exportProject(SketchIDEProject project) async {
     try {
       // Show export location options
       final exportLocation = await _showExportLocationDialog();
       if (exportLocation == null) return false;
-      
+
       // Create complete project archive in isolate for better performance
       final archiveData = await _createCompleteProjectArchive(project);
-      
+
       // Save to selected location
-      final success = await _saveToLocation(exportLocation, '${project.name}.ide', archiveData);
-      
+      final success = await _saveToLocation(
+          exportLocation, '${project.projectInfo.appName}.ide', archiveData);
+
       return success;
     } catch (e) {
       print('Export failed: $e');
@@ -32,14 +33,16 @@ class ExportService {
   }
 
   /// Export a project to .ide format with specified location
-  static Future<bool> exportProjectWithLocation(Project project, String location) async {
+  static Future<bool> exportProjectWithLocation(
+      SketchIDEProject project, String location) async {
     try {
       // Create complete project archive in isolate for better performance
       final archiveData = await _createCompleteProjectArchive(project);
-      
+
       // Save to specified location
-      final success = await _saveToLocation(location, '${project.name}.ide', archiveData);
-      
+      final success = await _saveToLocation(
+          location, '${project.projectInfo.appName}.ide', archiveData);
+
       return success;
     } catch (e) {
       print('Export failed: $e');
@@ -64,15 +67,17 @@ class ExportService {
   }
 
   /// Create complete project archive with all files
-  static Future<Uint8List> _createCompleteProjectArchive(Project project) async {
+  static Future<Uint8List> _createCompleteProjectArchive(
+      SketchIDEProject project) async {
     // Use isolate for heavy file operations
     final receivePort = ReceivePort();
     await Isolate.spawn(_createArchiveInIsolate, {
-      'projectPath': project.projectPath,
-      'projectName': project.name,
+      'projectPath':
+          'projects', // Temporary path since SketchIDEProject doesn't have projectPath
+      'projectName': project.projectInfo.appName,
       'sendPort': receivePort.sendPort,
     });
-    
+
     final result = await receivePort.first as Uint8List;
     return result;
   }
@@ -82,25 +87,28 @@ class ExportService {
     final projectPath = data['projectPath'] as String;
     final projectName = data['projectName'] as String;
     final sendPort = data['sendPort'] as SendPort;
-    
+
     try {
       final archive = Archive();
       final projectDir = Directory(projectPath);
-      
+
       if (projectDir.existsSync()) {
         // Add all project files recursively
         _addDirectoryToArchiveRecursive(projectDir, archive, projectName);
-        
+
         // Create project manifest
         final manifest = _createProjectManifest(projectName);
-        final manifestBytes = utf8.encode(JsonEncoder.withIndent('  ').convert(manifest));
-        archive.addFile(ArchiveFile('project_manifest.json', manifestBytes.length, manifestBytes));
-        
+        final manifestBytes =
+            utf8.encode(JsonEncoder.withIndent('  ').convert(manifest));
+        archive.addFile(ArchiveFile(
+            'project_manifest.json', manifestBytes.length, manifestBytes));
+
         // Create ZIP archive
         final zipEncoder = ZipEncoder();
         final encoded = zipEncoder.encode(archive);
-        final result = encoded != null ? Uint8List.fromList(encoded) : Uint8List(0);
-        
+        final result =
+            encoded != null ? Uint8List.fromList(encoded) : Uint8List(0);
+
         sendPort.send(result);
       } else {
         sendPort.send(Uint8List(0));
@@ -111,15 +119,16 @@ class ExportService {
   }
 
   /// Add directory contents to archive recursively (complete files)
-  static void _addDirectoryToArchiveRecursive(Directory dir, Archive archive, String basePath) {
+  static void _addDirectoryToArchiveRecursive(
+      Directory dir, Archive archive, String basePath) {
     try {
       final entities = dir.listSync(recursive: false);
-      
+
       for (final entity in entities) {
         if (entity is File) {
           final relativePath = path.relative(entity.path, from: dir.path);
           final archivePath = '$basePath/$relativePath';
-          
+
           // Skip only system files, include all project files
           if (!_shouldSkipFile(entity, relativePath)) {
             try {
@@ -151,13 +160,13 @@ class ExportService {
       '*.temp',
       '*.log',
     ];
-    
+
     for (final pattern in skipPatterns) {
       if (relativePath.contains(pattern.replaceAll('*', ''))) {
         return true;
       }
     }
-    
+
     return false;
   }
 
@@ -175,7 +184,7 @@ class ExportService {
         'description': 'Complete project archive with all files',
         'includes': [
           'All source code files',
-          'All UI layout files', 
+          'All UI layout files',
           'All logic block files',
           'All asset files',
           'All configuration files',
@@ -191,7 +200,8 @@ class ExportService {
   }
 
   /// Save to selected location
-  static Future<bool> _saveToLocation(String location, String fileName, Uint8List data) async {
+  static Future<bool> _saveToLocation(
+      String location, String fileName, Uint8List data) async {
     switch (location) {
       case 'app_documents':
         return await _saveToAppDirectory(fileName, data);
@@ -205,11 +215,10 @@ class ExportService {
         return await _saveToAppDirectory(fileName, data);
     }
   }
-  
-  
 
   /// Save to app documents directory
-  static Future<bool> _saveToAppDirectory(String fileName, Uint8List fileBytes) async {
+  static Future<bool> _saveToAppDirectory(
+      String fileName, Uint8List fileBytes) async {
     try {
       final documentsDir = await getApplicationDocumentsDirectory();
       final file = File('${documentsDir.path}/$fileName');
@@ -223,7 +232,8 @@ class ExportService {
   }
 
   /// Save to Downloads directory
-  static Future<bool> _saveToDownloads(String fileName, Uint8List fileBytes) async {
+  static Future<bool> _saveToDownloads(
+      String fileName, Uint8List fileBytes) async {
     try {
       final downloadsDir = await getDownloadsDirectory();
       if (downloadsDir != null) {
@@ -240,7 +250,8 @@ class ExportService {
   }
 
   /// Save to external storage
-  static Future<bool> _saveToExternalStorage(String fileName, Uint8List fileBytes) async {
+  static Future<bool> _saveToExternalStorage(
+      String fileName, Uint8List fileBytes) async {
     try {
       final externalDir = await getExternalStorageDirectory();
       if (externalDir != null) {
@@ -257,7 +268,8 @@ class ExportService {
   }
 
   /// Save to custom location using SAF
-  static Future<bool> _saveToCustomLocation(String fileName, Uint8List fileBytes) async {
+  static Future<bool> _saveToCustomLocation(
+      String fileName, Uint8List fileBytes) async {
     try {
       final result = await FilePicker.platform.saveFile(
         dialogTitle: 'Save Project Export',
@@ -266,7 +278,7 @@ class ExportService {
         type: FileType.custom,
         lockParentWindow: true,
       );
-      
+
       if (result != null) {
         final file = File(result);
         await file.writeAsBytes(fileBytes);
@@ -279,9 +291,9 @@ class ExportService {
       return false;
     }
   }
-  
-    /// Import project from .ide file (complete archive)
-  static Future<Project?> importProject() async {
+
+  /// Import project from .ide file (complete archive)
+  static Future<SketchIDEProject?> importProject() async {
     try {
       // Pick .ide file using SAF
       final result = await FilePicker.platform.pickFiles(
@@ -297,26 +309,21 @@ class ExportService {
         // Try to decode as ZIP archive first
         try {
           final archive = ZipDecoder().decodeBytes(bytes);
-          
+
           // Look for project manifest
           final manifestFile = archive.findFile('project_manifest.json');
           if (manifestFile != null) {
-            final manifestData = json.decode(utf8.decode(manifestFile.content as List<int>));
+            final manifestData =
+                json.decode(utf8.decode(manifestFile.content as List<int>));
             final projectInfo = manifestData['projectInfo'];
-            
-            // Create project object
-            final project = Project(
-              id: projectInfo['id'] ?? '',
-              name: projectInfo['name'],
-              appName: projectInfo['appName'] ?? projectInfo['name'],
-              packageName: projectInfo['packageName'] ?? 'com.sketchide.${projectInfo['name'].toLowerCase()}',
-              version: projectInfo['version'] ?? '1.0.0',
-              versionCode: projectInfo['versionCode'] ?? 1,
-              description: projectInfo['description'] ?? 'Imported project',
-              createdAt: DateTime.parse(projectInfo['createdAt'] ?? DateTime.now().toIso8601String()),
-              modifiedAt: DateTime.parse(projectInfo['modifiedAt'] ?? DateTime.now().toIso8601String()),
+
+            // Create project object using SketchIDEProject.createEmpty
+            final project = SketchIDEProject.createEmpty(
+              appName: projectInfo['name'],
+              packageName: projectInfo['packageName'] ??
+                  'com.sketchide.${projectInfo['name'].toLowerCase()}',
+              projectName: projectInfo['name'], // Use app name as project name
               iconPath: projectInfo['iconPath'] ?? '',
-              projectPath: '', // Will be set by repository
             );
 
             return project;
@@ -329,18 +336,11 @@ class ExportService {
             final projectData = json.decode(jsonData);
             final projectInfo = projectData['projectInfo'];
 
-            final project = Project(
-              id: projectInfo['id'],
-              name: projectInfo['name'],
-              appName: projectInfo['appName'],
+            final project = SketchIDEProject.createEmpty(
+              appName: projectInfo['name'],
               packageName: projectInfo['packageName'],
-              version: projectInfo['version'],
-              versionCode: projectInfo['versionCode'],
-              description: projectInfo['description'],
-              createdAt: DateTime.parse(projectInfo['createdAt']),
-              modifiedAt: DateTime.parse(projectInfo['modifiedAt']),
+              projectName: projectInfo['name'], // Use app name as project name
               iconPath: projectInfo['iconPath'],
-              projectPath: '', // Will be set by repository
             );
 
             return project;
@@ -357,4 +357,4 @@ class ExportService {
       return null;
     }
   }
-} 
+}

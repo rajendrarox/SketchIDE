@@ -130,7 +130,61 @@ class FlutterWidgetBean {
     );
   }
 
-  static String generateId() {
+  // SKETCHWARE PRO STYLE: Type-based ID generation with duplicate checking
+  static String generateId(
+      String widgetType, List<FlutterWidgetBean> existingWidgets) {
+    // Get type prefix like Sketchware Pro - BUT USING FLUTTER NAMES
+    String prefix = _getTypePrefix(widgetType);
+
+    // Find the next available counter for this type
+    int counter = 1;
+    for (FlutterWidgetBean widget in existingWidgets) {
+      if (widget.id.startsWith(prefix)) {
+        try {
+          String suffix = widget.id.substring(prefix.length);
+          int existingCounter = int.parse(suffix);
+          if (existingCounter >= counter) {
+            counter = existingCounter + 1;
+          }
+        } catch (e) {
+          // If parsing fails, continue with current counter
+        }
+      }
+    }
+
+    return '$prefix$counter';
+  }
+
+  // SKETCHWARE PRO STYLE: Get type prefix for Flutter widgets
+  static String _getTypePrefix(String widgetType) {
+    switch (widgetType.toLowerCase()) {
+      case 'text':
+        return 'text';
+      case 'textfield':
+      case 'edittext':
+        return 'textfield';
+      case 'button':
+        return 'button';
+      case 'container':
+        return 'container';
+      case 'icon':
+        return 'icon';
+      case 'row':
+      case 'linearlayout':
+        return 'row';
+      case 'column':
+      case 'linearlayout':
+        return 'column';
+      case 'stack':
+      case 'relativelayout':
+        return 'stack';
+      default:
+        return widgetType.toLowerCase();
+    }
+  }
+
+  // DEPRECATED: Old simple ID generation (kept for backward compatibility)
+  static String generateSimpleId() {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final random = (timestamp % 1000000).toString().padLeft(6, '0');
     return 'widget_$timestamp$random';

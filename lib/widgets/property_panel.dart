@@ -45,14 +45,32 @@ class _PropertyPanelState extends State<PropertyPanel> {
 
     // Select the widget to load its properties
     _propertyViewModel.selectWidget(widget.selectedWidget);
+
+    // SKETCHWARE PRO STYLE: Debug logging for initialization
+    print('🚀 PROPERTY PANEL INIT: Widget ${widget.selectedWidget.id}');
+    print('🚀 INITIAL PROPERTIES: ${widget.selectedWidget.properties}');
   }
 
   @override
   void didUpdateWidget(PropertyPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    // SKETCHWARE PRO STYLE: Debug logging for widget updates
+    print('🔄 PROPERTY PANEL UPDATE: Widget ${widget.selectedWidget.id}');
+    print('🔄 OLD PROPERTIES: ${oldWidget.selectedWidget.properties}');
+    print('🔄 NEW PROPERTIES: ${widget.selectedWidget.properties}');
+
     if (oldWidget.selectedWidget.id != widget.selectedWidget.id) {
       // Widget changed, update the property view model
+      print('🔄 WIDGET ID CHANGED - Updating PropertyViewModel');
       _propertyViewModel.selectWidget(widget.selectedWidget);
+    } else if (_hasPropertiesChanged(oldWidget.selectedWidget.properties,
+        widget.selectedWidget.properties)) {
+      // Same widget but properties changed, update the property view model
+      print('🔄 PROPERTIES CHANGED - Updating PropertyViewModel');
+      _propertyViewModel.selectWidget(widget.selectedWidget);
+    } else {
+      print('🔄 NO CHANGES DETECTED');
     }
   }
 
@@ -62,6 +80,10 @@ class _PropertyPanelState extends State<PropertyPanel> {
       value: _propertyViewModel,
       child: Consumer<PropertyViewModel>(
         builder: (context, propertyViewModel, child) {
+          // SKETCHWARE PRO STYLE: Debug logging for PropertyPanel build
+          print('🏗️ PROPERTY PANEL BUILD: Widget ${widget.selectedWidget.id}');
+          print('🏗️ WIDGET PROPERTIES: ${widget.selectedWidget.properties}');
+
           return Container(
             height: 170, // EXACTLY 170dp like Sketchware Pro
             decoration: BoxDecoration(
@@ -94,6 +116,12 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   Widget _buildWidgetSelectorHeader() {
+    // SKETCHWARE PRO STYLE: Ensure selected widget exists in the list
+    final selectedWidgetExists =
+        widget.allWidgets.any((w) => w.id == widget.selectedWidget.id);
+    final dropdownValue =
+        selectedWidgetExists ? widget.selectedWidget.id : null;
+
     return Container(
       height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -102,7 +130,7 @@ class _PropertyPanelState extends State<PropertyPanel> {
           // Widget Selector Dropdown
           Expanded(
             child: DropdownButtonFormField<String>(
-              value: widget.selectedWidget.id,
+              value: dropdownValue,
               decoration: const InputDecoration(
                 isDense: true,
                 contentPadding:
@@ -113,7 +141,7 @@ class _PropertyPanelState extends State<PropertyPanel> {
                 return DropdownMenuItem(
                   value: widgetBean.id,
                   child: Text(
-                    '${widgetBean.type} (${widgetBean.id})',
+                    widgetBean.id, // SKETCHWARE PRO STYLE: Show just the ID
                     style: const TextStyle(fontSize: 12),
                   ),
                 );
@@ -271,7 +299,14 @@ class _PropertyPanelState extends State<PropertyPanel> {
             label: 'Text Style',
             type: PropertyType.selector,
             icon: Icons.format_bold,
-            options: ['Normal', 'Bold', 'Italic', 'Bold Italic'],
+            options: ['normal', 'bold', 'italic', 'bold_italic'],
+          ),
+          PropertyDefinition(
+            key: 'property_text_align',
+            label: 'Text Align',
+            type: PropertyType.selector,
+            icon: Icons.format_align_left,
+            options: ['left', 'center', 'right', 'justify'],
           ),
           PropertyDefinition(
             key: 'property_layout_width',
@@ -296,6 +331,84 @@ class _PropertyPanelState extends State<PropertyPanel> {
             label: 'Padding',
             type: PropertyType.indent,
             icon: Icons.padding,
+          ),
+        ];
+
+      case 'Button':
+        return [
+          PropertyDefinition(
+            key: 'property_id',
+            label: 'ID',
+            type: PropertyType.text,
+            icon: Icons.tag,
+          ),
+          PropertyDefinition(
+            key: 'property_text',
+            label: 'Text',
+            type: PropertyType.text,
+            icon: Icons.text_fields,
+          ),
+          PropertyDefinition(
+            key: 'property_text_size',
+            label: 'Text Size',
+            type: PropertyType.text,
+            icon: Icons.format_size,
+            isNumber: true,
+            minValue: 8,
+            maxValue: 72,
+          ),
+          PropertyDefinition(
+            key: 'property_text_color',
+            label: 'Text Color',
+            type: PropertyType.color,
+            icon: Icons.palette,
+          ),
+          PropertyDefinition(
+            key: 'property_text_style',
+            label: 'Text Style',
+            type: PropertyType.selector,
+            icon: Icons.format_bold,
+            options: ['normal', 'bold', 'italic', 'bold_italic'],
+          ),
+          PropertyDefinition(
+            key: 'property_text_align',
+            label: 'Text Align',
+            type: PropertyType.selector,
+            icon: Icons.format_align_center,
+            options: ['left', 'center', 'right'],
+          ),
+          PropertyDefinition(
+            key: 'property_background_color',
+            label: 'Background',
+            type: PropertyType.color,
+            icon: Icons.palette,
+          ),
+          PropertyDefinition(
+            key: 'property_corner_radius',
+            label: 'Corner Radius',
+            type: PropertyType.text,
+            icon: Icons.rounded_corner,
+            isNumber: true,
+            minValue: 0,
+            maxValue: 50,
+          ),
+          PropertyDefinition(
+            key: 'property_enabled',
+            label: 'Enabled',
+            type: PropertyType.boolean,
+            icon: Icons.check_circle,
+          ),
+          PropertyDefinition(
+            key: 'property_layout_width',
+            label: 'Width',
+            type: PropertyType.measure,
+            icon: Icons.width_normal,
+          ),
+          PropertyDefinition(
+            key: 'property_layout_height',
+            label: 'Height',
+            type: PropertyType.measure,
+            icon: Icons.height,
           ),
         ];
 
@@ -345,7 +458,7 @@ class _PropertyPanelState extends State<PropertyPanel> {
             label: 'Input Type',
             type: PropertyType.selector,
             icon: Icons.keyboard,
-            options: ['Text', 'Number', 'Phone', 'Password', 'Email'],
+            options: ['text', 'number', 'phone', 'password', 'email'],
           ),
           PropertyDefinition(
             key: 'property_single_line',
@@ -361,6 +474,12 @@ class _PropertyPanelState extends State<PropertyPanel> {
             isNumber: true,
             minValue: 1,
             maxValue: 10,
+          ),
+          PropertyDefinition(
+            key: 'property_background_color',
+            label: 'Background',
+            type: PropertyType.color,
+            icon: Icons.palette,
           ),
           PropertyDefinition(
             key: 'property_layout_width',
@@ -427,6 +546,23 @@ class _PropertyPanelState extends State<PropertyPanel> {
             maxValue: 50,
           ),
           PropertyDefinition(
+            key: 'property_alignment',
+            label: 'Alignment',
+            type: PropertyType.selector,
+            icon: Icons.center_focus_strong,
+            options: [
+              'topLeft',
+              'topCenter',
+              'topRight',
+              'centerLeft',
+              'center',
+              'centerRight',
+              'bottomLeft',
+              'bottomCenter',
+              'bottomRight'
+            ],
+          ),
+          PropertyDefinition(
             key: 'property_margin',
             label: 'Margin',
             type: PropertyType.indent,
@@ -470,6 +606,12 @@ class _PropertyPanelState extends State<PropertyPanel> {
             icon: Icons.palette,
           ),
           PropertyDefinition(
+            key: 'property_semantic_label',
+            label: 'Semantic Label',
+            type: PropertyType.text,
+            icon: Icons.accessibility,
+          ),
+          PropertyDefinition(
             key: 'property_layout_width',
             label: 'Width',
             type: PropertyType.measure,
@@ -484,6 +626,60 @@ class _PropertyPanelState extends State<PropertyPanel> {
         ];
 
       case 'Row':
+        return [
+          PropertyDefinition(
+            key: 'property_id',
+            label: 'ID',
+            type: PropertyType.text,
+            icon: Icons.tag,
+          ),
+          PropertyDefinition(
+            key: 'property_main_axis_alignment',
+            label: 'Main Alignment',
+            type: PropertyType.selector,
+            icon: Icons.align_horizontal_center,
+            options: [
+              'start',
+              'center',
+              'end',
+              'spaceBetween',
+              'spaceAround',
+              'spaceEvenly'
+            ],
+          ),
+          PropertyDefinition(
+            key: 'property_cross_axis_alignment',
+            label: 'Cross Alignment',
+            type: PropertyType.selector,
+            icon: Icons.align_vertical_center,
+            options: ['start', 'center', 'end', 'stretch', 'baseline'],
+          ),
+          PropertyDefinition(
+            key: 'property_layout_width',
+            label: 'Width',
+            type: PropertyType.measure,
+            icon: Icons.width_normal,
+          ),
+          PropertyDefinition(
+            key: 'property_layout_height',
+            label: 'Height',
+            type: PropertyType.measure,
+            icon: Icons.height,
+          ),
+          PropertyDefinition(
+            key: 'property_margin',
+            label: 'Margin',
+            type: PropertyType.indent,
+            icon: Icons.margin,
+          ),
+          PropertyDefinition(
+            key: 'property_padding',
+            label: 'Padding',
+            type: PropertyType.indent,
+            icon: Icons.padding,
+          ),
+        ];
+
       case 'Column':
         return [
           PropertyDefinition(
@@ -493,32 +689,25 @@ class _PropertyPanelState extends State<PropertyPanel> {
             icon: Icons.tag,
           ),
           PropertyDefinition(
-            key: 'property_orientation',
-            label: 'Orientation',
-            type: PropertyType.selector,
-            icon: Icons.swap_horiz,
-            options: ['Horizontal', 'Vertical'],
-          ),
-          PropertyDefinition(
             key: 'property_main_axis_alignment',
             label: 'Main Alignment',
             type: PropertyType.selector,
-            icon: Icons.align_horizontal_center,
+            icon: Icons.align_vertical_center,
             options: [
-              'Start',
-              'Center',
-              'End',
-              'Space Between',
-              'Space Around',
-              'Space Evenly'
+              'start',
+              'center',
+              'end',
+              'spaceBetween',
+              'spaceAround',
+              'spaceEvenly'
             ],
           ),
           PropertyDefinition(
             key: 'property_cross_axis_alignment',
             label: 'Cross Alignment',
             type: PropertyType.selector,
-            icon: Icons.align_vertical_center,
-            options: ['Start', 'Center', 'End', 'Stretch', 'Baseline'],
+            icon: Icons.align_horizontal_center,
+            options: ['start', 'center', 'end', 'stretch'],
           ),
           PropertyDefinition(
             key: 'property_layout_width',
@@ -560,15 +749,15 @@ class _PropertyPanelState extends State<PropertyPanel> {
             type: PropertyType.selector,
             icon: Icons.center_focus_strong,
             options: [
-              'Top Left',
-              'Top Center',
-              'Top Right',
-              'Center Left',
-              'Center',
-              'Center Right',
-              'Bottom Left',
-              'Bottom Center',
-              'Bottom Right'
+              'topLeft',
+              'topCenter',
+              'topRight',
+              'centerLeft',
+              'center',
+              'centerRight',
+              'bottomLeft',
+              'bottomCenter',
+              'bottomRight'
             ],
           ),
           PropertyDefinition(
@@ -576,7 +765,19 @@ class _PropertyPanelState extends State<PropertyPanel> {
             label: 'Fit',
             type: PropertyType.selector,
             icon: Icons.fit_screen,
-            options: ['Loose', 'Expand'],
+            options: ['loose', 'expand'],
+          ),
+          PropertyDefinition(
+            key: 'property_clip_behavior',
+            label: 'Clip Behavior',
+            type: PropertyType.selector,
+            icon: Icons.crop,
+            options: [
+              'none',
+              'hardEdge',
+              'antiAlias',
+              'antiAliasWithSaveLayer'
+            ],
           ),
           PropertyDefinition(
             key: 'property_layout_width',
@@ -707,7 +908,29 @@ class _PropertyPanelState extends State<PropertyPanel> {
     }
   }
 
+  /// Check if properties have actually changed by comparing values
+  bool _hasPropertiesChanged(
+      Map<String, dynamic> oldProps, Map<String, dynamic> newProps) {
+    if (oldProps.length != newProps.length) return true;
+
+    for (final key in oldProps.keys) {
+      if (!newProps.containsKey(key)) return true;
+      if (oldProps[key] != newProps[key]) return true;
+    }
+
+    for (final key in newProps.keys) {
+      if (!oldProps.containsKey(key)) return true;
+    }
+
+    return false;
+  }
+
   String _getPropertyValue(String key) {
+    // SKETCHWARE PRO STYLE: Debug logging for property value retrieval
+    print(
+        '🔍 GETTING PROPERTY VALUE: $key for widget ${widget.selectedWidget.id}');
+    print('🔍 WIDGET PROPERTIES: ${widget.selectedWidget.properties}');
+
     switch (key) {
       case 'property_id':
         return widget.selectedWidget.id;
@@ -716,22 +939,27 @@ class _PropertyPanelState extends State<PropertyPanel> {
       case 'property_hint':
         return widget.selectedWidget.properties['hint'] ?? '';
       case 'property_text_size':
-        return widget.selectedWidget.properties['textSize']?.toString() ?? '12';
+        return widget.selectedWidget.properties['textSize']?.toString() ?? '14';
       case 'property_text_color':
         return widget.selectedWidget.properties['textColor']?.toString() ??
             '#000000';
       case 'property_hint_color':
         return widget.selectedWidget.properties['hintColor']?.toString() ??
-            '#607D8B';
+            '#757575';
       case 'property_text_style':
-        return widget.selectedWidget.properties['textType']?.toString() ?? '0';
+        return widget.selectedWidget.properties['textStyle']?.toString() ??
+            'normal';
+      case 'property_text_align':
+        return widget.selectedWidget.properties['textAlign']?.toString() ??
+            'left';
       case 'property_input_type':
-        return widget.selectedWidget.properties['inputType']?.toString() ?? '1';
+        return widget.selectedWidget.properties['inputType']?.toString() ??
+            'text';
       case 'property_single_line':
         return widget.selectedWidget.properties['singleLine']?.toString() ??
-            '0';
+            'true';
       case 'property_lines':
-        return widget.selectedWidget.properties['line']?.toString() ?? '1';
+        return widget.selectedWidget.properties['lines']?.toString() ?? '1';
       case 'property_layout_width':
         return widget.selectedWidget.position.width.toString();
       case 'property_layout_height':
@@ -746,26 +974,47 @@ class _PropertyPanelState extends State<PropertyPanel> {
       case 'property_border_radius':
         return widget.selectedWidget.properties['borderRadius']?.toString() ??
             '0.0';
+      case 'property_corner_radius':
+        return widget.selectedWidget.properties['cornerRadius']?.toString() ??
+            '4.0';
+      case 'property_enabled':
+        return widget.selectedWidget.properties['enabled']?.toString() ??
+            'true';
       case 'property_icon_name':
-        return widget.selectedWidget.properties['iconName'] ?? 'home';
+        return widget.selectedWidget.properties['iconName'] ?? 'star';
       case 'property_icon_size':
         return widget.selectedWidget.properties['iconSize']?.toString() ??
             '24.0';
       case 'property_icon_color':
-        return widget.selectedWidget.properties['iconColor'] ?? '#000000';
-      case 'property_orientation':
-        return widget.selectedWidget.properties['orientation'] ?? 'horizontal';
-      case 'property_main_axis_alignment':
-        return widget.selectedWidget.properties['mainAxisAlignment'] ?? 'start';
-      case 'property_cross_axis_alignment':
-        return widget.selectedWidget.properties['crossAxisAlignment'] ??
-            'center';
+        return widget.selectedWidget.properties['iconColor']?.toString() ??
+            '#000000';
+      case 'property_semantic_label':
+        return widget.selectedWidget.properties['semanticLabel'] ?? '';
       case 'property_alignment':
-        return widget.selectedWidget.properties['alignment'] ?? 'topLeft';
+        return widget.selectedWidget.properties['alignment']?.toString() ??
+            'center';
+      case 'property_main_axis_alignment':
+        return widget.selectedWidget.properties['mainAxisAlignment']
+                ?.toString() ??
+            'start';
+      case 'property_cross_axis_alignment':
+        return widget.selectedWidget.properties['crossAxisAlignment']
+                ?.toString() ??
+            'center';
       case 'property_fit':
-        return widget.selectedWidget.properties['fit'] ?? 'loose';
+        return widget.selectedWidget.properties['fit']?.toString() ?? 'loose';
+      case 'property_clip_behavior':
+        return widget.selectedWidget.properties['clipBehavior']?.toString() ??
+            'hardEdge';
+      case 'property_margin':
+        return widget.selectedWidget.properties['margin']?.toString() ?? '0';
+      case 'property_padding':
+        return widget.selectedWidget.properties['padding']?.toString() ?? '0';
       default:
-        return '';
+        return widget
+                .selectedWidget.properties[key.replaceFirst('property_', '')]
+                ?.toString() ??
+            '';
     }
   }
 
@@ -775,22 +1024,113 @@ class _PropertyPanelState extends State<PropertyPanel> {
 
     // Convert value based on property type
     dynamic convertedValue = value;
+
+    // Handle numeric properties
     if (key.contains('textSize') ||
-        key.contains('line') ||
-        key.contains('inputType') ||
-        key.contains('textType') ||
-        key.contains('singleLine')) {
-      convertedValue = int.tryParse(value) ?? 0;
-    } else if (key.contains('borderWidth') ||
+        key.contains('iconSize') ||
+        key.contains('borderWidth') ||
         key.contains('borderRadius') ||
-        key.contains('iconSize')) {
+        key.contains('cornerRadius')) {
+      convertedValue = double.tryParse(value) ?? 0.0;
+    } else if (key.contains('lines')) {
+      convertedValue = int.tryParse(value) ?? 1;
+    } else if (key == 'property_single_line' || key == 'property_enabled') {
+      // Handle boolean properties
+      convertedValue = value == 'true';
+    } else if (key == 'property_layout_width' ||
+        key == 'property_layout_height') {
+      // Handle layout dimensions
+      convertedValue = double.tryParse(value) ?? 0.0;
+    } else if (key == 'property_margin' || key == 'property_padding') {
+      // Handle margin/padding
       convertedValue = double.tryParse(value) ?? 0.0;
     }
 
-    updatedProperties[key] = convertedValue;
+    // Map property keys to actual widget property names
+    String propertyKey = key.replaceFirst('property_', '');
 
-    final updatedWidget =
-        widget.selectedWidget.copyWith(properties: updatedProperties);
+    // Handle special property mappings
+    switch (key) {
+      case 'property_text_style':
+        propertyKey = 'textStyle';
+        break;
+      case 'property_text_align':
+        propertyKey = 'textAlign';
+        break;
+      case 'property_input_type':
+        propertyKey = 'inputType';
+        break;
+      case 'property_single_line':
+        propertyKey = 'singleLine';
+        break;
+      case 'property_background_color':
+        propertyKey = 'backgroundColor';
+        break;
+      case 'property_border_color':
+        propertyKey = 'borderColor';
+        break;
+      case 'property_border_width':
+        propertyKey = 'borderWidth';
+        break;
+      case 'property_border_radius':
+        propertyKey = 'borderRadius';
+        break;
+      case 'property_corner_radius':
+        propertyKey = 'cornerRadius';
+        break;
+      case 'property_icon_name':
+        propertyKey = 'iconName';
+        break;
+      case 'property_icon_size':
+        propertyKey = 'iconSize';
+        break;
+      case 'property_icon_color':
+        propertyKey = 'iconColor';
+        break;
+      case 'property_semantic_label':
+        propertyKey = 'semanticLabel';
+        break;
+      case 'property_main_axis_alignment':
+        propertyKey = 'mainAxisAlignment';
+        break;
+      case 'property_cross_axis_alignment':
+        propertyKey = 'crossAxisAlignment';
+        break;
+      case 'property_clip_behavior':
+        propertyKey = 'clipBehavior';
+        break;
+      default:
+        // Use the property key as is
+        break;
+    }
+
+    updatedProperties[propertyKey] = convertedValue;
+
+    // Update layout bean for layout changes (like Sketchware Pro)
+    LayoutBean? updatedLayout;
+    if (key == 'property_layout_width' || key == 'property_layout_height') {
+      final currentLayout = widget.selectedWidget.layout;
+      if (key == 'property_layout_width') {
+        updatedLayout =
+            currentLayout.copyWith(width: (convertedValue as double).toInt());
+      } else {
+        updatedLayout =
+            currentLayout.copyWith(height: (convertedValue as double).toInt());
+      }
+    }
+
+    final updatedWidget = widget.selectedWidget.copyWith(
+      properties: updatedProperties,
+      layout: updatedLayout ?? widget.selectedWidget.layout,
+    );
+
+    // SKETCHWARE PRO STYLE: Debug logging for property updates
+    print('🔄 UPDATING PROPERTY: $key = $value');
+    print('🔄 CONVERTED VALUE: $convertedValue');
+    print('🔄 PROPERTY KEY: $propertyKey');
+    print('🔄 UPDATED WIDGET: ${updatedWidget.id}');
+
+    // Notify parent of property change
     widget.onPropertyChanged(updatedWidget);
   }
 

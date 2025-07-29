@@ -2,9 +2,11 @@
   <img src="https://github.com/sketchide/SketchIDE/blob/master/android/app/src/main/ic_launcher-playstore.png" width="120">
 </p>
 
-# 📊 SketchIDE
+# 🎨 SketchIDE
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Status-Prototype-orange" alt="Prototype Status">
+  <img src="https://img.shields.io/badge/Version-Development-blue" alt="Development Version">
   <a href="https://t.me/sketchidegroup">
     <img src="https://img.shields.io/badge/Telegram-Group-blue?logo=telegram" alt="Telegram Group">
   </a>
@@ -13,325 +15,303 @@
   </a>
   <img src="https://img.shields.io/github/contributors/sketchide/SketchIDE" alt="GitHub Contributors">
   <img src="https://img.shields.io/github/last-commit/sketchide/SketchIDE" alt="GitHub Last Commit">
-  <img src="https://img.shields.io/github/issues-pr/sketchide/SketchIDE" alt="GitHub Pull Requests">
-  <img src="https://img.shields.io/github/issues/sketchide/SketchIDE" alt="GitHub Issues">
 </p>
 
-**SketchIDE** is an offline mobile IDE that allows anyone to build **native Android & iOS apps visually** – no coding required. Inspired by Sketchware Pro but built using **Flutter** for modern, cross-platform compatibility.
+> ⚠️ **PROTOTYPE STATUS**: SketchIDE is currently in active development as a prototype. This is not a production release and is intended for testing, feedback, and development purposes only.
+
+**SketchIDE** is a visual mobile IDE that enables anyone to build **native Android & iOS applications** through an intuitive drag-and-drop interface. Built with **Flutter** for modern cross-platform development, SketchIDE makes app creation accessible without requiring coding knowledge.
 
 ---
 
-## 🌟 Core Features
-
-* **Block-based Visual Programming** (logic without typing code)
-* **Drag-and-Drop UI Builder** with Material 3 widgets
-* **Sketchware Pro-style Property Editor** with color-coded property boxes
-* **Sequential Widget ID Generation** (text1, text2, text3, etc.)
-* **Smart Widget Management** with auto-selection and CRUD operations
-* **Real-time Flutter Code Generation** from visual widgets
-* **Project File Management** (main.dart, custom pages, widgets)
-* **Project Export** in `.ide` format (like Sketchware `.swb`)
-* **Code Preview & Editor** (for advanced users)
-* **Offline Builds**
-
-  * **Option 1:** Export Flutter project → Build locally with Android Studio/Xcode
-  * **Option 2:** Cloud CI/CD build (Codemagic / GitHub Actions)
-* **Scoped Storage Compliant** (projects stored in sandbox)
-* **Cross‑platform Output:** Android (APK/AAB) & iOS (IPA)
-* **Plugin System** for custom components and blocks
-
----
-
-## 🎨 Latest Features (v2.0)
-
-### **Sketchware Pro-style Property Editor**
-- **Color-coded Property Boxes**: Each property type has its own color and icon
-- **Smart Layout**: 100x70px property boxes with headers and values
-- **Property Types**: Text (Blue), Size (Green), Color (Purple), Number (Orange), Spacing (Teal), Boolean (Indigo)
-- **See All Button**: Floating button to access full property editor
-
-### **Sequential Widget ID Generation**
-- **Smart Naming**: `text1`, `text2`, `text3` instead of random timestamps
-- **Type-based Counting**: Automatically counts existing widgets of the same type
-- **Clean IDs**: Easy to identify and manage widgets
-
-### **Smart Widget Management**
-- **Auto-selection**: When a widget is deleted, automatically selects the next available widget
-- **Property Panel Visibility**: Shows when widgets exist, hides when none are available
-- **CRUD Operations**: Create, Read, Update, Delete widgets with visual feedback
-- **Success Messages**: Confirmation messages for all operations
-
-### **Real-time Flutter Code Generation**
-- **Live Code Updates**: Widget changes immediately reflect in generated Dart code
-- **File Management**: Supports main.dart and custom page files
-- **Code Synchronization**: Visual widgets stay in sync with generated code
-- **Default Hello World**: New projects start with a complete Flutter app structure
-
----
-
-## 📱 How Users Create Apps in SketchIDE
+## ✨ Core Capabilities
 
 ```mermaid
-graph TD
-    A[Open SketchIDE] --> B[Create New Project or Import .ide File]
-    B --> C[Design UI with Drag & Drop Widgets]
-    C --> D[Edit Widget Properties with Sketchware Pro-style Editor]
-    D --> E[Real-time Flutter Code Generation]
-    E --> F[Add Logic using Block Editor]
-    F --> G[Preview Application]
-    G --> H{Choose Build Option}
-    H --> |Offline| I[Export Flutter Project & Build Locally]
-    H --> |Cloud| J[Build via Cloud CI/CD]
-    J --> K[Receive APK/IPA]
-    I --> K
-    K --> L[App Ready for Distribution]
+mindmap
+  root((SketchIDE))
+    Visual Design
+      Drag & Drop UI Builder
+      Material 3 Widgets
+      Real-time Preview
+      Fixed Device Frame
+    Property Management
+      Color-coded Properties
+      Smart Property Editor
+      Sequential Widget IDs
+      Auto-validation
+    Code Generation
+      Flutter Code Output
+      Real-time Updates
+      Project Management
+      Export Support
+    Touch System
+      Native Touch Handling
+      Gesture Recognition
+      Multi-touch Support
+      Selection System
 ```
 
+### 🎯 **Visual Editor Features**
+- **Intuitive Drag & Drop Interface** with smooth animations
+- **Fixed Mobile Device Frame** (360x640dp) for consistent design
+- **Property Panel** with slide-up animation and visual feedback
+- **Smart Widget Management** with auto-selection and validation
+- **Real-time Visual Feedback** during design operations
+
+### 🔧 **Development Features**
+- **Live Flutter Code Generation** from visual components
+- **Sequential Widget Naming** (text1, text2, text3, etc.)
+- **Project File Management** with organized structure
+- **Cross-platform Output** supporting Android and iOS
+- **Offline Development** with local project storage
+
+### 🎨 **Property System**
+- **Color-coded Property Types**: Text (Blue), Size (Green), Color (Purple), Number (Orange)
+- **Smart Property Validation** with real-time error feedback
+- **Comprehensive Widget Properties** for complete customization
+- **Visual Property Editor** with intuitive controls
+
 ---
 
-## 🐽 Roadmap
+## 🚀 Current Development Status
 
-* [x] Create project
-* [x] UI Canvas with drag & drop
-* [x] Widget property editor (Sketchware Pro style)
-* [x] Sequential widget ID generation
-* [x] Widget CRUD operations (Create, Read, Update, Delete)
-* [x] Auto-selection and smart property panel
-* [x] Flutter code generation from widgets
-* [x] Project file management (main.dart, custom pages)
-* [ ] Logic block editor (Blockly)
-* [ ] Project import/export (`.ide`)
-* [ ] Android offline APK builder
-* [ ] iOS Xcode project exporter
-* [ ] Custom widget templates
-* [ ] Marketplace for templates
+<table>
+<tr>
+<td width="50%">
+
+### ✅ **Implemented Features**
+- [x] Visual drag & drop UI builder
+- [x] Mobile device frame (360x640dp)
+- [x] Property panel with animations
+- [x] Touch controller system
+- [x] Widget validation service
+- [x] Flutter code generation
+- [x] Project management
+- [x] Frame widget system
+- [x] Selection and feedback system
+
+</td>
+<td width="50%">
+
+### 🔄 **In Development**
+- [ ] Block-based logic editor
+- [ ] Advanced widget templates
+- [ ] Cloud build integration
+- [ ] Plugin system
+- [ ] Import/Export functionality
+- [ ] Advanced animations
+- [ ] Custom component library
+- [ ] Multi-screen support
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Folder Structure
+## 📱 App Development Workflow
 
+```mermaid
+graph LR
+    A[📱 Create Project] --> B[🎨 Design UI]
+    B --> C[⚙️ Configure Properties]
+    C --> D[🔧 Add Logic]
+    D --> E[👀 Preview App]
+    E --> F[📦 Export Project]
+    F --> G[🏗️ Build App]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#e0f2f1
+    style G fill:#f1f8e9
+```
+
+### Development Process
+1. **Project Setup**: Create new project with basic Flutter structure
+2. **Visual Design**: Use drag & drop to build UI with widgets
+3. **Property Configuration**: Customize widget properties using visual editor
+4. **Logic Integration**: Add interactive behavior (coming soon)
+5. **Live Preview**: See changes in real-time mobile frame
+6. **Export & Build**: Generate Flutter project for compilation
+
+---
+
+## 🏗️ Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "🎨 Presentation Layer"
+        UI[Views & Widgets]
+        VM[ViewModels]
+    end
+    
+    subgraph "🔧 Business Logic"
+        SVC[Services]
+        CTRL[Controllers]
+    end
+    
+    subgraph "📊 Data Layer"
+        MODELS[Models & Beans]
+        STORAGE[Local Storage]
+    end
+    
+    UI --> VM
+    VM --> SVC
+    SVC --> CTRL
+    CTRL --> MODELS
+    MODELS --> STORAGE
+    
+    style UI fill:#e3f2fd
+    style VM fill:#f3e5f5
+    style SVC fill:#e8f5e8
+    style CTRL fill:#fff8e1
+    style MODELS fill:#fce4ec
+    style STORAGE fill:#e0f2f1
+```
+
+### **MVVM Architecture Pattern**
+- **Models**: Data structures and business entities
+- **Views**: UI screens and user interfaces  
+- **ViewModels**: Business logic and state management
+- **Services**: Core functionality and API communication
+- **Controllers**: Touch handling and user interactions
+
+---
+
+## 📊 Feature Matrix
+
+| Feature Category | Implementation Status | Description |
+|-----------------|---------------------|-------------|
+| 🎨 **Visual Editor** | ✅ **Complete** | Drag & drop interface with mobile frame |
+| 🔧 **Property System** | ✅ **Complete** | Color-coded property editor with validation |
+| 📱 **Touch System** | ✅ **Complete** | Native-like touch handling and gestures |
+| 💾 **Code Generation** | ✅ **Complete** | Real-time Flutter code output |
+| 🎯 **Widget System** | ✅ **Complete** | Full widget palette with frame components |
+| 📦 **Project Management** | ✅ **Complete** | Local project storage and organization |
+| 🧩 **Logic Editor** | 🔄 **In Progress** | Block-based programming interface |
+| ☁️ **Cloud Integration** | 📅 **Planned** | Cloud build and deployment |
+
+---
+
+## 🛠️ Development Setup
+
+### Prerequisites
+- Flutter SDK (latest stable)
+- Dart SDK (included with Flutter)
+- Android Studio / VS Code
+- Git
+
+### Quick Start
 ```bash
+# Clone the repository
+git clone https://github.com/sketchide/SketchIDE.git
+
+# Navigate to project directory
+cd SketchIDE
+
+# Install dependencies
+flutter pub get
+
+# Run the application
+flutter run
+```
+
+### Project Structure
+```
 SketchIDE/
 ├── lib/
-│   ├── core/                        # Core utilities & constants
-│   │   ├── constants/
-│   │   │   ├── app_paths.dart
-│   │   │   ├── app_strings.dart
-│   │   │   └── dependencies.dart
-│   │   ├── error/
-│   │   │   ├── exceptions.dart
-│   │   │   └── failure.dart
-│   │   ├── utils/
-│   │   │   ├── file_helper.dart
-│   │   │   ├── logger.dart
-│   │   │   └── validators.dart
-│   │   └── di.dart                  # Dependency Injection (GetIt)
-│   │
-│   ├── data/                        # Persistence layer
-│   │   ├── datasources/
-│   │   │   ├── hive_service.dart    # Hive DB for metadata
-│   │   │   ├── sqlite_service.dart  # SQLite for complex UI/logic
-│   │   │   └── json_service.dart    # JSON import/export
-│   │   ├── models/
-│   │   │   ├── project_model.dart
-│   │   │   ├── ui_node_model.dart
-│   │   │   └── logic_block_model.dart
-│   │   └── repositories/
-│   │       └── project_repository_impl.dart
-│   │
-│   ├── domain/                      # Business Logic (Use Cases)
-│   │   ├── entities/
-│   │   │   ├── project.dart
-│   │   │   ├── ui_node.dart
-│   │   │   └── logic_block.dart
-│   │   ├── repositories/
-│   │   │   └── project_repository.dart
-│   │   └── usecases/
-│   │       ├── create_project.dart
-│   │       ├── delete_project.dart
-│   │       ├── get_all_projects.dart
-│   │       ├── update_project.dart
-│   │       └── build_project.dart
-│   │
-│   ├── features/
-│   │   ├── project/                 # CRUD UI for projects
-│   │   │   ├── view/
-│   │   │   │   ├── project_list_page.dart
-│   │   │   │   └── project_editor_page.dart
-│   │   │   └── viewmodel/
-│   │   │       └── project_viewmodel.dart
-│   │   │
-│   │   ├── builder/                 # Drag & drop UI editor
-│   │   │   ├── screens/
-│   │   │   │   ├── builder_screen.dart
-│   │   │   │   └── property_editor_screen.dart
-│   │   │   ├── widgets/
-│   │   │   │   ├── droppable_mobile_frame.dart
-│   │   │   │   ├── draggable_widget_palette.dart
-│   │   │   │   ├── property_editor_panel.dart
-│   │   │   │   └── dart_file_selector.dart
-│   │   │   ├── models/
-│   │   │   │   ├── widget_data.dart
-│   │   │   │   ├── dart_file_bean.dart
-│   │   │   │   └── history_manager.dart
-│   │   │   ├── services/
-│   │   │   │   ├── code_generator.dart
-│   │   │   │   ├── dart_file_manager.dart
-│   │   │   │   └── file_sync_service.dart
-│   │   │   └── viewmodel/
-│   │   │       └── builder_viewmodel.dart
-│   │   │
-│   │   ├── blocks/                  # Visual programming engine
-│   │   │   ├── view/
-│   │   │   │   └── block_editor_page.dart
-│   │   │   └── viewmodel/
-│   │   │       └── block_viewmodel.dart
-│   │   │
-│   │   ├── preview/                 # Live preview renderer
-│   │   │   ├── view/
-│   │   │   │   └── preview_page.dart
-│   │   │   └── viewmodel/
-│   │   │       └── preview_viewmodel.dart
-│   │   │
-│   │   ├── settings/                # App theme & settings
-│   │   │   ├── view/
-│   │   │   │   └── settings_page.dart
-│   │   │   └── viewmodel/
-│   │   │       └── settings_viewmodel.dart
-│   │   │
-│   │   └── cloud_build/             # CI/CD integration
-│   │       ├── view/
-│   │       │   └── cloud_build_page.dart
-│   │       └── viewmodel/
-│   │           └── cloud_build_viewmodel.dart
-│   │
-│   ├── build/                       # **Core builder system**
-│   │   ├── project_compiler_service.dart   # (ProjectBuilder)
-│   │   ├── manifest_generator.dart         # (Ix)
-│   │   ├── source_code_generator.dart      # (Jx)
-│   │   ├── component_generator.dart        # (Lx)
-│   │   ├── layout_generator.dart           # (Ox)
-│   │   ├── dependency_manager.dart         # (qq)
-│   │   ├── build_dialog_controller.dart    # (tq)
-│   │   └── project_path_registry.dart      # (yq)
-│   │
-│   └── main.dart                   # App Entry Point
-│
-├── assets/                         # Icons, templates
-│   ├── icons/
-│   └── templates/
-│
-├── export_templates/               # Flutter project boilerplate
-│   ├── base_project/
-│   └── plugin_templates/
-│
-└── fastlane/                       # Play Store Metadata
-
-```
-=======
-│   ├── core/                # Constants, utils, error handling
-│   ├── data/                # Hive/SQLite models and persistence
-│   ├── features/
-│   │   ├── project/         # Project create/edit/export
-│   │   ├── builder/         # UI drag & drop editor
-│   │   ├── blocks/          # Visual programming engine
-│   │   ├── preview/         # Live preview renderer
-│   │   ├── settings/        # App settings & theme
-│   │   └── cloud_build/     # CI/CD integration
-│   └── main.dart            # Entry point
-├── assets/                  # Icons, templates
-├── export_templates/        # Flutter boilerplate
-└── fastlane/                # Play Store metadata
+│   ├── controllers/        # Touch & interaction handling
+│   ├── models/            # Data structures
+│   ├── services/          # Business logic services
+│   ├── viewmodels/        # MVVM view models
+│   ├── views/             # UI screens
+│   └── widgets/           # Reusable UI components
+├── assets/                # Images, icons, templates
+└── android/ios/          # Platform-specific files
 ```
 
 ---
 
-## 🧰 Contributor Workflow
+## 🤝 Contributing to the Prototype
 
-```mermaid
-graph TD
-    A[Fork Repository] --> B[Clone Locally]
-    B --> C[Setup Flutter & Dependencies]
-    C --> D[Choose Issue or Feature]
-    D --> E[Implement Changes]
-    E --> F[Test & Validate]
-    F --> G[Commit with Conventional Format]
-    G --> H[Push to Fork]
-    H --> I[Create Pull Request]
-    I --> J[Code Review & Merge]
+We welcome contributions to help improve SketchIDE! Since this is a prototype, we're especially interested in:
+
+### 🎯 **Priority Areas**
+- **UI/UX Improvements**: Enhance the visual design experience
+- **Performance Optimization**: Improve rendering and responsiveness  
+- **Feature Testing**: Help identify bugs and edge cases
+- **Documentation**: Improve code documentation and user guides
+
+### 📝 **Contribution Guidelines**
+1. Fork the repository and create a feature branch
+2. Follow the existing code style and architecture patterns
+3. Add appropriate tests for new functionality
+4. Submit pull requests with clear descriptions
+5. Participate in code reviews and feedback
+
+### 🏷️ **Commit Convention**
+```
+feat: add new widget to palette
+fix: resolve touch handling issue
+design: improve property panel UI
+test: add unit tests for validation
+docs: update README with new features
 ```
 
-### Roles
+---
 
-* **UI Builder Team**: Drag & drop widgets
-* **Block Editor Team**: Logic block engine
-* **Build/Export Team**: Android & iOS build pipeline
-* **Core System Team**: Database & project handling
-* **QA Team**: Unit and widget testing
+## ⚠️ Prototype Disclaimer
+
+**Important Notice**: SketchIDE is currently a **prototype in active development**. 
+
+### What This Means:
+- 🔧 **Features may change** without notice during development
+- 🐛 **Bugs and issues** are expected and being actively addressed
+- 📱 **Not ready for production** app development
+- 🔄 **Frequent updates** and changes to the codebase
+- 💬 **Feedback is crucial** for improving the final product
+
+### Testing & Feedback:
+- Test the visual editor and report any issues
+- Suggest improvements for user experience
+- Help identify missing features or functionality
+- Provide feedback on performance and stability
 
 ---
 
-## 🤝 How to Contribute
+## 📞 Community & Support
 
-1. **Fork** this repo
-2. **Clone & Setup:** `flutter pub get`
-3. **Pick an Issue** from GitHub Issues
-4. **Develop & Test** locally
-5. **Submit Pull Request** with description
+<p align="center">
+  <a href="https://t.me/sketchidegroup">
+    <img src="https://img.shields.io/badge/💬_Join_Community-Telegram-blue?style=for-the-badge" alt="Join Telegram">
+  </a>
+  <a href="https://t.me/sketchide">
+    <img src="https://img.shields.io/badge/📢_Get_Updates-Channel-blue?style=for-the-badge" alt="Telegram Channel">
+  </a>
+</p>
 
-#### Commit Types
-
-* `feat:` new feature
-* `fix:` bug fix
-* `design:` UI/UX change
-* `refactor:` internal improvements
-* `test:` testing related
-* `docs:` documentation
+- **Community Discussion**: [Telegram Group](https://t.me/sketchidegroup)
+- **Updates & News**: [Telegram Channel](https://t.me/sketchide)
+- **Email Support**: [developerrajendrahelp@gmail.com](mailto:developerrajendrahelp@gmail.com)
 
 ---
 
-## ⚠️ Permissions & Guidelines
+## 📄 License
 
-### **Storage Policy**
-- Do **not** modify **Scoped Storage policies** (required for Google Play compliance).
-- Avoid uninstalling the app **before upgrading** to prevent project loss.
+SketchIDE is open source software licensed under the **MIT License**.
 
-### **Why Scoped Storage?**
-- Google Play policies no longer allow unrestricted file access.
-- **SketchIDE** follows these rules to ensure app stability and compliance.
-
-### **How SketchIDE Handles Files**
-- Projects are stored securely in the **App Sandbox**:  
-  `/Android/data/com.sketchide.app/files/projects`
-- **Export/Import** uses **SAF (Storage Access Framework)** for safe file handling.
-
-### **Benefits**
-- No risk of Play Store rejection.
-- Secure and future-proof file storage.
-- Easy **backup** and **restore** process.
-
----
-
-## 📢 Support & Feedback
-
-* **Telegram Group:** [Join](https://t.me/sketchidegroup)
-* **Telegram Channel:** [Updates](https://t.me/sketchide)
-* **Email:** [developerrajendrahelp@gmail.com](mailto:developerrajendrahelp@gmail.com)
-
----
-
-## 🎉 License
-
-SketchIDE is licensed under **MIT** and **CC BY 4.0**.
-
-```text
-SketchIDE is free software: you can redistribute it and/or modify it under the terms of both the MIT License and the Creative Commons Attribution 4.0 International License (CC BY 4.0).
-
-It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+MIT License - Free to use, modify, and distribute
 ```
 
-View licenses: [MIT](https://opensource.org/licenses/MIT) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+This prototype is provided "as-is" for development and testing purposes. See [LICENSE](LICENSE) for full details.
 
 ---
 
-**🎉 Happy Coding with SketchIDE! 🎉**
+<p align="center">
+  <img src="https://img.shields.io/badge/Made_with-❤️_and_Flutter-blue" alt="Made with Flutter">
+  <br>
+  <strong>🚀 Building the future of visual app development 🚀</strong>
+</p>

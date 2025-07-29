@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/view_info.dart';
+import '../models/flutter_widget_bean.dart';
+import 'widget_factory_service.dart';
 
 /// Enhanced ViewInfoService - Matches Sketchware Pro's coordinate system
 ///
@@ -9,7 +11,16 @@ import '../models/view_info.dart';
 /// - Depth-based drop zone priority
 /// - Margin/padding awareness
 /// - Gravity-based positioning
+/// - Real-time widget updates
 class ViewInfoService extends ChangeNotifier {
+  // SKETCHWARE PRO STYLE: Singleton instance for shared access
+  static final ViewInfoService _instance = ViewInfoService._internal();
+  factory ViewInfoService() => _instance;
+  ViewInfoService._internal();
+
+  // SKETCHWARE PRO STYLE: Track disposal state
+  bool _disposed = false;
+  bool get disposed => _disposed;
   // SKETCHWARE PRO STYLE: Scale factors
   double _outerScale = 1.0; // var11 in Sketchware Pro
   double _innerScale = 1.0; // var3 in Sketchware Pro
@@ -19,14 +30,29 @@ class ViewInfoService extends ChangeNotifier {
   Size _containerSize = Size.zero;
   Offset _containerOffset = Offset.zero;
 
-  // SKETCHWARE PRO STYLE: View information tracking
+  // SKETCHWARE PRO STYLE: Sophisticated view information tracking (like ViewPane.java)
   final List<ViewInfo> _viewInfos = [];
   ViewInfo? _currentViewInfo;
   DropZoneInfo? _currentDropZone;
 
-  // SKETCHWARE PRO STYLE: Highlight state
+  // SKETCHWARE PRO STYLE: Depth-based priority system (like ViewPane.java:782)
+  final Map<int, List<ViewInfo>> _depthMap = {};
+  int _maxDepth = 0;
+
+  // SKETCHWARE PRO STYLE: Drop zone validation (like ViewEditor.java:327)
+  bool _isValidDropZone = false;
+  String? _dropZoneParent;
+  int _dropZoneIndex = -1;
+  Size _dropZoneSize = Size.zero;
+
+  // SKETCHWARE PRO STYLE: Enhanced highlight state
   bool _isHighlighted = false;
   Rect? _highlightRect;
+  Color _highlightColor = const Color(0x9599d5d0); // Sketchware Pro green
+
+  // SKETCHWARE PRO STYLE: Widget registration for real-time updates
+  final Map<String, Widget> _registeredWidgets = {};
+  final Map<String, FlutterWidgetBean> _registeredWidgetBeans = {};
 
   // Getters
   double get outerScale => _outerScale;
@@ -46,6 +72,8 @@ class ViewInfoService extends ChangeNotifier {
     required double innerScale,
     double? widgetScale,
   }) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _outerScale = outerScale;
     _innerScale = innerScale;
     if (widgetScale != null) _widgetScale = widgetScale;
@@ -57,6 +85,8 @@ class ViewInfoService extends ChangeNotifier {
     required Size size,
     required Offset offset,
   }) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _containerSize = size;
     _containerOffset = offset;
     notifyListeners();
@@ -119,48 +149,190 @@ class ViewInfoService extends ChangeNotifier {
     return result;
   }
 
-  /// SKETCHWARE PRO STYLE: Update view highlight (matches ViewPane.java:750)
+  /// SKETCHWARE PRO STYLE: Sophisticated drop zone detection (like ViewPane.java:782)
   void updateViewHighlight(Offset coordinates, Size widgetSize) {
-    final viewInfo = getViewInfo(coordinates);
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
 
-    if (viewInfo == null) {
-      resetViewHighlight();
-    } else if (_currentViewInfo != viewInfo) {
-      resetViewHighlight();
-      _currentViewInfo = viewInfo;
-      _highlightRect = Rect.fromLTWH(
-        viewInfo.rect.left,
-        viewInfo.rect.top,
-        widgetSize.width,
-        widgetSize.height,
-      );
+    // SKETCHWARE PRO STYLE: Find the best drop zone with depth priority
+    final dropZone = _findBestDropZoneWithDepth(coordinates, widgetSize);
+
+    if (dropZone != null) {
+      _currentDropZone = dropZone;
+      _currentViewInfo = dropZone.viewInfo;
       _isHighlighted = true;
-      notifyListeners();
+      _highlightRect = dropZone.viewInfo.rect;
+      _isValidDropZone = true;
+      _dropZoneParent = dropZone.viewInfo.parentId;
+      _dropZoneIndex = dropZone.viewInfo.index;
+      _dropZoneSize = widgetSize;
+
+      // SKETCHWARE PRO STYLE: Set highlight color based on drop zone type
+      _setHighlightColor(dropZone.viewInfo);
+    } else {
+      resetViewHighlight();
+    }
+
+    notifyListeners();
+  }
+
+  /// SKETCHWARE PRO STYLE: Find best drop zone with depth priority (like ViewPane.java:782)
+  DropZoneInfo? _findBestDropZoneWithDepth(Offset position, Size widgetSize) {
+    ViewInfo? bestViewInfo;
+    int highestDepth = -1;
+
+    // SKETCHWARE PRO STYLE: Check from highest depth to lowest (like ViewPane.java)
+    for (int depth = _maxDepth; depth >= 0; depth--) {
+      final viewsAtDepth = _depthMap[depth] ?? [];
+
+      for (final viewInfo in viewsAtDepth) {
+        if (_isValidDropZoneForPosition(viewInfo, position, widgetSize)) {
+          if (depth > highestDepth) {
+            highestDepth = depth;
+            bestViewInfo = viewInfo;
+          }
+        }
+      }
+
+      // SKETCHWARE PRO STYLE: If we found a valid drop zone at this depth, use it
+      if (bestViewInfo != null) {
+        break;
+      }
+    }
+
+    if (bestViewInfo != null) {
+      return DropZoneInfo(
+        viewInfo: bestViewInfo,
+        position: position,
+        size: widgetSize,
+        isValid: true,
+      );
+    }
+
+    return null;
+  }
+
+  /// SKETCHWARE PRO STYLE: Validate drop zone for position (like ViewEditor.java:327)
+  bool _isValidDropZoneForPosition(
+      ViewInfo viewInfo, Offset position, Size widgetSize) {
+    final rect = viewInfo.rect;
+
+    // SKETCHWARE PRO STYLE: Check if position is within the view bounds
+    if (!rect.contains(position)) {
+      return false;
+    }
+
+    // SKETCHWARE PRO STYLE: Check if widget size fits within the view
+    final widgetRect = Rect.fromLTWH(
+      position.dx,
+      position.dy,
+      widgetSize.width,
+      widgetSize.height,
+    );
+
+    if (!rect.contains(widgetRect.topLeft) ||
+        !rect.contains(widgetRect.bottomRight)) {
+      return false;
+    }
+
+    // SKETCHWARE PRO STYLE: Additional validation based on view type
+    return _validateViewTypeForDrop(viewInfo, position, widgetSize);
+  }
+
+  /// SKETCHWARE PRO STYLE: Validate view type for drop (like ViewEditor.java)
+  bool _validateViewTypeForDrop(
+      ViewInfo viewInfo, Offset position, Size widgetSize) {
+    final viewType = viewInfo.viewType;
+
+    switch (viewType) {
+      case 'LinearLayout':
+        // SKETCHWARE PRO STYLE: Linear layouts accept all widgets
+        return true;
+      case 'RelativeLayout':
+        // SKETCHWARE PRO STYLE: Relative layouts accept all widgets
+        return true;
+      case 'FrameLayout':
+        // SKETCHWARE PRO STYLE: Frame layouts accept all widgets
+        return true;
+      case 'Container':
+        // SKETCHWARE PRO STYLE: Containers accept all widgets
+        return true;
+      default:
+        // SKETCHWARE PRO STYLE: Default validation
+        return true;
+    }
+  }
+
+  /// SKETCHWARE PRO STYLE: Set highlight color based on drop zone type
+  void _setHighlightColor(ViewInfo viewInfo) {
+    switch (viewInfo.viewType) {
+      case 'LinearLayout':
+        _highlightColor = const Color(0x9599d5d0); // Sketchware Pro green
+        break;
+      case 'RelativeLayout':
+        _highlightColor = const Color(0x9599d5d0); // Sketchware Pro green
+        break;
+      case 'Container':
+        _highlightColor =
+            const Color(0x82ff5955); // Sketchware Pro semi-transparent red
+        break;
+      default:
+        _highlightColor = const Color(0x9599d5d0); // Sketchware Pro green
+        break;
     }
   }
 
   /// SKETCHWARE PRO STYLE: Reset view highlight
   void resetViewHighlight() {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _currentViewInfo = null;
     _highlightRect = null;
     _isHighlighted = false;
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Add view info (matches ViewPane.java:984)
-  void addViewInfo(Rect rect, Widget view, int index, int depth) {
+  /// SKETCHWARE PRO STYLE: Add view info with depth mapping (matches ViewPane.java:984)
+  void addViewInfo(
+    Rect rect,
+    Widget view,
+    int index,
+    int depth, {
+    String? parentId,
+    String viewType = 'Container',
+  }) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
+
     final viewInfo = ViewInfo(
       rect: rect,
       view: view,
       index: index,
       depth: depth,
+      parentId: parentId,
+      viewType: viewType,
     );
+
     _viewInfos.add(viewInfo);
+
+    // SKETCHWARE PRO STYLE: Add to depth map for priority-based drop zone detection
+    if (!_depthMap.containsKey(depth)) {
+      _depthMap[depth] = [];
+    }
+    _depthMap[depth]!.add(viewInfo);
+
+    // Update max depth
+    if (depth > _maxDepth) {
+      _maxDepth = depth;
+    }
+
     notifyListeners();
   }
 
   /// SKETCHWARE PRO STYLE: Clear all view infos
   void clearViewInfos() {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _viewInfos.clear();
     resetViewHighlight();
     notifyListeners();
@@ -183,12 +355,16 @@ class ViewInfoService extends ChangeNotifier {
 
   /// SKETCHWARE PRO STYLE: Set current drop zone
   void setCurrentDropZone(DropZoneInfo? dropZone) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _currentDropZone = dropZone;
     notifyListeners();
   }
 
   /// SKETCHWARE PRO STYLE: Highlight view info
   void highlightViewInfo(ViewInfo? viewInfo) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
     _currentViewInfo = viewInfo;
     _isHighlighted = viewInfo != null;
     if (viewInfo != null) {
@@ -259,9 +435,68 @@ class ViewInfoService extends ChangeNotifier {
     );
   }
 
+  /// SKETCHWARE PRO STYLE: Register widget for real-time updates
+  void registerWidgetForUpdates(
+      String widgetId, Widget widget, FlutterWidgetBean widgetBean) {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
+    _registeredWidgets[widgetId] = widget;
+    _registeredWidgetBeans[widgetId] = widgetBean;
+  }
+
+  /// SKETCHWARE PRO STYLE: Unregister widget
+  void unregisterWidget(String widgetId) {
+    _registeredWidgets.remove(widgetId);
+    _registeredWidgetBeans.remove(widgetId);
+  }
+
+  /// SKETCHWARE PRO STYLE: Get registered widget
+  Widget? getRegisteredWidget(String widgetId) {
+    return _registeredWidgets[widgetId];
+  }
+
+  /// SKETCHWARE PRO STYLE: Get registered widget bean
+  FlutterWidgetBean? getRegisteredWidgetBean(String widgetId) {
+    return _registeredWidgetBeans[widgetId];
+  }
+
+  /// SKETCHWARE PRO STYLE: Clear all registered widgets (for project navigation)
+  void clearAllRegisteredWidgets() {
+    if (_disposed)
+      return; // SKETCHWARE PRO STYLE: Prevent disposed service usage
+    _registeredWidgets.clear();
+    _registeredWidgetBeans.clear();
+    _viewInfos.clear();
+    notifyListeners();
+  }
+
+  /// SKETCHWARE PRO STYLE: Reset service for tab switching
+  void resetForTabSwitch() {
+    _disposed = false;
+    clearAllRegisteredWidgets();
+  }
+
+  /// SKETCHWARE PRO STYLE: Update widget in real-time
+  Widget? updateWidget(String widgetId, FlutterWidgetBean updatedWidgetBean) {
+    final widget = _registeredWidgets[widgetId];
+    if (widget == null) return null;
+
+    // Update the widget bean
+    _registeredWidgetBeans[widgetId] = updatedWidgetBean;
+
+    // Create updated widget using factory service
+    return WidgetFactoryService.createWidget(
+      updatedWidgetBean,
+      scale: _widgetScale,
+    );
+  }
+
   @override
   void dispose() {
+    _disposed = true;
     _viewInfos.clear();
+    _registeredWidgets.clear();
+    _registeredWidgetBeans.clear();
     super.dispose();
   }
 }

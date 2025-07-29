@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/flutter_widget_bean.dart';
 import 'widget_update_service.dart';
+import 'view_info_service.dart';
 
 /// ViewPane Service - EXACTLY matches Sketchware Pro's ViewPane functionality
 /// Handles real-time widget updates in the mobile frame
 class ViewPaneService {
   final WidgetUpdateService _widgetUpdateService = WidgetUpdateService();
+  final ViewInfoService _viewInfoService = ViewInfoService();
 
   // Widget registry for real-time updates
   final Map<String, Widget> _widgetRegistry = {};
@@ -32,7 +34,10 @@ class ViewPaneService {
     // Update the widget bean
     _widgetBeans[widgetId] = updatedWidgetBean;
 
-    // Update the widget based on its type
+    // SKETCHWARE PRO STYLE: Update widget in ViewInfoService for real-time rendering
+    final updatedWidget = _viewInfoService.updateWidget(widgetId, updatedWidgetBean);
+    
+    // Also update using WidgetUpdateService for property changes
     return _widgetUpdateService.updateWidget(widget, updatedWidgetBean);
   }
 

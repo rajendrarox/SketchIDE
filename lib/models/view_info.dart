@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
-/// ViewInfo - Matches Sketchware Pro's ViewInfo structure
+/// ViewInfo - EXACTLY matches Sketchware Pro's ViewInfo structure
 ///
 /// SKETCHWARE PRO STYLE:
 /// - rect: Bounding rectangle of the view
 /// - view: The actual widget/view
 /// - index: Position in parent
 /// - depth: Hierarchy depth for priority
+/// - parentId: Parent widget identifier
+/// - viewType: Type of the view (LinearLayout, RelativeLayout, etc.)
 class ViewInfo {
   final Rect rect;
   final Widget view;
   final int index;
   final int depth;
+  final String? parentId;
+  final String viewType;
 
   const ViewInfo({
     required this.rect,
     required this.view,
     required this.index,
     required this.depth,
+    this.parentId,
+    this.viewType = 'Container',
   });
 
   /// Create a copy with updated properties
@@ -26,12 +32,16 @@ class ViewInfo {
     Widget? view,
     int? index,
     int? depth,
+    String? parentId,
+    String? viewType,
   }) {
     return ViewInfo(
       rect: rect ?? this.rect,
       view: view ?? this.view,
       index: index ?? this.index,
       depth: depth ?? this.depth,
+      parentId: parentId ?? this.parentId,
+      viewType: viewType ?? this.viewType,
     );
   }
 

@@ -118,28 +118,7 @@ class MyHomePage extends StatelessWidget {
         title: const Text('${project.projectInfo.appName}'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.flutter_dash,
-              size: 100,
-              color: Colors.blue,
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Hello World!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Created with SketchIDE',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
+      body: Container(), // SKETCHWARE PRO STYLE: Empty container like empty LinearLayout
     );
   }
 }''';
@@ -215,28 +194,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('${project.projectInfo.appName}'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.flutter_dash,
-              size: 100,
-              color: Colors.blue,
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Welcome to ${project.projectInfo.appName}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Created with SketchIDE',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
+      body: Container(), // SKETCHWARE PRO STYLE: Empty container like empty LinearLayout
     );
   }
 }''';

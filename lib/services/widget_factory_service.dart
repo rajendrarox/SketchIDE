@@ -6,13 +6,15 @@ import '../models/text_field_properties.dart';
 import '../models/icon_properties.dart';
 import '../models/layout_properties.dart';
 import '../models/stack_properties.dart';
-import '../widgets/items/widget_text.dart';
-import '../widgets/items/widget_container.dart';
-import '../widgets/items/widget_text_field.dart';
-import '../widgets/items/widget_icon.dart';
-import '../widgets/items/widget_row.dart';
-import '../widgets/items/widget_column.dart';
-import '../widgets/items/widget_stack.dart';
+import '../models/button_properties.dart';
+import '../widgets/widget_items/widget_text.dart';
+import '../widgets/widget_items/widget_container.dart';
+import '../widgets/widget_items/widget_text_field.dart';
+import '../widgets/widget_items/widget_icon.dart';
+import '../widgets/widget_items/widget_row.dart';
+import '../widgets/widget_items/widget_column.dart';
+import '../widgets/widget_items/widget_stack.dart';
+import '../widgets/widget_items/widget_button.dart'; // Added import for WidgetButton
 
 /// WidgetFactoryService - EXACTLY matches Sketchware Pro's ViewPane.createItemView()
 /// Factory service for creating widget instances based on FlutterWidgetBean type
@@ -23,65 +25,77 @@ class WidgetFactoryService {
   /// This follows Sketchware Pro's ViewPane.createItemView() pattern
   static Widget createWidget(
     FlutterWidgetBean widgetBean, {
-    bool isSelected = false,
     double scale = 1.0,
-    VoidCallback? onTap,
   }) {
-    switch (widgetBean.type) {
+    // SKETCHWARE PRO STYLE: Debug logging for widget creation
+    print('🏭 CREATING WIDGET: ${widgetBean.id}');
+    print('🏭 WIDGET PROPERTIES: ${widgetBean.properties}');
+
+    // SKETCHWARE PRO STYLE: Auto-detect widget type from properties if type is wrong
+    String actualType = widgetBean.type;
+    if (widgetBean.properties.containsKey('orientation') &&
+        widgetBean.properties.containsKey('mainAxisAlignment') &&
+        widgetBean.properties.containsKey('crossAxisAlignment')) {
+      final orientation = widgetBean.properties['orientation'];
+      if (orientation == 1) {
+        actualType = 'Column';
+      } else if (orientation == 0) {
+        actualType = 'Row';
+      }
+      if (actualType != widgetBean.type) {
+        print(
+            '🔄 AUTO-CORRECTING WIDGET TYPE: ${widgetBean.type} -> $actualType');
+      }
+    }
+
+    switch (actualType) {
       case 'Text':
         return WidgetText(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
+        );
+
+      case 'Button':
+        // FIXED: Button should be a separate widget, not WidgetText
+        return WidgetButton(
+          widgetBean: widgetBean,
+          scale: scale,
         );
 
       case 'Container':
         return WidgetContainer(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       case 'TextField':
         return WidgetTextField(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       case 'Icon':
         return WidgetIcon(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       case 'Row':
         return WidgetRow(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       case 'Column':
         return WidgetColumn(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       case 'Stack':
         return WidgetStack(
           widgetBean: widgetBean,
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
 
       default:
@@ -90,9 +104,7 @@ class WidgetFactoryService {
             '$_tag: Unknown widget type "${widgetBean.type}", falling back to Container');
         return WidgetContainer(
           widgetBean: widgetBean.copyWith(type: 'Container'),
-          isSelected: isSelected,
           scale: scale,
-          onTap: onTap,
         );
     }
   }
@@ -104,25 +116,60 @@ class WidgetFactoryService {
     String? id,
     Map<String, dynamic>? customProperties,
   }) {
-    final widgetId = id ?? FlutterWidgetBean.generateId();
+    final widgetId = id ?? FlutterWidgetBean.generateSimpleId();
 
     switch (type) {
       case 'Text':
-        final textProps = TextProperties();
+        // EXACTLY matches Sketchware Pro's IconTextView
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: textProps.toJson(),
+          properties: {
+            'text': 'Text', // Like Sketchware Pro but Flutter-style
+            'textSize': 14.0,
+            'textColor': '#000000',
+            'textStyle': 'normal',
+            'gravity': 'left',
+          },
           children: [],
           position: PositionBean(x: 0, y: 0, width: 120, height: 30),
           events: {},
           layout: LayoutBean(
             width: -2, // WRAP_CONTENT
             height: -2, // WRAP_CONTENT
-            paddingLeft: 8,
-            paddingTop: 4,
-            paddingRight: 8,
-            paddingBottom: 4,
+            paddingLeft: 8, // Like Sketchware Pro
+            paddingTop: 8, // Like Sketchware Pro
+            paddingRight: 8, // Like Sketchware Pro
+            paddingBottom: 8, // Like Sketchware Pro
+          ),
+        );
+
+      case 'Button':
+        // EXACTLY matches Sketchware Pro's IconButton
+        final buttonProps = ButtonProperties(
+          text: 'Button',
+          textSize: 14.0,
+          textColor: '#FFFFFF',
+          textStyle: 'normal',
+          textAlign: 'center',
+          backgroundColor: '#2196F3',
+          cornerRadius: 4.0,
+          enabled: true,
+        );
+        return FlutterWidgetBean(
+          id: widgetId,
+          type: type,
+          properties: buttonProps.toJson(),
+          children: [],
+          position: PositionBean(x: 0, y: 0, width: 100, height: 40),
+          events: {},
+          layout: LayoutBean(
+            width: -2, // WRAP_CONTENT
+            height: -2, // WRAP_CONTENT
+            paddingLeft: 8, // Like Sketchware Pro
+            paddingTop: 8, // Like Sketchware Pro
+            paddingRight: 8, // Like Sketchware Pro
+            paddingBottom: 8, // Like Sketchware Pro
           ),
         );
 
@@ -184,40 +231,54 @@ class WidgetFactoryService {
         );
 
       case 'Row':
-        final layoutProps = LayoutProperties();
+        // EXACTLY matches Sketchware Pro's IconLinearHorizontal
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: layoutProps.toJson(),
+          properties: {
+            'orientation': 0, // HORIZONTAL (like Sketchware Pro)
+            'mainAxisAlignment': 'start',
+            'crossAxisAlignment': 'center',
+            'mainAxisSize': 'max',
+          },
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 200, height: 50),
+          position: PositionBean(
+              x: 0, y: 0, width: -1, height: 50), // ✅ Force MATCH_PARENT width
           events: {},
           layout: LayoutBean(
-            width: -1, // MATCH_PARENT
+            width: -1, // MATCH_PARENT (like Sketchware Pro)
             height: -2, // WRAP_CONTENT
-            paddingLeft: 8,
-            paddingTop: 8,
-            paddingRight: 8,
-            paddingBottom: 8,
+            paddingLeft: 0, // ✅ No padding to touch edges
+            paddingTop: 0, // ✅ No padding to touch edges
+            paddingRight: 0, // ✅ No padding to touch edges
+            paddingBottom: 0, // ✅ No padding to touch edges
+            orientation: 0, // HORIZONTAL (like Sketchware Pro)
           ),
         );
 
       case 'Column':
-        final layoutProps = LayoutProperties();
+        // EXACTLY matches Sketchware Pro's IconLinearVertical
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: layoutProps.toJson(),
+          properties: {
+            'orientation': 1, // VERTICAL (like Sketchware Pro)
+            'mainAxisAlignment': 'start',
+            'crossAxisAlignment': 'center',
+            'mainAxisSize': 'max',
+          },
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 200, height: 100),
+          position: PositionBean(
+              x: 0, y: 0, width: 50, height: -1), // ✅ Same width as Row (50)
           events: {},
           layout: LayoutBean(
             width: -2, // WRAP_CONTENT
-            height: -1, // MATCH_PARENT
-            paddingLeft: 8,
-            paddingTop: 8,
-            paddingRight: 8,
-            paddingBottom: 8,
+            height: -1, // MATCH_PARENT (like Sketchware Pro)
+            paddingLeft: 0, // ✅ No padding to touch edges
+            paddingTop: 0, // ✅ No padding to touch edges
+            paddingRight: 0, // ✅ No padding to touch edges
+            paddingBottom: 0, // ✅ No padding to touch edges
+            orientation: 1, // VERTICAL (like Sketchware Pro)
           ),
         );
 
@@ -262,9 +323,33 @@ class WidgetFactoryService {
   /// Get strongly typed properties from FlutterWidgetBean
   /// This provides type-safe access to widget properties
   static dynamic getTypedProperties(FlutterWidgetBean widgetBean) {
-    switch (widgetBean.type) {
+    // SKETCHWARE PRO STYLE: Debug logging for property type resolution
+    print('🔧 GETTING TYPED PROPERTIES: ${widgetBean.id}');
+    print('🔧 PROPERTIES: ${widgetBean.properties}');
+
+    // SKETCHWARE PRO STYLE: Auto-detect widget type from properties if type is wrong
+    String actualType = widgetBean.type;
+    if (widgetBean.properties.containsKey('orientation') &&
+        widgetBean.properties.containsKey('mainAxisAlignment') &&
+        widgetBean.properties.containsKey('crossAxisAlignment')) {
+      final orientation = widgetBean.properties['orientation'];
+      if (orientation == 1) {
+        actualType = 'Column';
+      } else if (orientation == 0) {
+        actualType = 'Row';
+      }
+      if (actualType != widgetBean.type) {
+        print(
+            '🔄 AUTO-CORRECTING PROPERTY TYPE: ${widgetBean.type} -> $actualType');
+      }
+    }
+
+    switch (actualType) {
       case 'Text':
         return TextProperties.fromJson(widgetBean.properties);
+
+      case 'Button':
+        return ButtonProperties.fromJson(widgetBean.properties);
 
       case 'Container':
         return ContainerProperties.fromJson(widgetBean.properties);
@@ -283,6 +368,9 @@ class WidgetFactoryService {
         return StackProperties.fromJson(widgetBean.properties);
 
       default:
+        // SKETCHWARE PRO STYLE: Enhanced error handling for unknown types
+        print('⚠️ UNKNOWN WIDGET TYPE: ${widgetBean.type}');
+        print('⚠️ WIDGET PROPERTIES: ${widgetBean.properties}');
         return widgetBean.properties; // Fallback to dynamic map
     }
   }

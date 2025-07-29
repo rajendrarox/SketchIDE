@@ -47,7 +47,8 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
     _sharedDragController.setCallbacks(
       onWidgetMoved: (widget) => _viewModel.moveWidget(widget),
       onWidgetDeleted: (widget) => _viewModel.deleteSelectedWidget(),
-      onWidgetAdded: (widget) => _viewModel.addWidget(widget),
+      onWidgetAdded: (widget, {Size? containerSize}) =>
+          _viewModel.addWidget(widget, containerSize: containerSize),
       onDragStateChanged: (isDragging) {
         // Handle global drag state changes
       },
@@ -122,10 +123,14 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
   }
 
   Widget _buildBody(DesignViewModel viewModel) {
-    return Column(
+    // SKETCHWARE PRO STYLE: Fixed mobile frame position - no up/down movement
+    const double propertyPanelHeight = 170.0;
+    final bool isPropertyPanelVisible = viewModel.selectedWidget != null;
+
+    return Stack(
       children: [
-        // Main content area
-        Expanded(
+        // Main content area - SKETCHWARE PRO STYLE: Fixed position at top
+        Positioned.fill(
           child: PageView(
             controller: _pageController,
             onPageChanged: (index) {
@@ -139,8 +144,37 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
             ],
           ),
         ),
-        // Property panel (slides up from bottom)
-        if (viewModel.selectedWidget != null) _buildPropertyPanel(viewModel),
+        // Property panel - SKETCHWARE PRO STYLE: Slides up from bottom (overlays mobile frame)
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: AnimatedSwitcher(
+            duration: const Duration(
+                milliseconds: 300), // SKETCHWARE PRO: 300ms AutoTransition
+            switchInCurve:
+                Curves.decelerate, // SKETCHWARE PRO: DecelerateInterpolator
+            switchOutCurve:
+                Curves.easeIn, // SKETCHWARE PRO: Smooth hide animation
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              // SKETCHWARE PRO STYLE: Slide up from bottom animation
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, 1.0), // Start below screen
+                  end: const Offset(0.0, 0.0), // End at normal position
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves
+                      .decelerate, // SKETCHWARE PRO: DecelerateInterpolator
+                )),
+                child: child,
+              );
+            },
+            child: isPropertyPanelVisible
+                ? _buildPropertyPanel(viewModel)
+                : const SizedBox.shrink(),
+          ),
+        ),
       ],
     );
   }
@@ -178,7 +212,10 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
               selectedWidget: viewModel.selectedWidget,
               onWidgetSelected: (widget) => viewModel.selectWidget(widget),
               onWidgetMoved: (widget) => viewModel.moveWidget(widget),
-              onWidgetAdded: (widget) => viewModel.addWidget(widget),
+              onWidgetAdded: (widget, {Size? containerSize}) =>
+                  viewModel.addWidget(widget, containerSize: containerSize),
+              onBackgroundTapped: () => viewModel
+                  .clearSelection(), // SKETCHWARE PRO: Clear selection on background tap
             ),
           ),
         ),
@@ -236,8 +273,12 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
 
   Widget _buildPropertyPanel(DesignViewModel viewModel) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(
+          milliseconds: 300), // SKETCHWARE PRO: 300ms like AutoTransition
+      curve: Curves
+          .decelerate, // SKETCHWARE PRO: DecelerateInterpolator equivalent
       height: 170,
+      transform: Matrix4.identity(), // SKETCHWARE PRO: Ensure smooth transform
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
         border: Border(
@@ -245,6 +286,14 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
             color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
           ),
         ),
+        // SKETCHWARE PRO STYLE: Add subtle shadow like property panels
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: PropertyPanel(
         selectedWidget: viewModel.selectedWidget ??

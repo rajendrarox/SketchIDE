@@ -1,7 +1,7 @@
-/// FlutterWidgetBean - EXACTLY matches Sketchware Pro's ViewBean
+
 class FlutterWidgetBean {
   final String id;
-  final String type; // Type is String, not enum
+  final String type; 
   final Map<String, dynamic> properties;
   final String? parentId;
   final List<String> children;
@@ -11,7 +11,6 @@ class FlutterWidgetBean {
   final bool isVisible;
   final String? customCode;
 
-  // SKETCHWARE PRO STYLE LAYOUT PROPERTIES
   final LayoutBean layout;
   final int parentType;
   final int index;
@@ -33,7 +32,7 @@ class FlutterWidgetBean {
     this.isVisible = true,
     this.customCode,
     required this.layout,
-    this.parentType = 0, // VIEW_TYPE_LAYOUT_LINEAR default
+    this.parentType = 0, 
     this.index = -1,
     this.parent = 'root',
     this.preIndex = -1,
@@ -130,13 +129,12 @@ class FlutterWidgetBean {
     );
   }
 
-  // SKETCHWARE PRO STYLE: Type-based ID generation with duplicate checking
+
   static String generateId(
       String widgetType, List<FlutterWidgetBean> existingWidgets) {
-    // Get type prefix like Sketchware Pro - BUT USING FLUTTER NAMES
     String prefix = _getTypePrefix(widgetType);
 
-    // Find the next available counter for this type
+
     int counter = 1;
     for (FlutterWidgetBean widget in existingWidgets) {
       if (widget.id.startsWith(prefix)) {
@@ -147,7 +145,6 @@ class FlutterWidgetBean {
             counter = existingCounter + 1;
           }
         } catch (e) {
-          // If parsing fails, continue with current counter
         }
       }
     }
@@ -155,7 +152,6 @@ class FlutterWidgetBean {
     return '$prefix$counter';
   }
 
-  // SKETCHWARE PRO STYLE: Get type prefix for Flutter widgets
   static String _getTypePrefix(String widgetType) {
     switch (widgetType.toLowerCase()) {
       case 'text':
@@ -183,7 +179,6 @@ class FlutterWidgetBean {
     }
   }
 
-  // DEPRECATED: Old simple ID generation (kept for backward compatibility)
   static String generateSimpleId() {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final random = (timestamp % 1000000).toString().padLeft(6, '0');
@@ -194,35 +189,32 @@ class FlutterWidgetBean {
     return properties['text'] ?? type;
   }
 
-  // FLUTTER-SPECIFIC TYPE CONSTANTS (Limited Set - Phase 1)
-  // CATEGORY 1: CORE LAYOUT WIDGETS
   static const int VIEW_TYPE_LAYOUT_ROW = 0;
   static const int VIEW_TYPE_LAYOUT_COLUMN = 1;
   static const int VIEW_TYPE_LAYOUT_CONTAINER = 2;
   static const int VIEW_TYPE_LAYOUT_CENTER = 3;
 
-  // CATEGORY 2: TEXT & INPUT WIDGETS
   static const int VIEW_TYPE_WIDGET_TEXT = 10;
   static const int VIEW_TYPE_WIDGET_TEXTFIELD = 11;
   static const int VIEW_TYPE_WIDGET_ICON = 12;
 
-  // CATEGORY 3: INTERACTIVE WIDGETS
+
   static const int VIEW_TYPE_WIDGET_ELEVATEDBUTTON = 20;
   static const int VIEW_TYPE_WIDGET_ICONBUTTON = 21;
   static const int VIEW_TYPE_WIDGET_CHECKBOX = 22;
 
-  // CATEGORY 4: MATERIAL WIDGETS
+
   static const int VIEW_TYPE_WIDGET_CARD = 30;
   static const int VIEW_TYPE_WIDGET_CHIP = 31;
   static const int VIEW_TYPE_WIDGET_DIVIDER = 32;
 
-  // CATEGORY 5: NAVIGATION & STRUCTURE
+
   static const int VIEW_TYPE_WIDGET_APPBAR = 40;
   static const int VIEW_TYPE_WIDGET_BOTTOMNAVIGATIONBAR = 41;
   static const int VIEW_TYPE_WIDGET_FLOATINGACTIONBUTTON = 42;
 }
 
-/// PositionBean - EXACTLY matches Sketchware Pro's position system
+
 class PositionBean {
   final double x;
   final double y;
@@ -269,7 +261,6 @@ class PositionBean {
   }
 }
 
-/// LayoutBean - EXACTLY matches Sketchware Pro's LayoutBean
 class LayoutBean {
   final int width;
   final int height;
@@ -291,8 +282,8 @@ class LayoutBean {
   final String? backgroundResColor;
 
   LayoutBean({
-    this.width = -2, // WRAP_CONTENT
-    this.height = -2, // WRAP_CONTENT
+    this.width = -2, 
+    this.height = -2, 
     this.marginLeft = 0,
     this.marginTop = 0,
     this.marginRight = 0,
@@ -304,7 +295,7 @@ class LayoutBean {
     this.layoutGravity = 0,
     this.gravity = 0,
     this.weight = 0,
-    this.orientation = 1, // VERTICAL
+    this.orientation = 1, 
     this.weightSum = 0,
     this.backgroundColor = 0xFFFFFFFF,
     this.backgroundResource,
@@ -334,7 +325,6 @@ class LayoutBean {
     );
   }
 
-  // Helper methods for safe parsing
   static int? _parseInt(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;
@@ -428,7 +418,6 @@ class LayoutBean {
     );
   }
 
-  // SKETCHWARE PRO STYLE CONSTANTS
   static const int MATCH_PARENT = -1;
   static const int WRAP_CONTENT = -2;
   static const int GRAVITY_NONE = 0;

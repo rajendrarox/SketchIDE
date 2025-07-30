@@ -151,13 +151,23 @@ class _FrameColumnState extends State<FrameColumn> {
     // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
     final density = MediaQuery.of(context).devicePixelRatio;
 
+    // SKETCHWARE PRO STYLE: Apply padding from layout bean like ItemLinearLayout
+    final padding = EdgeInsets.fromLTRB(
+      widget.widgetBean.layout.paddingLeft * density * widget.scale,
+      widget.widgetBean.layout.paddingTop * density * widget.scale,
+      widget.widgetBean.layout.paddingRight * density * widget.scale,
+      widget.widgetBean.layout.paddingBottom * density * widget.scale,
+    );
+
     return Container(
-      // SKETCHWARE PRO STYLE: Minimum size like ItemLinearLayout
+      // SKETCHWARE PRO STYLE: Minimum size like ItemLinearLayout (32dp)
       constraints: BoxConstraints(
         minWidth:
-            64 * density * widget.scale, // Larger min size like Sketchware Pro
-        minHeight: 64 * density * widget.scale,
+            32 * density * widget.scale, // ✅ EXACT: 32dp like ItemLinearLayout
+        minHeight:
+            32 * density * widget.scale, // ✅ EXACT: 32dp like ItemLinearLayout
       ),
+      padding: padding, // ✅ Apply 8dp padding like Sketchware Pro
       decoration: BoxDecoration(
         color: backgroundColor,
         // EXACT SKETCHWARE PRO: Selection background like ItemLinearLayout.onDraw()

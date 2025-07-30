@@ -201,15 +201,44 @@ class ViewInfoService extends ChangeNotifier {
     }
 
     if (bestViewInfo != null) {
+      // SKETCHWARE PRO STYLE: Calculate hierarchical drop position instead of using cursor position
+      final hierarchicalPosition =
+          _calculateHierarchicalDropPosition(bestViewInfo, widgetSize);
+
       return DropZoneInfo(
         viewInfo: bestViewInfo,
-        position: position,
+        position: hierarchicalPosition,
         size: widgetSize,
         isValid: true,
       );
     }
 
     return null;
+  }
+
+  /// SKETCHWARE PRO STYLE: Calculate hierarchical drop position (like ViewPane.java:782)
+  Offset _calculateHierarchicalDropPosition(
+      ViewInfo viewInfo, Size widgetSize) {
+    // SKETCHWARE PRO STYLE: For root container, drop at top-left with margins
+    if (viewInfo.parentId == null || viewInfo.parentId == 'root') {
+      return Offset(8.0, 8.0);
+    }
+
+    // SKETCHWARE PRO STYLE: For child widgets, drop at the exact hierarchical position
+    // This should be the fixed drop target location, not relative to existing widgets
+    final rect = viewInfo.rect;
+
+    // SKETCHWARE PRO STYLE: Calculate the fixed drop position based on hierarchy
+    // For containers, drop at top-left with margins
+    if (viewInfo.viewType == 'Container' ||
+        viewInfo.viewType == 'LinearLayout' ||
+        viewInfo.viewType == 'RelativeLayout' ||
+        viewInfo.viewType == 'FrameLayout') {
+      return Offset(rect.left + 8.0, rect.top + 8.0);
+    }
+
+    // SKETCHWARE PRO STYLE: For other widgets, drop at their position
+    return Offset(rect.left, rect.top);
   }
 
   /// SKETCHWARE PRO STYLE: Validate drop zone for position (like ViewEditor.java:327)
@@ -493,11 +522,13 @@ class ViewInfoService extends ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    _viewInfos.clear();
-    _registeredWidgets.clear();
-    _registeredWidgetBeans.clear();
-    super.dispose();
+    if (!_disposed) {
+      _disposed = true;
+      _viewInfos.clear();
+      _registeredWidgets.clear();
+      _registeredWidgetBeans.clear();
+      super.dispose();
+    }
   }
 }
 

@@ -41,43 +41,33 @@ class ProjectViewModel extends ChangeNotifier {
   String get sortBy => _sortBy;
 
   // Initialize
-  Future<void> initialize() async {
-    // Don't automatically check storage on initialization
-    // Let the user decide when to grant permissions
-  }
+  Future<void> initialize() async {}
 
-  // Check storage accessibility (don't request automatically)
   Future<void> checkStorageAccessibility() async {
-    print('DEBUG: ProjectViewModel.checkStorageAccessibility() called');
     try {
       _isStorageAccessible =
           await _projectService.isExternalStorageAccessible();
-      print('DEBUG: isExternalStorageAccessible result: $_isStorageAccessible');
       if (!_isStorageAccessible) {
         _error = 'Storage permission required to access external storage';
-        print('DEBUG: Setting error message: $_error');
       } else {
         _error = null;
-        print('DEBUG: Storage accessible, loading projects...');
-        await loadProjects(); // Load projects if storage is accessible
+        await loadProjects();
       }
       notifyListeners();
     } catch (e) {
-      print('ERROR: Exception in checkStorageAccessibility: $e');
       _isStorageAccessible = false;
       _error = 'Error checking storage accessibility: $e';
       notifyListeners();
     }
   }
 
-  // Request storage permission (only when user explicitly requests)
   Future<void> requestStoragePermission() async {
     try {
       final granted = await NativeStorageService.requestStoragePermission();
       if (granted) {
         _isStorageAccessible = true;
         _error = null;
-        await loadProjects(); // Reload projects after permission granted
+        await loadProjects();
       } else {
         _isStorageAccessible = false;
         _error =
@@ -91,26 +81,22 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Open app settings
   Future<void> openAppSettings() async {
     await NativeStorageService.openAppSettings();
   }
 
-  // Load all projects (only if storage is accessible)
   Future<void> loadProjects() async {
     if (!_isStorageAccessible) {
-      // Don't automatically request permission, just return
       return;
     }
 
     _setLoading(true);
     try {
       _projects = await _projectService.getAllProjects();
-      _applyFiltersAndSort(); // Apply current filters and sorting
+      _applyFiltersAndSort();
       _error = null;
     } catch (e) {
       _error = 'Failed to load projects: $e';
-      // Check if it's a permission error
       if (e.toString().contains('permission') ||
           e.toString().contains('Storage')) {
         _isStorageAccessible = false;
@@ -120,21 +106,18 @@ class ProjectViewModel extends ChangeNotifier {
     }
   }
 
-  // Set app name (auto-generates package name)
   void setAppName(String appName) {
     _appName = appName;
     _packageName = _generatePackageName(appName);
-    _projectName = appName; // Default project name to app name
+    _projectName = appName;
     notifyListeners();
   }
 
-  // Set project name
   void setProjectName(String projectName) {
     _projectName = projectName;
     notifyListeners();
   }
 
-  // Set version name
   void setVersionName(String versionName) {
     _versionName = versionName;
     notifyListeners();

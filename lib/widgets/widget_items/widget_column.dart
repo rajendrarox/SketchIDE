@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 
-/// WidgetColumn - Simple palette widget for Column (matches Sketchware Pro's Icon*)
-/// Display-only widget for palette, no interactive features
 class WidgetColumn extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -16,46 +14,35 @@ class WidgetColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60 * scale,
-      height: 80 * scale,
+      width: 80 * scale,
+      height: 120 * scale,
       decoration: BoxDecoration(
-        color: Colors.green[50],
-        border: Border.all(color: Colors.green[300]!, width: 1 * scale),
-        borderRadius: BorderRadius.circular(4 * scale),
+        color: Colors.blue[50],
+        border: Border.all(color: Colors.blue[200]!, width: 2 * scale),
+        borderRadius: BorderRadius.circular(8 * scale),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildSampleItem('1'),
-          _buildSampleItem('2'),
-          _buildSampleItem('3'),
+          Icon(
+            Icons.view_column,
+            size: 24 * scale,
+            color: Colors.blue[600],
+          ),
+          SizedBox(height: 4 * scale),
+          Text(
+            'Column',
+            style: TextStyle(
+              fontSize: 12 * scale,
+              color: Colors.blue[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildSampleItem(String text) {
-    return Container(
-      width: 16 * scale,
-      height: 16 * scale,
-      decoration: BoxDecoration(
-        color: Colors.green[200],
-        borderRadius: BorderRadius.circular(2 * scale),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 8 * scale,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Create a FlutterWidgetBean for Column (matches Sketchware Pro's getBean())
   static FlutterWidgetBean createBean({
     String? id,
     Map<String, dynamic>? properties,
@@ -67,31 +54,27 @@ class WidgetColumn extends StatelessWidget {
         'mainAxisAlignment': 'start',
         'crossAxisAlignment': 'center',
         'mainAxisSize': 'max',
-        'textDirection': 'ltr',
-        'verticalDirection': 'down',
-        'textBaseline': 'alphabetic',
-        'children': [],
         ...?properties,
       },
       children: [],
       position: PositionBean(
         x: 0,
         y: 0,
-        width: 80,
-        height: 120,
+        width: 200,
+        height: 300,
       ),
       events: {},
       layout: LayoutBean(
-        width: -2, // WRAP_CONTENT
-        height: -1, // MATCH_PARENT
+        width: -2,
+        height: -1,
         marginLeft: 0,
         marginTop: 0,
         marginRight: 0,
         marginBottom: 0,
-        paddingLeft: 4,
-        paddingTop: 4,
-        paddingRight: 4,
-        paddingBottom: 4,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
       ),
     );
   }

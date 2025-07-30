@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/flutter_widget_bean.dart';
+import '../services/text_property_service.dart';
+import '../services/color_utils.dart';
+import '../services/icon_utils.dart';
 
 /// ViewDummy - EXACTLY matches Sketchware Pro's ViewDummy functionality
 ///
@@ -82,14 +85,9 @@ class _ViewDummyState extends State<ViewDummy> {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              widget.widgetBean!.properties['text'] ?? 'Text',
-              style: TextStyle(
-                fontSize: (widget.widgetBean!.properties['textSize'] ?? 14.0)
-                    .toDouble(),
-                color:
-                    _parseColor(widget.widgetBean!.properties['textColor']) ??
-                        Colors.black,
-              ),
+              TextPropertyService.getText(widget.widgetBean!.properties),
+              style: TextPropertyService.getTextStyle(
+                  context, widget.widgetBean!.properties, 1.0),
             ),
           );
         case 'Button':
@@ -109,7 +107,7 @@ class _ViewDummyState extends State<ViewDummy> {
             width: 100,
             height: 60,
             decoration: BoxDecoration(
-              color: _parseColor(
+              color: ColorUtils.parseColor(
                       widget.widgetBean!.properties['backgroundColor']) ??
                   Colors.transparent,
               border: Border.all(color: Colors.grey),
@@ -231,11 +229,9 @@ class _ViewDummyState extends State<ViewDummy> {
       case 'Text':
         return Center(
           child: Text(
-            properties['text'] ?? 'Text',
-            style: TextStyle(
-              fontSize:
-                  double.tryParse(properties['fontSize']?.toString() ?? '14') ??
-                      14,
+            TextPropertyService.getText(properties),
+            style: TextPropertyService.getTextStyle(context, properties, 1.0)
+                .copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w500,
             ),
@@ -261,7 +257,7 @@ class _ViewDummyState extends State<ViewDummy> {
       case 'Icon':
         return Center(
           child: Icon(
-            _getIconFromName(properties['icon'] ?? 'star'),
+            IconUtils.getIconFromName(properties['icon'] ?? 'star'),
             color: Colors.white,
             size: double.tryParse(properties['size']?.toString() ?? '24') ?? 24,
           ),
@@ -287,13 +283,13 @@ class _ViewDummyState extends State<ViewDummy> {
       case 'Container':
         return Container(
           decoration: BoxDecoration(
-            color: _parseColor(properties['backgroundColor']),
+            color: ColorUtils.parseColor(properties['backgroundColor']),
             borderRadius: BorderRadius.circular(
               double.tryParse(properties['borderRadius']?.toString() ?? '0') ??
                   0,
             ),
             border: Border.all(
-              color: _parseColor(properties['borderColor']) ??
+              color: ColorUtils.parseColor(properties['borderColor']) ??
                   Colors.white.withOpacity(0.5),
               width: double.tryParse(
                       properties['borderWidth']?.toString() ?? '1') ??
@@ -336,49 +332,6 @@ class _ViewDummyState extends State<ViewDummy> {
         return TextAlign.justify;
       default:
         return TextAlign.start;
-    }
-  }
-
-  IconData _getIconFromName(String iconName) {
-    switch (iconName.toLowerCase()) {
-      case 'star':
-        return Icons.star;
-      case 'home':
-        return Icons.home;
-      case 'settings':
-        return Icons.settings;
-      case 'person':
-        return Icons.person;
-      case 'favorite':
-        return Icons.favorite;
-      case 'search':
-        return Icons.search;
-      case 'add':
-        return Icons.add;
-      case 'edit':
-        return Icons.edit;
-      case 'delete':
-        return Icons.delete;
-      case 'close':
-        return Icons.close;
-      case 'menu':
-        return Icons.menu;
-      case 'more_vert':
-        return Icons.more_vert;
-      case 'arrow_back':
-        return Icons.arrow_back;
-      case 'arrow_forward':
-        return Icons.arrow_forward;
-      case 'check':
-        return Icons.check;
-      case 'info':
-        return Icons.info;
-      case 'warning':
-        return Icons.warning;
-      case 'error':
-        return Icons.error;
-      default:
-        return Icons.star;
     }
   }
 

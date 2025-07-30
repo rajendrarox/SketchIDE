@@ -4,19 +4,17 @@ import '../models/flutter_widget_bean.dart';
 import '../services/widget_factory_service.dart';
 import '../controllers/drag_controller.dart';
 
-/// Widget Palette (Left Sidebar) - EXACTLY matches Sketchware Pro's PaletteWidget
 class WidgetPalette extends StatefulWidget {
   final Function(FlutterWidgetBean) onWidgetSelected;
-  final Function(FlutterWidgetBean, Offset)
-      onWidgetDragged; // Add drag callback
-  final DragController? dragController; // Add drag controller
+  final Function(FlutterWidgetBean, Offset) onWidgetDragged;
+  final DragController? dragController;
   final bool isVisible;
 
   const WidgetPalette({
     super.key,
     required this.onWidgetSelected,
-    required this.onWidgetDragged, // Add drag callback
-    this.dragController, // Add drag controller
+    required this.onWidgetDragged,
+    this.dragController,
     this.isVisible = true,
   });
 
@@ -32,7 +30,7 @@ class _WidgetPaletteState extends State<WidgetPalette> {
     }
 
     return Container(
-      width: 120, // EXACTLY 120dp like Sketchware Pro
+      width: 120,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border(
@@ -43,10 +41,7 @@ class _WidgetPaletteState extends State<WidgetPalette> {
       ),
       child: Column(
         children: [
-          // Create New Widget Card (like Sketchware Pro)
           _buildCreateNewWidgetCard(),
-
-          // Widget List with Sections
           Expanded(
             child: _buildWidgetList(),
           ),
@@ -98,15 +93,10 @@ class _WidgetPaletteState extends State<WidgetPalette> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Layout Section
           _buildSectionHeader('Layout'),
           _buildLayoutWidgets(),
-
-          // Widget Section
           _buildSectionHeader('Widget'),
           _buildWidgetItems(),
-
-          // Bottom padding
           const SizedBox(height: 16),
         ],
       ),
@@ -151,20 +141,15 @@ class _WidgetPaletteState extends State<WidgetPalette> {
 
   Widget _buildDraggableWidgetCard(String type, IconData icon, String label) {
     return Container(
-      margin:
-          const EdgeInsets.fromLTRB(4, 2, 4, 2), // SKETCHWARE PRO: 4dp H, 2dp V
+      margin: const EdgeInsets.fromLTRB(4, 2, 4, 2),
       child: Draggable<FlutterWidgetBean>(
-        // SKETCHWARE PRO STYLE: Create drag data
         data: _createWidgetBean(type, icon, label),
-
-        // SKETCHWARE PRO STYLE: Drag feedback (shadow/parchayi) - RESTORED
-        // This blue feedback follows the finger during drag (like Sketchware Pro)
         feedback: Material(
           elevation: 8,
-          borderRadius: BorderRadius.circular(4), // SKETCHWARE PRO: 4dp radius
+          borderRadius: BorderRadius.circular(4),
           child: Container(
             width: 120,
-            height: 20, // SKETCHWARE PRO: 20dp height
+            height: 20,
             decoration: BoxDecoration(
               color: Colors.blue.shade100,
               borderRadius: BorderRadius.circular(4),
@@ -180,14 +165,12 @@ class _WidgetPaletteState extends State<WidgetPalette> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon,
-                    size: 14,
-                    color: Colors.blue.shade600), // SKETCHWARE PRO: 14dp
-                const SizedBox(width: 4), // SKETCHWARE PRO: 4dp spacing
+                Icon(icon, size: 14, color: Colors.blue.shade600),
+                const SizedBox(width: 4),
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize: 11, // SKETCHWARE PRO: 11sp
+                    fontSize: 11,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue.shade800,
                   ),
@@ -196,56 +179,39 @@ class _WidgetPaletteState extends State<WidgetPalette> {
             ),
           ),
         ),
-
-        // SKETCHWARE PRO STYLE: Drag start feedback
         onDragStarted: () {
-          print('🎯 DRAG STARTED: $type'); // Debug output
           HapticFeedback.mediumImpact();
         },
-
-        // SKETCHWARE PRO STYLE: Drag end feedback
         onDragEnd: (details) {
-          print('🎯 DRAG ENDED: $type at ${details.offset}'); // Debug output
           HapticFeedback.lightImpact();
         },
-
-        // SKETCHWARE PRO STYLE: Child widget - EXACT MATCH (NO TAP BEHAVIOR)
         child: Container(
-          height: 20, // SKETCHWARE PRO: Fixed 20dp height
+          height: 20,
           decoration: BoxDecoration(
-            color: Theme.of(context)
-                .colorScheme
-                .surfaceContainerHigh, // SKETCHWARE PRO: colorSurfaceContainerHigh
-            borderRadius:
-                BorderRadius.circular(4), // SKETCHWARE PRO: 4dp radius
+            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+            borderRadius: BorderRadius.circular(4),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                  width:
-                      8), // INCREASED: 8dp left margin (shifted right, no overlap)
+              const SizedBox(width: 8),
               Icon(
                 icon,
-                size: 14, // SKETCHWARE PRO: 14dp icon
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface, // SKETCHWARE PRO: colorOnSurface
+                size: 14,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
-              const SizedBox(width: 3), // SKETCHWARE PRO: 3dp marginStart
+              const SizedBox(width: 3),
               Expanded(
                 child: Text(
                   label,
                   style: TextStyle(
-                    fontSize: 11, // SKETCHWARE PRO: 11sp
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface, // SKETCHWARE PRO: colorOnSurface
+                    fontSize: 11,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                   textAlign: TextAlign.start,
                 ),
               ),
-              const SizedBox(width: 4), // SKETCHWARE PRO: 4dp marginEnd
+              const SizedBox(width: 4),
             ],
           ),
         ),
@@ -253,27 +219,9 @@ class _WidgetPaletteState extends State<WidgetPalette> {
     );
   }
 
-  // SKETCHWARE PRO STYLE: Create widget bean for drag using factory service
   FlutterWidgetBean _createWidgetBean(
       String type, IconData icon, String label) {
-    // SKETCHWARE PRO STYLE: Use type-based ID generation with existing widgets
-    // For now, we'll use the simple ID since we don't have access to existing widgets here
-    // The proper ID will be generated when the widget is actually added to the design
     return WidgetFactoryService.createWidgetBean(type);
-  }
-
-  // SKETCHWARE PRO STYLE: Get default properties for widget type
-  // DEPRECATED: Now using WidgetFactoryService.createWidgetBean() for strongly typed properties
-  Map<String, dynamic> _getDefaultProperties(String type) {
-    // This method is deprecated - use WidgetFactoryService.createWidgetBean() instead
-    return {};
-  }
-
-  // SKETCHWARE PRO STYLE: Get default layout for widget type
-  // DEPRECATED: Now using WidgetFactoryService.createWidgetBean() for strongly typed properties
-  LayoutBean _getDefaultLayout(String type) {
-    // This method is deprecated - use WidgetFactoryService.createWidgetBean() instead
-    return LayoutBean();
   }
 
   void _showCreateWidgetDialog() {
@@ -290,7 +238,6 @@ class _WidgetPaletteState extends State<WidgetPalette> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              // TODO: Implement custom widget creation
             },
             child: const Text('Create'),
           ),
@@ -299,7 +246,6 @@ class _WidgetPaletteState extends State<WidgetPalette> {
     );
   }
 
-  // SKETCHWARE PRO STYLE: Add widget on tap (restored for potential use)
   void _addWidget(String type) {
     final widgetBean = _createWidgetBean(type, Icons.widgets, type);
     widget.onWidgetSelected(widgetBean);

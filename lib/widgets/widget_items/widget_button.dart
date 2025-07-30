@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 
-/// WidgetButton - Simple palette widget for Button (matches Sketchware Pro's IconButton)
-/// Display-only widget for palette, no interactive features
 class WidgetButton extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -20,19 +18,24 @@ class WidgetButton extends StatelessWidget {
       height: 40 * scale,
       decoration: BoxDecoration(
         color: Colors.blue[600],
-        border: Border.all(color: Colors.grey[300]!, width: 1 * scale),
-        borderRadius: BorderRadius.circular(4 * scale),
+        borderRadius: BorderRadius.circular(8 * scale),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 2 * scale,
+            offset: Offset(0, 1 * scale),
+          ),
+        ],
       ),
       child: Center(
         child: Text(
           _getText(),
           style: TextStyle(
-            fontSize: 12 * scale,
+            fontSize: 14 * scale,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
           textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
         ),
       ),
     );
@@ -42,7 +45,6 @@ class WidgetButton extends StatelessWidget {
     return widgetBean.properties['text'] ?? 'Button';
   }
 
-  /// Create a FlutterWidgetBean for Button (matches Sketchware Pro's getBean())
   static FlutterWidgetBean createBean({
     String? id,
     Map<String, dynamic>? properties,
@@ -55,8 +57,7 @@ class WidgetButton extends StatelessWidget {
         'textSize': 14.0,
         'textColor': 0xFFFFFFFF,
         'backgroundColor': 0xFF2196F3,
-        'cornerRadius': 4.0,
-        'enabled': true,
+        'cornerRadius': 8.0,
         ...?properties,
       },
       children: [],
@@ -64,20 +65,20 @@ class WidgetButton extends StatelessWidget {
         x: 0,
         y: 0,
         width: 120,
-        height: 40,
+        height: 48,
       ),
       events: {},
       layout: LayoutBean(
-        width: -2, // WRAP_CONTENT
-        height: -2, // WRAP_CONTENT
+        width: -2,
+        height: -2,
         marginLeft: 0,
         marginTop: 0,
         marginRight: 0,
         marginBottom: 0,
-        paddingLeft: 8,
-        paddingTop: 8,
-        paddingRight: 8,
-        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingTop: 12,
+        paddingRight: 16,
+        paddingBottom: 12,
       ),
     );
   }

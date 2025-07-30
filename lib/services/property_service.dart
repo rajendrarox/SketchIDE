@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'color_utils.dart';
 import '../models/flutter_widget_bean.dart';
 import '../models/text_properties.dart';
 import '../models/container_properties.dart';
@@ -106,7 +107,7 @@ class PropertyService {
           label: definition.label,
           value: currentValue,
           icon: definition.icon,
-          currentColor: _parseColor(currentValue),
+          currentColor: ColorUtils.parseColor(currentValue) ?? Colors.black,
           onChanged: (color) => onPropertyChanged(definition.key, color.value),
           allowTransparent: definition.allowTransparent ?? false,
           allowNone: definition.allowNone ?? false,
@@ -130,22 +131,6 @@ class PropertyService {
           onChanged: (value) => onPropertyChanged(definition.key, value),
         );
     }
-  }
-
-  /// Parse color from string or int value
-  Color _parseColor(dynamic value) {
-    if (value is int) {
-      return Color(value);
-    } else if (value is String) {
-      if (value.startsWith('#')) {
-        return Color(int.parse(value.substring(1), radix: 16));
-      } else if (value == 'TRANSPARENT') {
-        return Colors.transparent;
-      } else if (value == 'NONE') {
-        return Colors.white;
-      }
-    }
-    return Colors.black;
   }
 
   /// Text widget properties

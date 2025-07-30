@@ -7,6 +7,7 @@ import '../models/icon_properties.dart';
 import '../models/layout_properties.dart';
 import '../models/stack_properties.dart';
 import '../models/button_properties.dart';
+import '../services/text_property_service.dart';
 import '../widgets/widget_items/widget_text.dart';
 import '../widgets/widget_items/widget_container.dart';
 import '../widgets/widget_items/widget_text_field.dart';
@@ -124,15 +125,9 @@ class WidgetFactoryService {
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: {
-            'text': 'Text', // Like Sketchware Pro but Flutter-style
-            'textSize': 14.0,
-            'textColor': '#000000',
-            'textStyle': 'normal',
-            'gravity': 'left',
-          },
+          properties: TextPropertyService.getDefaultProperties(),
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 120, height: 30),
+          position: PositionBean(x: 0, y: 0, width: 50, height: 30),
           events: {},
           layout: LayoutBean(
             width: -2, // WRAP_CONTENT
@@ -161,7 +156,7 @@ class WidgetFactoryService {
           type: type,
           properties: buttonProps.toJson(),
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 100, height: 40),
+          position: PositionBean(x: 0, y: 0, width: 80, height: 40),
           events: {},
           layout: LayoutBean(
             width: -2, // WRAP_CONTENT
@@ -180,15 +175,15 @@ class WidgetFactoryService {
           type: type,
           properties: containerProps.toJson(),
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 150, height: 80),
+          position: PositionBean(x: 0, y: 0, width: 50, height: 30),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -2, // WRAP_CONTENT
-            paddingLeft: 16,
-            paddingTop: 16,
-            paddingRight: 16,
-            paddingBottom: 16,
+            width: -2,
+            height: -2,
+            paddingLeft: 8,
+            paddingTop: 8,
+            paddingRight: 8,
+            paddingBottom: 8,
           ),
         );
 
@@ -197,13 +192,25 @@ class WidgetFactoryService {
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: textFieldProps.toJson(),
+          properties: {
+            'text': '',
+            'hint': 'EditText',
+            'textSize': 14.0,
+            'textColor': '#000000',
+            'hintColor': '#757575',
+            'inputType': 1,
+            'imeOption': 0,
+            'singleLine': 0,
+            'line': 0,
+            'textFont': 'default_font',
+            'textType': 0,
+          },
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 200, height: 50),
+          position: PositionBean(x: 0, y: 0, width: 150, height: 40),
           events: {},
           layout: LayoutBean(
-            width: -1, // MATCH_PARENT
-            height: -2, // WRAP_CONTENT
+            width: -1,
+            height: -2,
             paddingLeft: 8,
             paddingTop: 4,
             paddingRight: 8,
@@ -216,13 +223,18 @@ class WidgetFactoryService {
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
-          properties: iconProps.toJson(),
+          properties: {
+            'iconName': 'image',
+            'iconSize': 24.0,
+            'iconColor': 0xFF000000,
+            'semanticLabel': 'Icon',
+          },
           children: [],
           position: PositionBean(x: 0, y: 0, width: 50, height: 50),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -2, // WRAP_CONTENT
+            width: -2,
+            height: -2,
             paddingLeft: 8,
             paddingTop: 8,
             paddingRight: 8,
@@ -231,7 +243,6 @@ class WidgetFactoryService {
         );
 
       case 'Row':
-        // EXACTLY matches Sketchware Pro's IconLinearHorizontal
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
@@ -242,43 +253,40 @@ class WidgetFactoryService {
             'mainAxisSize': 'max',
           },
           children: [],
-          position: PositionBean(
-              x: 0, y: 0, width: -1, height: 50), // ✅ Force MATCH_PARENT width
+          position: PositionBean(x: 0, y: 0, width: -1, height: -2),
           events: {},
           layout: LayoutBean(
-            width: -1, // MATCH_PARENT (like Sketchware Pro)
-            height: -2, // WRAP_CONTENT
-            paddingLeft: 0, // ✅ No padding to touch edges
-            paddingTop: 0, // ✅ No padding to touch edges
-            paddingRight: 0, // ✅ No padding to touch edges
-            paddingBottom: 0, // ✅ No padding to touch edges
-            orientation: 0, // HORIZONTAL (like Sketchware Pro)
+            width: -1,
+            height: -2,
+            paddingLeft: 8,
+            paddingTop: 8,
+            paddingRight: 8,
+            paddingBottom: 8,
+            orientation: 0,
           ),
         );
 
       case 'Column':
-        // EXACTLY matches Sketchware Pro's IconLinearVertical
         return FlutterWidgetBean(
           id: widgetId,
           type: type,
           properties: {
-            'orientation': 1, // VERTICAL (like Sketchware Pro)
+            'orientation': 1,
             'mainAxisAlignment': 'start',
             'crossAxisAlignment': 'center',
             'mainAxisSize': 'max',
           },
           children: [],
-          position: PositionBean(
-              x: 0, y: 0, width: 50, height: -1), // ✅ Same width as Row (50)
+          position: PositionBean(x: 0, y: 0, width: -2, height: -1),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -1, // MATCH_PARENT (like Sketchware Pro)
-            paddingLeft: 0, // ✅ No padding to touch edges
-            paddingTop: 0, // ✅ No padding to touch edges
-            paddingRight: 0, // ✅ No padding to touch edges
-            paddingBottom: 0, // ✅ No padding to touch edges
-            orientation: 1, // VERTICAL (like Sketchware Pro)
+            width: -2,
+            height: -1,
+            paddingLeft: 8,
+            paddingTop: 8,
+            paddingRight: 8,
+            paddingBottom: 8,
+            orientation: 1,
           ),
         );
 
@@ -289,11 +297,15 @@ class WidgetFactoryService {
           type: type,
           properties: stackProps.toJson(),
           children: [],
-          position: PositionBean(x: 0, y: 0, width: 200, height: 100),
+          position: PositionBean(x: 0, y: 0, width: 100, height: 60),
           events: {},
           layout: LayoutBean(
-            width: -1, // MATCH_PARENT
-            height: -1, // MATCH_PARENT
+            width: -1,
+            height: -1,
+            paddingLeft: 8,
+            paddingTop: 8,
+            paddingRight: 8,
+            paddingBottom: 8,
           ),
         );
 
@@ -309,8 +321,8 @@ class WidgetFactoryService {
           position: PositionBean(x: 0, y: 0, width: 150, height: 80),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -2, // WRAP_CONTENT
+            width: -2,
+            height: -2,
             paddingLeft: 16,
             paddingTop: 16,
             paddingRight: 16,
@@ -323,11 +335,6 @@ class WidgetFactoryService {
   /// Get strongly typed properties from FlutterWidgetBean
   /// This provides type-safe access to widget properties
   static dynamic getTypedProperties(FlutterWidgetBean widgetBean) {
-    // SKETCHWARE PRO STYLE: Debug logging for property type resolution
-    print('🔧 GETTING TYPED PROPERTIES: ${widgetBean.id}');
-    print('🔧 PROPERTIES: ${widgetBean.properties}');
-
-    // SKETCHWARE PRO STYLE: Auto-detect widget type from properties if type is wrong
     String actualType = widgetBean.type;
     if (widgetBean.properties.containsKey('orientation') &&
         widgetBean.properties.containsKey('mainAxisAlignment') &&
@@ -337,10 +344,6 @@ class WidgetFactoryService {
         actualType = 'Column';
       } else if (orientation == 0) {
         actualType = 'Row';
-      }
-      if (actualType != widgetBean.type) {
-        print(
-            '🔄 AUTO-CORRECTING PROPERTY TYPE: ${widgetBean.type} -> $actualType');
       }
     }
 
@@ -368,10 +371,197 @@ class WidgetFactoryService {
         return StackProperties.fromJson(widgetBean.properties);
 
       default:
-        // SKETCHWARE PRO STYLE: Enhanced error handling for unknown types
-        print('⚠️ UNKNOWN WIDGET TYPE: ${widgetBean.type}');
-        print('⚠️ WIDGET PROPERTIES: ${widgetBean.properties}');
-        return widgetBean.properties; // Fallback to dynamic map
+        return widgetBean.properties;
+    }
+  }
+
+  /// Get default properties for widget type (centralized)
+  static Map<String, dynamic> getDefaultProperties(String widgetType) {
+    switch (widgetType) {
+      case 'Text':
+        return TextPropertyService.getDefaultProperties();
+      case 'TextField':
+        return {
+          'text': '',
+          'hint': 'Enter text',
+          'inputType': 'text',
+          'singleLine': 'true',
+          'lines': '1',
+          'textSize': '14.0',
+          'textColor': '#000000',
+          'hintColor': '#757575',
+          'backgroundColor': '#FFFFFF',
+        };
+      case 'Container':
+        return {
+          'backgroundColor': '#FFFFFF',
+          'borderColor': '#60000000',
+          'borderWidth': '1.0',
+          'borderRadius': '0.0',
+          'alignment': 'center',
+        };
+      case 'Icon':
+        return {
+          'iconName': 'star',
+          'iconSize': 24.0,
+          'iconColor': '#000000',
+          'backgroundColor': '#FFFFFF',
+        };
+      case 'Row':
+        return {
+          'mainAxisAlignment': 'start',
+          'crossAxisAlignment': 'center',
+          'mainAxisSize': 'max',
+          'backgroundColor': '#FFFFFF',
+        };
+      case 'Column':
+        return {
+          'mainAxisAlignment': 'start',
+          'crossAxisAlignment': 'center',
+          'mainAxisSize': 'max',
+          'backgroundColor': '#FFFFFF',
+        };
+      case 'Stack':
+        return {
+          'alignment': 'topLeft',
+          'fit': 'loose',
+          'backgroundColor': '#FFFFFF',
+        };
+      case 'Button':
+        return {
+          'text': 'Button',
+          'textSize': 14.0,
+          'textColor': '#FFFFFF',
+          'backgroundColor': '#2196F3',
+          'cornerRadius': 8.0,
+        };
+      default:
+        return {
+          'backgroundColor': '#FFFFFF',
+        };
+    }
+  }
+
+  /// Get default layout for widget type (centralized)
+  static LayoutBean getDefaultLayout(String widgetType) {
+    switch (widgetType) {
+      case 'Text':
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 8,
+          paddingTop: 4,
+          paddingRight: 8,
+          paddingBottom: 4,
+        );
+      case 'Button':
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 16,
+          paddingTop: 12,
+          paddingRight: 16,
+          paddingBottom: 12,
+        );
+      case 'Container':
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 0,
+          paddingTop: 0,
+          paddingRight: 0,
+          paddingBottom: 0,
+        );
+      case 'TextField':
+        return LayoutBean(
+          width: -1,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 8,
+          paddingTop: 4,
+          paddingRight: 8,
+          paddingBottom: 4,
+        );
+      case 'Icon':
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 8,
+          paddingTop: 8,
+          paddingRight: 8,
+          paddingBottom: 8,
+        );
+      case 'Row':
+        return LayoutBean(
+          width: -1,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 0,
+          paddingTop: 0,
+          paddingRight: 0,
+          paddingBottom: 0,
+        );
+      case 'Column':
+        return LayoutBean(
+          width: -2,
+          height: -1,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 0,
+          paddingTop: 0,
+          paddingRight: 0,
+          paddingBottom: 0,
+        );
+      case 'Stack':
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 0,
+          paddingTop: 0,
+          paddingRight: 0,
+          paddingBottom: 0,
+        );
+      default:
+        return LayoutBean(
+          width: -2,
+          height: -2,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
+          paddingLeft: 8,
+          paddingTop: 8,
+          paddingRight: 8,
+          paddingBottom: 8,
+        );
     }
   }
 }

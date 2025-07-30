@@ -78,14 +78,21 @@ class _FrameContainerState extends State<FrameContainer> {
     final density = MediaQuery.of(context).devicePixelRatio;
 
     // SKETCHWARE PRO STYLE: Handle width/height like ViewPane.updateLayout()
-    double width = position.width * widget.scale;
-    double height = position.height * widget.scale;
+    double? width = position.width * widget.scale;
+    double? height = position.height * widget.scale;
 
-    // SKETCHWARE PRO STYLE: If width/height are positive, convert dp to pixels
-    if (layout.width > 0) {
+    // SKETCHWARE PRO STYLE: Handle MATCH_PARENT and positive values
+    if (layout.width == -1) {
+      // MATCH_PARENT - Mobile frame handles width via Positioned(right: 0)
+      width = null; // ✅ Let parent constraints determine width
+    } else if (layout.width > 0) {
       width = layout.width * density * widget.scale;
     }
-    if (layout.height > 0) {
+
+    if (layout.height == -1) {
+      // MATCH_PARENT - Let Container handle full height
+      height = null; // ✅ Let parent constraints determine height
+    } else if (layout.height > 0) {
       height = layout.height * density * widget.scale;
     }
 
@@ -128,12 +135,21 @@ class _FrameContainerState extends State<FrameContainer> {
         child: Container(
           key: _widgetKey,
           // SKETCHWARE PRO STYLE: Use exact width/height like ItemCardView
-          width: width > 0 ? width : null,
-          height: height > 0 ? height : null,
+          width: width != null && width! > 0
+              ? width
+              : null, // ✅ Handle nullable width
+          height: height != null && height! > 0
+              ? height
+              : null, // ✅ Handle nullable height
           // SKETCHWARE PRO STYLE: Minimum size like ItemCardView (32dp)
           constraints: BoxConstraints(
-            minWidth: 32 * density * widget.scale,
-            minHeight: 32 * density * widget.scale,
+            minWidth: width == null
+                ? 0
+                : 32 *
+                    density *
+                    widget.scale, // ✅ No minWidth when using parent constraints
+            minHeight:
+                32 * density * widget.scale, // ✅ EXACT: 32dp like ItemCardView
           ),
           child: _buildContainerContent(),
         ),
@@ -151,36 +167,48 @@ class _FrameContainerState extends State<FrameContainer> {
 
     // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
     final density = MediaQuery.of(context).devicePixelRatio;
-    final scaledBorderWidth = borderWidth * density * widget.scale;
+    final scaledBorderWidth = borderWidth *
+        widget.scale; // Match Row widget - no density multiplication
     final scaledBorderRadius = borderRadius * density * widget.scale;
     final scaledFontSize = 12 * density * widget.scale;
 
+    // SKETCHWARE PRO STYLE: Apply padding from layout bean like ItemRelativeLayout
+    final padding = EdgeInsets.fromLTRB(
+      widget.widgetBean.layout.paddingLeft * density * widget.scale,
+      widget.widgetBean.layout.paddingTop * density * widget.scale,
+      widget.widgetBean.layout.paddingRight * density * widget.scale,
+      widget.widgetBean.layout.paddingBottom * density * widget.scale,
+    );
+
     return Container(
-      // SKETCHWARE PRO STYLE: Minimum size like ItemCardView
-      constraints: BoxConstraints(
-        minWidth: 32 * density * widget.scale,
-        minHeight: 32 * density * widget.scale,
-      ),
+      // FLUTTER CONTAINER STYLE: Basic container like Flutter Container
+      width: double.infinity, // ✅ FORCE FULL WIDTH
+      // FLUTTER CONTAINER STYLE: No height constraint - let content determine height
+      padding: padding, // ✅ Apply padding
       decoration: BoxDecoration(
-        // SKETCHWARE PRO STYLE: Background color handling like ItemCardView
         color: backgroundColor,
+        // FLUTTER CONTAINER STYLE: Basic border like Flutter Container
         border: Border.all(
           color: borderColor,
           width: scaledBorderWidth,
         ),
         borderRadius: BorderRadius.circular(scaledBorderRadius),
+        // FLUTTER CONTAINER STYLE: Selection highlight only
+        boxShadow: widget.selectionService?.selectedWidget?.id ==
+                widget.widgetBean.id
+            ? [
+                BoxShadow(
+                  color:
+                      const Color(0x9599d5d0), // Sketchware Pro selection color
+                  blurRadius: 0,
+                  spreadRadius: 2.0 * widget.scale,
+                ),
+              ]
+            : null,
       ),
       child: childWidgets.isNotEmpty
           ? Stack(children: childWidgets)
-          : Center(
-              child: Text(
-                'Container',
-                style: TextStyle(
-                  fontSize: scaledFontSize,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ),
+          : Container(), // Clean empty container - no placeholder text or icon
     );
   }
 
@@ -209,34 +237,92 @@ class _FrameContainerState extends State<FrameContainer> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get background color (matches ItemCardView)
+  /// EXACT SKETCHWARE PRO: Build empty container placeholder like ItemCardView
+  Widget _buildEmptyContainerPlaceholder() {
+    return Container(
+      width: double.infinity, // ✅ ENSURE PLACEHOLDER ALSO TAKES FULL WIDTH
+      padding: EdgeInsets.all(8 * widget.scale),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // EXACT SKETCHWARE PRO: Container icon like Sketchware Pro
+          Container(
+            width: 20 * widget.scale,
+            height: 12 * widget.scale,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color(0xFF666666),
+                width: 1 * widget.scale,
+              ),
+              borderRadius: BorderRadius.circular(2 * widget.scale),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.all(1 * widget.scale),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFCCCCCC),
+                      borderRadius: BorderRadius.circular(1 * widget.scale),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 1 * widget.scale),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.all(1 * widget.scale),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFCCCCCC),
+                      borderRadius: BorderRadius.circular(1 * widget.scale),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 6 * widget.scale),
+          Text(
+            'Container',
+            style: TextStyle(
+              fontSize: 11 * widget.scale,
+              color: const Color(0xFF666666),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// SKETCHWARE PRO STYLE: Get background color (matches Row widget)
   Color _getBackgroundColor() {
     final color = widget.widgetBean.properties['backgroundColor'];
     if (color != null) {
       if (color is int) {
-        // SKETCHWARE PRO STYLE: Handle 0xffffff as white
+        // SKETCHWARE PRO STYLE: Handle 0xffffff as transparent (matches Row widget)
         if (color == 0xffffff) {
-          return Colors.white;
+          return Colors.transparent;
         }
         return Color(color);
       } else if (color is String && color.startsWith('#')) {
         try {
           final colorInt =
               int.parse(color.substring(1), radix: 16) + 0xFF000000;
-          // SKETCHWARE PRO STYLE: Handle #FFFFFF as white
+          // SKETCHWARE PRO STYLE: Handle #FFFFFF as transparent (matches Row widget)
           if (colorInt == 0xFFFFFFFF) {
-            return Colors.white;
+            return Colors.transparent;
           }
           return Color(colorInt);
         } catch (e) {
-          return Colors.white;
+          return Colors.transparent;
         }
       }
     }
-    return Colors.white;
+    return Colors.transparent;
   }
 
-  /// SKETCHWARE PRO STYLE: Get border color
+  /// SKETCHWARE PRO STYLE: Get border color (matches Row widget)
   Color _getBorderColor() {
     final color = widget.widgetBean.properties['borderColor'];
     if (color != null) {
@@ -244,13 +330,20 @@ class _FrameContainerState extends State<FrameContainer> {
         return Color(color);
       } else if (color is String && color.startsWith('#')) {
         try {
-          return Color(int.parse(color.substring(1), radix: 16) + 0xFF000000);
+          // Handle semi-transparent colors like #60000000 (matches Row widget)
+          if (color.length == 9) {
+            // 8-digit hex with alpha (e.g., #60000000)
+            return Color(int.parse(color.substring(1), radix: 16));
+          } else {
+            // 6-digit hex without alpha (e.g., #CCCCCC)
+            return Color(int.parse(color.substring(1), radix: 16) + 0xFF000000);
+          }
         } catch (e) {
-          return Colors.grey[300]!;
+          return const Color(0x60000000); // Default to Row widget border color
         }
       }
     }
-    return Colors.grey[300]!;
+    return const Color(0x60000000); // Default to Row widget border color
   }
 
   /// SKETCHWARE PRO STYLE: Get border width
@@ -266,7 +359,7 @@ class _FrameContainerState extends State<FrameContainer> {
     return 1.0;
   }
 
-  /// SKETCHWARE PRO STYLE: Get border radius
+  /// FLUTTER CONTAINER STYLE: Get border radius
   double _getBorderRadius() {
     final borderRadius = widget.widgetBean.properties['borderRadius'];
     if (borderRadius != null) {
@@ -276,7 +369,7 @@ class _FrameContainerState extends State<FrameContainer> {
         return borderRadius;
       }
     }
-    return 4.0;
+    return 0.0; // Flutter Container default - no border radius
   }
 
   /// SKETCHWARE PRO STYLE: Get padding

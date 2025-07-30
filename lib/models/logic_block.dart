@@ -15,7 +15,6 @@ class LogicBlock {
     this.targetEvent,
   });
 
-  // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -27,7 +26,6 @@ class LogicBlock {
     };
   }
 
-  // Create from JSON
   factory LogicBlock.fromJson(Map<String, dynamic> json) {
     return LogicBlock(
       id: json['id'],
@@ -39,7 +37,6 @@ class LogicBlock {
     );
   }
 
-  // Copy with updates
   LogicBlock copyWith({
     String? id,
     String? type,

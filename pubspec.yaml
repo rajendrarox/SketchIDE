@@ -24,6 +24,9 @@ dependencies:
   archive: ^3.4.10
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.0
+  flutter_highlight: ^0.7.0
+  highlight: ^0.7.0
+  yaml: ^3.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,5 +1,4 @@
-/// ContainerProperties - EXACTLY matches Sketchware Pro's Container pattern
-/// Strongly typed properties for Container widgets to avoid type conversion issues
+
 class ContainerProperties {
   final int width;
   final int height;
@@ -10,8 +9,8 @@ class ContainerProperties {
   final String alignment;
 
   const ContainerProperties({
-    this.width = -2, // WRAP_CONTENT
-    this.height = -2, // WRAP_CONTENT
+    this.width = -2, 
+    this.height = -2, 
     this.backgroundColor = '#FFFFFF',
     this.borderColor = '#CCCCCC',
     this.borderWidth = 1.0,
@@ -63,7 +62,7 @@ class ContainerProperties {
     );
   }
 
-  // Safe parsing methods
+
   static int? _parseInt(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;

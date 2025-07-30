@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 
-/// WidgetStack - Simple palette widget for Stack (matches Sketchware Pro's Icon*)
-/// Display-only widget for palette, no interactive features
 class WidgetStack extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -17,50 +15,55 @@ class WidgetStack extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 80 * scale,
-      height: 60 * scale,
+      height: 80 * scale,
       decoration: BoxDecoration(
         color: Colors.purple[50],
-        border: Border.all(color: Colors.purple[300]!, width: 1 * scale),
-        borderRadius: BorderRadius.circular(4 * scale),
+        border: Border.all(color: Colors.purple[200]!, width: 2 * scale),
+        borderRadius: BorderRadius.circular(8 * scale),
       ),
       child: Stack(
         children: [
-          _buildSampleItem('1', Alignment.topLeft),
-          _buildSampleItem('2', Alignment.center),
-          _buildSampleItem('3', Alignment.bottomRight),
+          Positioned(
+            top: 8 * scale,
+            left: 8 * scale,
+            child: Container(
+              width: 20 * scale,
+              height: 20 * scale,
+              decoration: BoxDecoration(
+                color: Colors.purple[300],
+                borderRadius: BorderRadius.circular(4 * scale),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20 * scale,
+            left: 20 * scale,
+            child: Container(
+              width: 20 * scale,
+              height: 20 * scale,
+              decoration: BoxDecoration(
+                color: Colors.purple[400],
+                borderRadius: BorderRadius.circular(4 * scale),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 32 * scale,
+            left: 32 * scale,
+            child: Container(
+              width: 20 * scale,
+              height: 20 * scale,
+              decoration: BoxDecoration(
+                color: Colors.purple[500],
+                borderRadius: BorderRadius.circular(4 * scale),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildSampleItem(String text, Alignment alignment) {
-    return Positioned(
-      left: alignment.x < 0 ? 4 * scale : null,
-      right: alignment.x > 0 ? 4 * scale : null,
-      top: alignment.y < 0 ? 4 * scale : null,
-      bottom: alignment.y > 0 ? 4 * scale : null,
-      child: Container(
-        width: 20 * scale,
-        height: 20 * scale,
-        decoration: BoxDecoration(
-          color: Colors.purple[200],
-          borderRadius: BorderRadius.circular(10 * scale),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 10 * scale,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Create a FlutterWidgetBean for Stack (matches Sketchware Pro's getBean())
   static FlutterWidgetBean createBean({
     String? id,
     Map<String, dynamic>? properties,
@@ -72,28 +75,27 @@ class WidgetStack extends StatelessWidget {
         'alignment': 'topLeft',
         'fit': 'loose',
         'clipBehavior': 'hardEdge',
-        'children': [],
         ...?properties,
       },
       children: [],
       position: PositionBean(
         x: 0,
         y: 0,
-        width: 120,
-        height: 80,
+        width: 200,
+        height: 200,
       ),
       events: {},
       layout: LayoutBean(
-        width: -2, // WRAP_CONTENT
-        height: -2, // WRAP_CONTENT
+        width: -2,
+        height: -2,
         marginLeft: 0,
         marginTop: 0,
         marginRight: 0,
         marginBottom: 0,
-        paddingLeft: 4,
-        paddingTop: 4,
-        paddingRight: 4,
-        paddingBottom: 4,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
       ),
     );
   }

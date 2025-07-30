@@ -374,14 +374,7 @@ class _ProjectListViewState extends State<ProjectListView> {
                                 height: 60,
                                 fit: BoxFit.cover,
                               )
-                            : Container(
-                                color: Colors.blue[50],
-                                child: Icon(
-                                  Icons.android,
-                                  size: 30,
-                                  color: Colors.blue[600],
-                                ),
-                              ),
+                            : _buildDefaultAppIcon(project.projectInfo.appName),
                       ),
                       // Project ID overlay (like Sketchware Pro)
                       Positioned(
@@ -1094,5 +1087,65 @@ class _ProjectListViewState extends State<ProjectListView> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Widget _buildDefaultAppIcon(String appName) {
+    final initials = _getAppInitials(appName);
+    final color = _getColorFromString(appName);
+
+    return Container(
+      color: color,
+      child: Center(
+        child: Text(
+          initials,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _getAppInitials(String appName) {
+    if (appName.isEmpty) return 'A';
+
+    final words = appName.trim().split(' ');
+    if (words.length == 1) {
+      return appName.substring(0, 1).toUpperCase();
+    }
+
+    final firstWord = words[0];
+    final lastWord = words.last;
+
+    if (firstWord == lastWord) {
+      return firstWord.substring(0, 1).toUpperCase();
+    }
+
+    return '${firstWord.substring(0, 1)}${lastWord.substring(0, 1)}'
+        .toUpperCase();
+  }
+
+  Color _getColorFromString(String text) {
+    final colors = [
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.teal,
+      Colors.indigo,
+      Colors.pink,
+      Colors.cyan,
+      Colors.amber,
+      Colors.deepPurple,
+    ];
+
+    int hash = 0;
+    for (int i = 0; i < text.length; i++) {
+      hash = text.codeUnitAt(i) + ((hash << 5) - hash);
+    }
+
+    return colors[hash.abs() % colors.length];
   }
 }

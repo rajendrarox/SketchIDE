@@ -1,5 +1,4 @@
-/// ButtonProperties - EXACTLY matches Sketchware Pro's IconButton properties
-/// Handles Button widget properties with proper typing
+
 class ButtonProperties {
   final String text;
   final double textSize;
@@ -21,7 +20,7 @@ class ButtonProperties {
     required this.enabled,
   });
 
-  /// Create from JSON map (like Sketchware Pro's ViewBean properties)
+
   factory ButtonProperties.fromJson(Map<String, dynamic> json) {
     return ButtonProperties(
       text: json['text'] ?? 'Button',
@@ -35,7 +34,7 @@ class ButtonProperties {
     );
   }
 
-  /// Convert to JSON map (like Sketchware Pro's ViewBean properties)
+
   Map<String, dynamic> toJson() {
     return {
       'text': text,
@@ -49,7 +48,7 @@ class ButtonProperties {
     };
   }
 
-  /// Create a copy with updated values (like Sketchware Pro's ViewBean.copyWith)
+
   ButtonProperties copyWith({
     String? text,
     double? textSize,

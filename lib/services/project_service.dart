@@ -8,6 +8,7 @@ import '../models/sketchide_project.dart';
 import '../models/project_complexity.dart';
 import 'native_storage_service.dart';
 import 'adaptive_file_generator.dart';
+import 'dart:math' as math;
 
 class ProjectService {
   // Sketchware Pro-style directory structure
@@ -115,6 +116,54 @@ class ProjectService {
     return logicDir;
   }
 
+  // Get project widgets cache directory (like Sketchware Pro's widget cache)
+  Future<String> getProjectWidgetsDirectory(String projectId) async {
+    final filesDir = await getProjectFilesDirectory(projectId);
+    final widgetsDir = path.join(filesDir, 'widgets');
+    await Directory(widgetsDir).create(recursive: true);
+    return widgetsDir;
+  }
+
+  // Get global libraries directory (like Sketchware Pro's libs)
+  Future<String> getGlobalLibsDirectory() async {
+    final rootDir = await getSketchideRootDirectory();
+    final libsDir = path.join(rootDir, _libsDir);
+    await Directory(libsDir).create(recursive: true);
+    return libsDir;
+  }
+
+  // Get global resources directory (like Sketchware Pro's resources)
+  Future<String> getGlobalResourcesDirectory() async {
+    final rootDir = await getSketchideRootDirectory();
+    final resourcesDir = path.join(rootDir, _resourcesDir);
+    await Directory(resourcesDir).create(recursive: true);
+    return resourcesDir;
+  }
+
+  // Get temporary files directory (like Sketchware Pro's temp)
+  Future<String> getTempDirectory() async {
+    final rootDir = await getSketchideRootDirectory();
+    final tempDir = path.join(rootDir, _tempDir);
+    await Directory(tempDir).create(recursive: true);
+    return tempDir;
+  }
+
+  // Get backup directory (like Sketchware Pro's bak)
+  Future<String> getBackupDirectory() async {
+    final rootDir = await getSketchideRootDirectory();
+    final bakDir = path.join(rootDir, _bakDir);
+    await Directory(bakDir).create(recursive: true);
+    return bakDir;
+  }
+
+  // Get download directory (like Sketchware Pro's download)
+  Future<String> getDownloadDirectory() async {
+    final rootDir = await getSketchideRootDirectory();
+    final downloadDir = path.join(rootDir, _downloadDir);
+    await Directory(downloadDir).create(recursive: true);
+    return downloadDir;
+  }
+
   // Request storage permissions (only when explicitly called)
   Future<void> _requestStoragePermissions() async {
     if (Platform.isAndroid) {
@@ -131,10 +180,35 @@ class ProjectService {
   }
 
   // Generate unique project ID (like Sketchware Pro's sc_id)
-  String _generateProjectId() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final random = (timestamp % 1000000).toString().padLeft(6, '0');
-    return 'sketchide_$timestamp$random';
+  Future<String> _generateProjectId() async {
+    // SKETCHWARE PRO STYLE: Start from 601 and find highest existing ID
+    int nextId = 601;
+
+    try {
+      final listDir = await getProjectListDirectory();
+      final projectListFile = File(path.join(listDir, 'projects.json'));
+
+      if (await projectListFile.exists()) {
+        final content = await projectListFile.readAsString();
+        final List<dynamic> projectList = jsonDecode(content);
+
+        // Find the highest existing project ID
+        for (final project in projectList) {
+          final projectId = project['project_id'] as String;
+          // Extract numeric part from project ID
+          final numericId = int.tryParse(projectId) ?? 0;
+          nextId = math.max(nextId, numericId + 1);
+        }
+      }
+    } catch (e) {
+      print('Error reading project list for ID generation: $e');
+      // Fallback to timestamp-based ID if there's an error
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final random = (timestamp % 1000000).toString().padLeft(6, '0');
+      return 'sketchide_$timestamp$random';
+    }
+
+    return nextId.toString();
   }
 
   // Create new project with adaptive structure
@@ -148,7 +222,7 @@ class ProjectService {
     ProjectTemplate template = ProjectTemplate.helloWorld,
   }) async {
     // Create project with specified template
-    final project = SketchIDEProject.createEmpty(
+    final project = await SketchIDEProject.createEmpty(
       appName: appName,
       packageName: packageName,
       projectName: projectName,
@@ -191,14 +265,23 @@ class ProjectService {
     // Create files subdirectory
     final filesDir = await getProjectFilesDirectory(projectId);
 
-    // Create subdirectories
+    // Create project subdirectories
     await getProjectLibDirectory(projectId);
     await getProjectAssetsDirectory(projectId);
     await getProjectResourcesDirectory(projectId);
     await getProjectUIDirectory(projectId);
     await getProjectLogicDirectory(projectId);
+    await getProjectWidgetsDirectory(projectId);
 
-    print('Created project directory structure: $projectDir');
+    // Create global system directories (like Sketchware Pro)
+    await getGlobalLibsDirectory();
+    await getGlobalResourcesDirectory();
+    await getTempDirectory();
+    await getBackupDirectory();
+    await getDownloadDirectory();
+
+    print(
+        'Created complete Sketchware Pro-style directory structure: $projectDir');
   }
 
   // Save project metadata (like Sketchware Pro's project.json)
@@ -591,7 +674,7 @@ flutter:
     final projectData = jsonDecode(jsonString) as Map<String, dynamic>;
 
     // Create new project with imported data
-    final project = SketchIDEProject.createEmpty(
+    final project = await SketchIDEProject.createEmpty(
       appName: projectData['app_name'] ?? 'Imported Project',
       packageName: projectData['package_name'] ?? 'com.sketchide.imported',
       projectName: projectData['project_name'] ?? 'Imported Project',
@@ -601,7 +684,7 @@ flutter:
     );
 
     // Generate new project ID and create directory structure
-    final projectId = _generateProjectId();
+    final projectId = await _generateProjectId();
     await _createProjectDirectoryStructure(projectId, project);
     await _saveProjectMetadata(projectId, project);
     await _addToProjectList(projectId, project);

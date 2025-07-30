@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/flutter_widget_bean.dart';
+import 'text_property_service.dart';
+import 'color_utils.dart';
 
 /// Widget Update Service - EXACTLY matches Sketchware Pro's updateItemView functionality
 /// Handles widget-specific property updates for real-time changes
@@ -58,19 +60,19 @@ class WidgetUpdateService {
   Widget updateTextWidget(Widget widget, FlutterWidgetBean widgetBean) {
     if (widget is! Text) return widget;
 
-    final text = widgetBean.properties['text'] ?? 'Text';
-    final textSize = widgetBean.properties['textSize'] ?? 14.0;
-    final textColor = widgetBean.properties['textColor'] ?? Colors.black;
-    final textType = widgetBean.properties['textType'] ?? 'normal';
+    final text = TextPropertyService.getText(widgetBean.properties);
     final lines = widgetBean.properties['lines'] ?? 1;
     final singleLine = widgetBean.properties['singleLine'] ?? false;
 
     return Text(
       text,
       style: TextStyle(
-        fontSize: _parseDouble(textSize),
-        color: _parseColor(textColor),
-        fontWeight: _getFontWeight(textType),
+        fontSize: _parseDouble(widgetBean.properties['textSize'] ?? 14.0),
+        color: ColorUtils.parseColor(
+                widgetBean.properties['textColor'] ?? '#000000') ??
+            Colors.black,
+        fontWeight:
+            _getFontWeight(widgetBean.properties['textType'] ?? 'normal'),
       ),
       maxLines: singleLine ? 1 : _parseInt(lines),
       overflow: singleLine ? TextOverflow.ellipsis : null,
@@ -89,7 +91,8 @@ class WidgetUpdateService {
       controller: TextEditingController(text: text),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: _parseColor(hintColor)),
+        hintStyle:
+            TextStyle(color: ColorUtils.parseColor(hintColor) ?? Colors.grey),
       ),
     );
   }
@@ -107,9 +110,9 @@ class WidgetUpdateService {
 
     return Container(
       decoration: BoxDecoration(
-        color: _parseColor(backgroundColor),
+        color: ColorUtils.parseColor(backgroundColor) ?? Colors.transparent,
         border: Border.all(
-          color: _parseColor(borderColor),
+          color: ColorUtils.parseColor(borderColor) ?? Colors.grey,
           width: _parseDouble(borderWidth),
         ),
         borderRadius: BorderRadius.circular(_parseDouble(borderRadius)),
@@ -129,7 +132,7 @@ class WidgetUpdateService {
     return Icon(
       _parseIconData(iconName),
       size: _parseDouble(iconSize),
-      color: _parseColor(iconColor),
+      color: ColorUtils.parseColor(iconColor) ?? Colors.black,
     );
   }
 
@@ -209,39 +212,6 @@ class WidgetUpdateService {
       }
     }
     return 0;
-  }
-
-  Color _parseColor(dynamic value) {
-    if (value is Color) return value;
-    if (value is int) return Color(value);
-    if (value is String) {
-      if (value.startsWith('0x')) {
-        try {
-          return Color(int.parse(value));
-        } catch (e) {
-          return Colors.black;
-        }
-      }
-      // Handle color names
-      switch (value.toLowerCase()) {
-        case 'red':
-          return Colors.red;
-        case 'green':
-          return Colors.green;
-        case 'blue':
-          return Colors.blue;
-        case 'black':
-          return Colors.black;
-        case 'white':
-          return Colors.white;
-        case 'grey':
-        case 'gray':
-          return Colors.grey;
-        default:
-          return Colors.black;
-      }
-    }
-    return Colors.black;
   }
 
   FontWeight _getFontWeight(String textType) {

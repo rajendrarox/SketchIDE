@@ -1,5 +1,3 @@
-/// IconProperties - EXACTLY matches Sketchware Pro's Icon pattern
-/// Strongly typed properties for Icon widgets to avoid type conversion issues
 class IconProperties {
   final String iconName;
   final double iconSize;
@@ -45,7 +43,6 @@ class IconProperties {
     );
   }
 
-  // Safe parsing methods
   static double? _parseDouble(dynamic value) {
     if (value == null) return null;
     if (value is double) return value;

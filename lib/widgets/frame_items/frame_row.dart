@@ -147,7 +147,9 @@ class _FrameRowState extends State<FrameRow> {
                 : 32 *
                     density *
                     widget.scale, // ✅ No minWidth when using parent constraints
-            minHeight: 32 * density * widget.scale,
+            minHeight: 32 *
+                density *
+                widget.scale, // ✅ EXACT: 32dp like ItemLinearLayout
           ),
           child: _buildRowContent(),
         ),
@@ -166,14 +168,19 @@ class _FrameRowState extends State<FrameRow> {
     final density = MediaQuery.of(context).devicePixelRatio;
     final scaledFontSize = 12 * density * widget.scale;
 
+    // SKETCHWARE PRO STYLE: Apply padding from layout bean like ItemLinearLayout
+    final padding = EdgeInsets.fromLTRB(
+      widget.widgetBean.layout.paddingLeft * density * widget.scale,
+      widget.widgetBean.layout.paddingTop * density * widget.scale,
+      widget.widgetBean.layout.paddingRight * density * widget.scale,
+      widget.widgetBean.layout.paddingBottom * density * widget.scale,
+    );
+
     return Container(
       // SKETCHWARE PRO STYLE: Full width container like ItemLinearLayout
       width: double.infinity, // ✅ FORCE FULL WIDTH - no right edge padding
-      // SKETCHWARE PRO STYLE: Minimum size like ItemLinearLayout
-      constraints: BoxConstraints(
-        minHeight:
-            48 * density * widget.scale, // Only constrain height, not width
-      ),
+      // SKETCHWARE PRO STYLE: No height constraint - let content determine height
+      padding: padding, // ✅ Apply 8dp padding like Sketchware Pro
       decoration: BoxDecoration(
         color: backgroundColor,
         // EXACT SKETCHWARE PRO: Selection background like ItemLinearLayout.onDraw()
@@ -200,7 +207,7 @@ class _FrameRowState extends State<FrameRow> {
               crossAxisAlignment: crossAxisAlignment,
               children: childWidgets,
             )
-          : _buildEmptyRowPlaceholder(),
+          : Container(), // Clean empty container - no placeholder text or icon
     );
   }
 

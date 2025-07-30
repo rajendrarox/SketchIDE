@@ -110,6 +110,17 @@ class SelectionPainter extends CustomPainter {
         Rect.fromLTWH(0, 0, size.width, size.height),
         paint,
       );
+
+      // SKETCHWARE PRO STYLE: Add border like Item*.onDraw()
+      final borderPaint = Paint()
+        ..color = selectionColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0;
+
+      canvas.drawRect(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+        borderPaint,
+      );
     }
   }
 

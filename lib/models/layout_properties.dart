@@ -1,5 +1,3 @@
-/// LayoutProperties - EXACTLY matches Sketchware Pro's Layout pattern
-/// Strongly typed properties for Row and Column layout widgets to avoid type conversion issues
 class LayoutProperties {
   final String mainAxisAlignment;
   final String crossAxisAlignment;

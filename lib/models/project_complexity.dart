@@ -1,14 +1,14 @@
 enum ProjectComplexity {
-  simple, // ≤3 widgets, single file
-  medium, // 4-10 widgets, main + screens
-  complex, // >10 widgets, full structure
+  simple, 
+  medium, 
+  complex, 
 }
 
 enum ProjectTemplate {
-  helloWorld, // Single main.dart
-  multiScreen, // main.dart + screens/
-  fullApp, // Complete structure
-  custom, // User-defined
+  helloWorld, 
+  multiScreen, 
+  fullApp, 
+  custom, 
 }
 
 class ProjectComplexityDetector {
@@ -18,17 +18,16 @@ class ProjectComplexityDetector {
     required int customWidgets,
     required int totalServices,
   }) {
-    // Simple: ≤3 widgets, ≤1 screen, no custom widgets
+    
     if (totalWidgets <= 3 && totalScreens <= 1 && customWidgets == 0) {
       return ProjectComplexity.simple;
     }
 
-    // Medium: ≤15 widgets, ≤3 screens, ≤2 services
+    
     if (totalWidgets <= 15 && totalScreens <= 3 && totalServices <= 2) {
       return ProjectComplexity.medium;
     }
 
-    // Complex: Everything else
     return ProjectComplexity.complex;
   }
 

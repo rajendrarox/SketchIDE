@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 import '../../controllers/mobile_frame_touch_controller.dart';
 import '../../services/selection_service.dart';
+import '../../services/color_utils.dart';
 import 'base_frame_item.dart';
 
 /// SKETCHWARE PRO STYLE: Frame Button Widget that matches ItemButton exactly
@@ -176,8 +177,9 @@ class _FrameButtonContent extends StatelessWidget {
   /// SKETCHWARE PRO STYLE: Get text style (matches ItemButton)
   TextStyle _getTextStyle(BuildContext context) {
     final fontSize = _parseDouble(widgetBean.properties['textSize']) ?? 14.0;
-    final textColor =
-        _parseColor(widgetBean.properties['textColor'] ?? '#FFFFFF');
+    final textColor = ColorUtils.parseColor(
+            widgetBean.properties['textColor'] ?? '#FFFFFF') ??
+        Colors.white;
 
     // SKETCHWARE PRO STYLE: Convert sp to pixels like Android
     final density = MediaQuery.of(context).devicePixelRatio;
@@ -201,7 +203,7 @@ class _FrameButtonContent extends StatelessWidget {
           .transparent; // SKETCHWARE PRO STYLE: Transparent for white background
     }
 
-    return _parseColor(backgroundColor);
+    return ColorUtils.parseColor(backgroundColor) ?? Colors.blue;
   }
 
   /// SKETCHWARE PRO STYLE: Get corner radius (matches ItemButton)
@@ -221,20 +223,6 @@ class _FrameButtonContent extends StatelessWidget {
       return double.tryParse(value);
     }
     return null;
-  }
-
-  /// SKETCHWARE PRO STYLE: Parse color from string
-  Color _parseColor(String colorString) {
-    if (colorString.startsWith('#')) {
-      try {
-        final colorInt =
-            int.parse(colorString.substring(1), radix: 16) + 0xFF000000;
-        return Color(colorInt);
-      } catch (e) {
-        return Colors.transparent;
-      }
-    }
-    return Colors.transparent;
   }
 
   /// SKETCHWARE PRO STYLE: Notify parent about widget selection (like ViewEditor.java:83)

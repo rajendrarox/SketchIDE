@@ -4,9 +4,13 @@ import 'ui_component.dart';
 import 'logic_block.dart';
 import 'page.dart';
 import 'project_complexity.dart';
+import '../services/project_service.dart';
+import 'dart:io';
+import 'dart:math' as math;
+import 'package:path/path.dart' as path;
 
 class SketchIDEProject {
-  final String projectId; // Add project ID field
+  final String projectId;
   final ProjectInfo projectInfo;
   final List<UIComponent> uiComponents;
   final List<LogicBlock> logicBlocks;
@@ -16,7 +20,7 @@ class SketchIDEProject {
   final ProjectComplexity complexity;
 
   SketchIDEProject({
-    required this.projectId, // Add project ID parameter
+    required this.projectId,
     required this.projectInfo,
     this.uiComponents = const [],
     this.logicBlocks = const [],
@@ -41,8 +45,7 @@ class SketchIDEProject {
   // Create from JSON
   factory SketchIDEProject.fromJson(Map<String, dynamic> json) {
     return SketchIDEProject(
-      projectId:
-          json['project_id'] as String, // Assuming 'project_id' is in JSON
+      projectId: json['project_id'] as String,
       projectInfo: ProjectInfo.fromJson(json['project_info']),
       uiComponents: (json['ui_components'] as List?)
               ?.map((component) => UIComponent.fromJson(component))
@@ -61,7 +64,7 @@ class SketchIDEProject {
   }
 
   // Create empty project with generated ID
-  factory SketchIDEProject.createEmpty({
+  static Future<SketchIDEProject> createEmpty({
     required String appName,
     required String packageName,
     required String projectName,
@@ -69,12 +72,12 @@ class SketchIDEProject {
     int versionCode = 1,
     String? iconPath,
     ProjectTemplate template = ProjectTemplate.helloWorld,
-  }) {
-    final projectId = _generateProjectId(); // Generate ID here
+  }) async {
+    final projectId = await _generateProjectId();
     final complexity = ProjectTemplateInfo.templates[template]!.complexity;
 
     return SketchIDEProject(
-      projectId: projectId, // Use generated ID
+      projectId: projectId,
       projectInfo: ProjectInfo(
         appName: appName,
         packageName: packageName,
@@ -95,10 +98,36 @@ class SketchIDEProject {
   }
 
   // Generate unique project ID (like Sketchware Pro's sc_id)
-  static String _generateProjectId() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final random = (timestamp % 1000000).toString().padLeft(6, '0');
-    return 'sketchide_$timestamp$random';
+  static Future<String> _generateProjectId() async {
+    // SKETCHWARE PRO STYLE: Start from 601 and find highest existing ID
+    int nextId = 601;
+
+    try {
+      final projectService = ProjectService();
+      final listDir = await projectService.getProjectListDirectory();
+      final projectListFile = File(path.join(listDir, 'projects.json'));
+
+      if (await projectListFile.exists()) {
+        final content = await projectListFile.readAsString();
+        final List<dynamic> projectList = jsonDecode(content);
+
+        // Find the highest existing project ID
+        for (final project in projectList) {
+          final projectId = project['project_id'] as String;
+          // Extract numeric part from project ID
+          final numericId = int.tryParse(projectId) ?? 0;
+          nextId = math.max(nextId, numericId + 1);
+        }
+      }
+    } catch (e) {
+      print('Error reading project list for ID generation: $e');
+      // Fallback to timestamp-based ID if there's an error
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final random = (timestamp % 1000000).toString().padLeft(6, '0');
+      return 'sketchide_$timestamp$random';
+    }
+
+    return nextId.toString();
   }
 
   // Create empty project with existing ID (for loading from storage)
@@ -141,7 +170,7 @@ class SketchIDEProject {
     ProjectComplexity? complexity,
   }) {
     return SketchIDEProject(
-      projectId: projectId, // Keep existing projectId
+      projectId: projectId,
       projectInfo: projectInfo ?? this.projectInfo,
       uiComponents: uiComponents ?? this.uiComponents,
       logicBlocks: logicBlocks ?? this.logicBlocks,

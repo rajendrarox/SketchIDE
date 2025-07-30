@@ -11,17 +11,16 @@ import '../../models/sketchide_project.dart';
 import '../widgets/export_location_dialog.dart';
 
 class ExportService {
-  /// Export a project to .ide format with multiple location options
   static Future<bool> exportProject(SketchIDEProject project) async {
     try {
-      // Show export location options
+
       final exportLocation = await _showExportLocationDialog();
       if (exportLocation == null) return false;
 
-      // Create complete project archive in isolate for better performance
+
       final archiveData = await _createCompleteProjectArchive(project);
 
-      // Save to selected location
+
       final success = await _saveToLocation(
           exportLocation, '${project.projectInfo.appName}.ide', archiveData);
 
@@ -32,14 +31,11 @@ class ExportService {
     }
   }
 
-  /// Export a project to .ide format with specified location
   static Future<bool> exportProjectWithLocation(
       SketchIDEProject project, String location) async {
     try {
-      // Create complete project archive in isolate for better performance
       final archiveData = await _createCompleteProjectArchive(project);
 
-      // Save to specified location
       final success = await _saveToLocation(
           location, '${project.projectInfo.appName}.ide', archiveData);
 
@@ -50,14 +46,11 @@ class ExportService {
     }
   }
 
-  /// Show export location options dialog
   static Future<String?> _showExportLocationDialog() async {
-    // This will be handled by the UI layer
-    // For now, return a default location
+
     return 'app_documents';
   }
 
-  /// Show export location dialog (to be called from UI)
   static Future<String?> showExportLocationDialog(BuildContext context) async {
     final result = await showDialog<String>(
       context: context,
@@ -66,14 +59,12 @@ class ExportService {
     return result;
   }
 
-  /// Create complete project archive with all files
   static Future<Uint8List> _createCompleteProjectArchive(
       SketchIDEProject project) async {
-    // Use isolate for heavy file operations
     final receivePort = ReceivePort();
     await Isolate.spawn(_createArchiveInIsolate, {
       'projectPath':
-          'projects', // Temporary path since SketchIDEProject doesn't have projectPath
+          'projects', 
       'projectName': project.projectInfo.appName,
       'sendPort': receivePort.sendPort,
     });
@@ -82,7 +73,6 @@ class ExportService {
     return result;
   }
 
-  /// Isolate function to create archive
   static void _createArchiveInIsolate(Map<String, dynamic> data) {
     final projectPath = data['projectPath'] as String;
     final projectName = data['projectName'] as String;
@@ -93,17 +83,14 @@ class ExportService {
       final projectDir = Directory(projectPath);
 
       if (projectDir.existsSync()) {
-        // Add all project files recursively
         _addDirectoryToArchiveRecursive(projectDir, archive, projectName);
 
-        // Create project manifest
         final manifest = _createProjectManifest(projectName);
         final manifestBytes =
             utf8.encode(JsonEncoder.withIndent('  ').convert(manifest));
         archive.addFile(ArchiveFile(
             'project_manifest.json', manifestBytes.length, manifestBytes));
 
-        // Create ZIP archive
         final zipEncoder = ZipEncoder();
         final encoded = zipEncoder.encode(archive);
         final result =
@@ -118,7 +105,6 @@ class ExportService {
     }
   }
 
-  /// Add directory contents to archive recursively (complete files)
   static void _addDirectoryToArchiveRecursive(
       Directory dir, Archive archive, String basePath) {
     try {
@@ -129,7 +115,6 @@ class ExportService {
           final relativePath = path.relative(entity.path, from: dir.path);
           final archivePath = '$basePath/$relativePath';
 
-          // Skip only system files, include all project files
           if (!_shouldSkipFile(entity, relativePath)) {
             try {
               final bytes = entity.readAsBytesSync();
@@ -150,9 +135,7 @@ class ExportService {
     }
   }
 
-  /// Check if file should be skipped (only system files)
   static bool _shouldSkipFile(File file, String relativePath) {
-    // Skip only system-generated files, not project files
     final skipPatterns = [
       '.DS_Store',
       'Thumbs.db',
@@ -170,7 +153,6 @@ class ExportService {
     return false;
   }
 
-  /// Create project manifest
   static Map<String, dynamic> _createProjectManifest(String projectName) {
     return {
       'projectInfo': {
@@ -199,7 +181,6 @@ class ExportService {
     };
   }
 
-  /// Save to selected location
   static Future<bool> _saveToLocation(
       String location, String fileName, Uint8List data) async {
     switch (location) {
@@ -216,7 +197,6 @@ class ExportService {
     }
   }
 
-  /// Save to app documents directory
   static Future<bool> _saveToAppDirectory(
       String fileName, Uint8List fileBytes) async {
     try {
@@ -231,7 +211,6 @@ class ExportService {
     }
   }
 
-  /// Save to Downloads directory
   static Future<bool> _saveToDownloads(
       String fileName, Uint8List fileBytes) async {
     try {
@@ -249,7 +228,6 @@ class ExportService {
     }
   }
 
-  /// Save to external storage
   static Future<bool> _saveToExternalStorage(
       String fileName, Uint8List fileBytes) async {
     try {
@@ -267,7 +245,6 @@ class ExportService {
     }
   }
 
-  /// Save to custom location using SAF
   static Future<bool> _saveToCustomLocation(
       String fileName, Uint8List fileBytes) async {
     try {
@@ -292,10 +269,8 @@ class ExportService {
     }
   }
 
-  /// Import project from .ide file (complete archive)
   static Future<SketchIDEProject?> importProject() async {
     try {
-      // Pick .ide file using SAF
       final result = await FilePicker.platform.pickFiles(
         dialogTitle: 'Import Project',
         allowedExtensions: ['ide'],
@@ -306,18 +281,15 @@ class ExportService {
         final file = File(result.files.first.path!);
         final bytes = await file.readAsBytes();
 
-        // Try to decode as ZIP archive first
         try {
           final archive = ZipDecoder().decodeBytes(bytes);
 
-          // Look for project manifest
           final manifestFile = archive.findFile('project_manifest.json');
           if (manifestFile != null) {
             final manifestData =
                 json.decode(utf8.decode(manifestFile.content as List<int>));
             final projectInfo = manifestData['projectInfo'];
 
-            // Create project object using SketchIDEProject.createEmpty
             final project = SketchIDEProject.createEmpty(
               appName: projectInfo['name'],
               packageName: projectInfo['packageName'] ??
@@ -329,7 +301,6 @@ class ExportService {
             return project;
           }
         } catch (e) {
-          // If ZIP fails, try old JSON format
           try {
             final decompressed = GZipDecoder().decodeBytes(bytes);
             final jsonData = utf8.decode(decompressed);

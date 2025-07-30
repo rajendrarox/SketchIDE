@@ -122,22 +122,14 @@ class DesignViewModel extends ChangeNotifier {
 
   /// Select a widget
   void selectWidget(FlutterWidgetBean widget) {
-    print('🎯 DESIGN VIEWMODEL: selectWidget called for ${widget.id}');
-    print('🎯 BEFORE: _selectedWidget = ${_selectedWidget?.id}');
     _selectedWidget = widget;
-    print('🎯 AFTER: _selectedWidget = ${_selectedWidget?.id}');
     notifyListeners();
-    print('🎯 NOTIFIED LISTENERS - UI should rebuild now');
   }
 
   /// SKETCHWARE PRO STYLE: Clear widget selection (like ViewEditor.java:287)
   void clearSelection() {
-    print('🎯 DESIGN VIEWMODEL: clearSelection called');
-    print('🎯 BEFORE: _selectedWidget = ${_selectedWidget?.id}');
     _selectedWidget = null;
-    print('🎯 AFTER: _selectedWidget = null - Property panel should hide');
     notifyListeners();
-    print('🎯 NOTIFIED LISTENERS - Property panel should hide now');
   }
 
   /// SKETCHWARE PRO STYLE: Add widget with proper sizing

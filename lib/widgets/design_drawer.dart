@@ -33,8 +33,8 @@ class DesignDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: 300,
       child: Container(
-        width: 300,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerLow,
           borderRadius: const BorderRadius.only(
@@ -74,7 +74,7 @@ class DesignDrawer extends StatelessWidget {
                     DesignDrawerItem.libraryManager,
                     Icons.category,
                     'Library Manager',
-                    'Manage project dependencies and libraries',
+                    'Manage project dependencies and packages',
                   ),
                   _buildDrawerItem(
                     context,
@@ -150,8 +150,8 @@ class DesignDrawer extends StatelessWidget {
                     context,
                     DesignDrawerItem.manifestManager,
                     Icons.description,
-                    'Manifest Manager',
-                    'Edit Android manifest file',
+                    'Project Configuration',
+                    'Manage Flutter project settings and pubspec.yaml',
                   ),
                   _buildDrawerItem(
                     context,
@@ -178,8 +178,8 @@ class DesignDrawer extends StatelessWidget {
                     context,
                     DesignDrawerItem.sourceCode,
                     Icons.source,
-                    'Source Code',
-                    'View generated source code',
+                    'Show Source Code',
+                    'View built-in Dart',
                   ),
                   _buildDrawerItem(
                     context,

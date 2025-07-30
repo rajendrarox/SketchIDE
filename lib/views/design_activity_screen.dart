@@ -7,6 +7,9 @@ import '../widgets/property_panel.dart';
 import '../widgets/design_drawer.dart';
 import '../controllers/drag_controller.dart';
 import '../models/flutter_widget_bean.dart';
+import 'source_code_viewer_screen.dart';
+import 'pubspec_configuration_screen.dart';
+import 'dependencies_screen.dart';
 
 /// Design Activity Screen - Main visual editor screen
 class DesignActivityScreen extends StatefulWidget {
@@ -27,6 +30,7 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
   late PageController _pageController;
   late DesignViewModel _viewModel;
   late DragController _sharedDragController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -76,6 +80,7 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
       child: Consumer<DesignViewModel>(
         builder: (context, viewModel, child) {
           return Scaffold(
+            key: _scaffoldKey,
             appBar: _buildAppBar(viewModel),
             body: _buildBody(viewModel),
             endDrawer: _buildRightDrawer(),
@@ -88,7 +93,28 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
 
   PreferredSizeWidget _buildAppBar(DesignViewModel viewModel) {
     return AppBar(
-      title: Text(viewModel.projectName ?? 'Design'),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            viewModel.projectName ?? 'Design',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+          Text(
+            widget.projectId,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black87,
       actions: [
         IconButton(
           icon: const Icon(Icons.undo),
@@ -101,6 +127,12 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
         IconButton(
           icon: const Icon(Icons.save),
           onPressed: viewModel.saveProject,
+        ),
+        IconButton(
+          icon: const Icon(Icons.more_vert),
+          onPressed: () {
+            _scaffoldKey.currentState?.openEndDrawer();
+          },
         ),
       ],
       bottom: TabBar(
@@ -138,7 +170,8 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
               viewModel.setTab(DesignTab.values[index]);
             },
             children: [
-              _buildViewTab(viewModel),
+              _buildViewTab(
+                  viewModel, isPropertyPanelVisible, propertyPanelHeight),
               _buildEventTab(),
               _buildComponentTab(),
             ],
@@ -179,7 +212,8 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
     );
   }
 
-  Widget _buildViewTab(DesignViewModel viewModel) {
+  Widget _buildViewTab(DesignViewModel viewModel, bool isPropertyPanelVisible,
+      double propertyPanelHeight) {
     return Row(
       children: [
         // Left palette - fixed 120dp width
@@ -203,19 +237,28 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
             },
           ),
         ),
-        // Center mobile frame
+        // Mobile frame - SKETCHWARE PRO STYLE: Fixed at top, not centered, respect property panel
         Expanded(
           child: Container(
             color: Theme.of(context).colorScheme.surface,
-            child: FlutterDeviceFrame(
-              widgets: viewModel.widgets,
-              selectedWidget: viewModel.selectedWidget,
-              onWidgetSelected: (widget) => viewModel.selectWidget(widget),
-              onWidgetMoved: (widget) => viewModel.moveWidget(widget),
-              onWidgetAdded: (widget, {Size? containerSize}) =>
-                  viewModel.addWidget(widget, containerSize: containerSize),
-              onBackgroundTapped: () => viewModel
-                  .clearSelection(), // SKETCHWARE PRO: Clear selection on background tap
+            child: Align(
+              alignment: Alignment
+                  .topLeft, // SKETCHWARE PRO: Fixed at top, not centered
+              child: Container(
+                // SKETCHWARE PRO STYLE: Fixed mobile frame size that NEVER changes
+                width: 360, // Fixed width like Sketchware Pro
+                height: 640, // Fixed height like Sketchware Pro - NEVER changes
+                child: FlutterDeviceFrame(
+                  widgets: viewModel.widgets,
+                  selectedWidget: viewModel.selectedWidget,
+                  onWidgetSelected: (widget) => viewModel.selectWidget(widget),
+                  onWidgetMoved: (widget) => viewModel.moveWidget(widget),
+                  onWidgetAdded: (widget, {Size? containerSize}) =>
+                      viewModel.addWidget(widget, containerSize: containerSize),
+                  onBackgroundTapped: () => viewModel
+                      .clearSelection(), // SKETCHWARE PRO: Clear selection on background tap
+                ),
+              ),
             ),
           ),
         ),
@@ -336,9 +379,36 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
   Widget _buildRightDrawer() {
     return DesignDrawer(
       onItemSelected: (item) {
-        // Handle drawer item selection
-        Scaffold.of(context).closeEndDrawer();
-        // TODO: Navigate to appropriate screen
+        _scaffoldKey.currentState?.closeEndDrawer();
+        if (item == DesignDrawerItem.sourceCode) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SourceCodeViewerScreen(
+                projectId: widget.projectId,
+              ),
+            ),
+          );
+        } else if (item == DesignDrawerItem.manifestManager) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PubspecConfigurationScreen(
+                projectId: widget.projectId,
+              ),
+            ),
+          );
+        } else if (item == DesignDrawerItem.libraryManager) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DependenciesScreen(
+                projectId: widget.projectId,
+              ),
+            ),
+          );
+        }
+        // TODO: Handle other drawer items
       },
     );
   }
@@ -372,6 +442,7 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           Icons.screen_rotation,
@@ -379,17 +450,14 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'main',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                        Text(
+                          'main',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        const SizedBox(width: 4),
                         Icon(
                           Icons.arrow_drop_down,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -403,7 +471,7 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
           ),
           // Run button
           Container(
-            margin: const EdgeInsets.only(right: 4),
+            margin: const EdgeInsets.only(right: 8),
             child: ElevatedButton.icon(
               onPressed: () {
                 // TODO: Build and run project
@@ -416,15 +484,15 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
               ),
             ),
           ),
-          // Options button
+          // Settings button
           Container(
             margin: const EdgeInsets.only(right: 8),
             child: IconButton(
               onPressed: () {
-                // TODO: Show options menu
+                // TODO: Show settings menu
               },
-              icon: const Icon(Icons.tune),
-              tooltip: 'Options',
+              icon: const Icon(Icons.settings),
+              tooltip: 'Settings',
             ),
           ),
         ],

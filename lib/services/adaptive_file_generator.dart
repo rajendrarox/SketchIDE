@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import '../models/sketchide_project.dart';
 import '../models/project_complexity.dart';
+import 'android_code_generator.dart';
+import 'ios_code_generator.dart';
 
 class AdaptiveFileGenerator {
   /// Generate files based on project complexity
@@ -27,12 +29,19 @@ class AdaptiveFileGenerator {
     String projectId,
     SketchIDEProject project,
   ) async {
+    final filesDir = await _getProjectFilesDirectory(projectId);
     final libDir = await _getProjectLibDirectory(projectId);
+
+    // Create pubspec.yaml
+    await _generatePubspecYaml(filesDir, project);
 
     // Create single main.dart with everything included
     final mainDartContent = _generateSimpleMainDart(project);
     final mainDartFile = File(path.join(libDir, 'main.dart'));
     await mainDartFile.writeAsString(mainDartContent);
+
+    // Generate platform-specific files for simple projects too
+    await _generatePlatformFiles(projectId, project);
 
     // Generated simple project structure for ${project.projectInfo.appName}
   }
@@ -42,7 +51,11 @@ class AdaptiveFileGenerator {
     String projectId,
     SketchIDEProject project,
   ) async {
+    final filesDir = await _getProjectFilesDirectory(projectId);
     final libDir = await _getProjectLibDirectory(projectId);
+
+    // Create pubspec.yaml
+    await _generatePubspecYaml(filesDir, project);
 
     // Create main.dart (app entry point only)
     final mainDartContent = _generateMediumMainDart(project);
@@ -58,6 +71,9 @@ class AdaptiveFileGenerator {
     final homeScreenFile = File(path.join(screensDir.path, 'home_screen.dart'));
     await homeScreenFile.writeAsString(homeScreenContent);
 
+    // Generate platform-specific files for medium projects too
+    await _generatePlatformFiles(projectId, project);
+
     // Generated medium project structure for ${project.projectInfo.appName}
   }
 
@@ -66,7 +82,11 @@ class AdaptiveFileGenerator {
     String projectId,
     SketchIDEProject project,
   ) async {
+    final filesDir = await _getProjectFilesDirectory(projectId);
     final libDir = await _getProjectLibDirectory(projectId);
+
+    // Create pubspec.yaml
+    await _generatePubspecYaml(filesDir, project);
 
     // Create main.dart (app entry point only)
     final mainDartContent = _generateComplexMainDart(project);
@@ -79,7 +99,22 @@ class AdaptiveFileGenerator {
     // Create default files
     await _createComplexDefaultFiles(libDir, project);
 
+    // Generate platform-specific files
+    await _generatePlatformFiles(projectId, project);
+
     // Generated complex project structure for ${project.projectInfo.appName}
+  }
+
+  /// Generate platform-specific files (Android and iOS)
+  static Future<void> _generatePlatformFiles(
+    String projectId,
+    SketchIDEProject project,
+  ) async {
+    // Generate Android project structure
+    await AndroidCodeGenerator.generateAndroidProject(projectId, project);
+
+    // Generate iOS project structure
+    await IOSCodeGenerator.generateIOSProject(projectId, project);
   }
 
   /// Generate simple main.dart (everything in one file)
@@ -284,13 +319,50 @@ class AppHelpers {
 }''';
   }
 
+  /// Get project files directory
+  static Future<String> _getProjectFilesDirectory(String projectId) async {
+    final baseDir = '/storage/emulated/0/.sketchide/data/$projectId/files';
+    await Directory(baseDir).create(recursive: true);
+    return baseDir;
+  }
+
   /// Get project lib directory
   static Future<String> _getProjectLibDirectory(String projectId) async {
-    // This will be updated to use the actual project service
-    final baseDir = '/storage/emulated/0/.sketchide/data/$projectId/files';
-    final libDir = path.join(baseDir, 'lib');
+    final filesDir = await _getProjectFilesDirectory(projectId);
+    final libDir = path.join(filesDir, 'lib');
     await Directory(libDir).create(recursive: true);
     return libDir;
+  }
+
+  /// Generate pubspec.yaml file
+  static Future<void> _generatePubspecYaml(
+    String filesDir,
+    SketchIDEProject project,
+  ) async {
+    final pubspecContent = '''name: ${project.projectInfo.appName.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '_')}
+description: ${project.projectInfo.appName} created with SketchIDE
+publish_to: 'none'
+version: ${project.projectInfo.versionName}
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+''';
+
+    final pubspecFile = File(path.join(filesDir, 'pubspec.yaml'));
+    await pubspecFile.writeAsString(pubspecContent);
   }
 
   /// Upgrade project complexity

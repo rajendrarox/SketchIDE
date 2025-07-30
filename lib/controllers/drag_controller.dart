@@ -4,9 +4,7 @@ import 'dart:async';
 import '../models/flutter_widget_bean.dart';
 import 'package:flutter/foundation.dart';
 
-/// DragController - EXACTLY matches Sketchware Pro's ViewEditor touch handling
 class DragController extends ChangeNotifier {
-  // SKETCHWARE PRO STYLE STATE VARIABLES
   bool _isDragging = false;
   bool _isLongPressDetected = false;
   FlutterWidgetBean? _draggedWidget;
@@ -14,24 +12,19 @@ class DragController extends ChangeNotifier {
   Offset? _currentDragPosition;
   GlobalKey? _draggedWidgetKey;
 
-  // SKETCHWARE PRO STYLE TOUCH VARIABLES (like ViewEditor.java:276)
-  bool _t = false; // isDragging flag
-  double _u = 0; // startX
-  double _v = 0; // startY
-  double _scaledTouchSlop = 8.0; // matches Android's scaledTouchSlop
+  bool _t = false;
+  double _u = 0;
+  double _v = 0;
+  double _scaledTouchSlop = 8.0;
 
-  // SKETCHWARE PRO STYLE TIMING (like ViewEditor.java:304)
-  static const Duration _longPressTimeout = Duration(
-      milliseconds: 400); // ViewConfiguration.getLongPressTimeout() / 2
+  static const Duration _longPressTimeout = Duration(milliseconds: 400);
   Timer? _longPressTimer;
   bool _isLongPressScheduled = false;
 
-  // SKETCHWARE PRO STYLE DROP ZONES
   bool _isOverDeleteZone = false;
   bool _isOverViewPane = false;
   bool _isOverValidDropZone = false;
 
-  // SKETCHWARE PRO STYLE CALLBACKS
   Function(FlutterWidgetBean)? onWidgetMoved;
   Function(FlutterWidgetBean)? onWidgetDeleted;
   Function(FlutterWidgetBean, {Size? containerSize})? onWidgetAdded;
@@ -39,7 +32,6 @@ class DragController extends ChangeNotifier {
   Function(bool)? onDeleteZoneActive;
   Function(bool)? onViewPaneActive;
 
-  // Getters
   bool get isDragging => _isDragging;
   bool get isLongPressDetected => _isLongPressDetected;
   FlutterWidgetBean? get draggedWidget => _draggedWidget;
@@ -50,30 +42,25 @@ class DragController extends ChangeNotifier {
   bool get isOverViewPane => _isOverViewPane;
   bool get isOverValidDropZone => _isOverValidDropZone;
 
-  /// SKETCHWARE PRO STYLE: Start drag detection (ACTION_DOWN) - like ViewEditor.java:304
   void startDragDetection(
       FlutterWidgetBean widget, Offset position, GlobalKey widgetKey) {
-    // EXACTLY like Sketchware Pro's ACTION_DOWN handling
-    _t = false; // Reset dragging flag
-    _u = position.dx; // Store start X
-    _v = position.dy; // Store start Y
+    _t = false;
+    _u = position.dx;
+    _v = position.dy;
     _draggedWidget = widget;
     _draggedWidgetKey = widgetKey;
     _isLongPressDetected = false;
     _isDragging = false;
 
-    // Check if widget is fixed (like Sketchware Pro)
     if (widget.isFixed) {
       return;
     }
 
-    // SKETCHWARE PRO STYLE: Schedule long press detection with proper timer management
     _scheduleLongPressDetection(widget);
 
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Schedule long press detection (like ViewEditor.java:304)
   void _scheduleLongPressDetection(FlutterWidgetBean widget) {
     _cancelLongPressDetection();
     _isLongPressScheduled = true;
@@ -85,57 +72,48 @@ class DragController extends ChangeNotifier {
     });
   }
 
-  /// SKETCHWARE PRO STYLE: Cancel long press detection (like ViewEditor.java:327)
   void _cancelLongPressDetection() {
     _longPressTimer?.cancel();
     _longPressTimer = null;
     _isLongPressScheduled = false;
   }
 
-  /// SKETCHWARE PRO STYLE: Start drag from palette
   void startDragFromPalette(FlutterWidgetBean widget, Offset position) {
     _draggedWidget = widget;
     _dragStartPosition = position;
     _currentDragPosition = position;
     _draggedWidgetKey = null;
     _isLongPressDetected = false;
-    _isDragging = true; // Start dragging immediately for palette widgets
+    _isDragging = true;
 
-    // Trigger haptic feedback (like Sketchware Pro)
     HapticFeedback.mediumImpact();
 
     onDragStateChanged?.call(true);
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Update drag position (ACTION_MOVE) - like ViewEditor.java:327
   void updateDragPosition(Offset position) {
     if (_draggedWidget == null) return;
 
     _currentDragPosition = position;
 
-    // EXACTLY like Sketchware Pro's movement threshold detection
     if (!_t) {
-      // SKETCHWARE PRO STYLE: Check individual X/Y thresholds (not distance)
       final deltaX = (position.dx - _u).abs();
       final deltaY = (position.dy - _v).abs();
 
       if (deltaX >= _scaledTouchSlop || deltaY >= _scaledTouchSlop) {
-        // SKETCHWARE PRO STYLE: Cancel drag if movement exceeds threshold
         _draggedWidget = null;
         _cancelLongPressDetection();
         _resetDragState();
         return;
       }
-      return; // Still in threshold, don't start dragging
+      return;
     }
 
-    // Already dragging, update drop zones
     _updateDropZoneDetection(position);
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Update palette drag position
   void updatePaletteDragPosition(Offset position) {
     if (_draggedWidget == null) return;
 
@@ -144,13 +122,10 @@ class DragController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: End drag operation (ACTION_UP)
   void endDrag() {
     if (_t) {
-      // Was dragging, handle drop
       _handleDrop();
     } else {
-      // Was not dragging, handle selection
       _handleSelection();
     }
 
@@ -158,51 +133,36 @@ class DragController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Cancel drag operation
   void cancelDrag() {
     _resetDragState();
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Detect long press and start dragging (like ViewEditor.java:633)
   void _detectLongPress() {
     if (_draggedWidget == null) return;
 
     _isLongPressDetected = true;
-    _t = true; // Start dragging
+    _t = true;
     _isDragging = true;
 
-    // SKETCHWARE PRO STYLE: Trigger haptic feedback (like ViewEditor.java:686)
     HapticFeedback.mediumImpact();
 
-    // SKETCHWARE PRO STYLE: Show ViewDummy and start drag feedback
     _startDragFeedback();
 
     onDragStateChanged?.call(true);
     notifyListeners();
   }
 
-  /// SKETCHWARE PRO STYLE: Start drag feedback (like ViewEditor.java:686)
-  void _startDragFeedback() {
-    // SKETCHWARE PRO STYLE: Show ViewDummy for visual feedback
-    // This will be handled by the FlutterDeviceFrame
+  void _startDragFeedback() {}
 
-    // SKETCHWARE PRO STYLE: Disable palette scrolling during drag
-    // This will be handled by the WidgetPalette
-  }
-
-  /// SKETCHWARE PRO STYLE: Cancel long press detection
   void _cancelLongPress() {
-    // This would be called when movement threshold is exceeded
     _draggedWidget = null;
     _isLongPressDetected = false;
     _t = false;
     _isDragging = false;
   }
 
-  /// SKETCHWARE PRO STYLE: Update drop zone detection
   void _updateDropZoneDetection(Offset position) {
-    // Check delete zone (like Sketchware Pro's a() method)
     final wasOverDeleteZone = _isOverDeleteZone;
     _isOverDeleteZone = _isPositionInDeleteZone(position);
 
@@ -210,7 +170,6 @@ class DragController extends ChangeNotifier {
       onDeleteZoneActive?.call(_isOverDeleteZone);
     }
 
-    // Check view pane (like Sketchware Pro's b() method)
     final wasOverViewPane = _isOverViewPane;
     _isOverViewPane = _isPositionInViewPane(position);
 
@@ -218,19 +177,15 @@ class DragController extends ChangeNotifier {
       onViewPaneActive?.call(_isOverViewPane);
     }
 
-    // Update valid drop zone
     _isOverValidDropZone = _isOverViewPane || _isOverDeleteZone;
   }
 
-  /// SKETCHWARE PRO STYLE: Handle drop operation
   void _handleDrop() {
     if (_draggedWidget == null || _currentDragPosition == null) return;
 
     if (_isOverDeleteZone) {
-      // Delete widget (like Sketchware Pro)
       onWidgetDeleted?.call(_draggedWidget!);
     } else if (_isOverViewPane) {
-      // Move or add widget (like Sketchware Pro)
       final newPosition = _calculateDropPosition(_currentDragPosition!);
       final updatedWidget = _draggedWidget!.copyWith(
         position: _draggedWidget!.position.copyWith(
@@ -240,24 +195,17 @@ class DragController extends ChangeNotifier {
       );
 
       if (_isLongPressDetected) {
-        // Moving existing widget
         onWidgetMoved?.call(updatedWidget);
       } else {
-        // Adding new widget
         onWidgetAdded?.call(updatedWidget);
       }
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Handle selection (when not dragging)
   void _handleSelection() {
-    if (_draggedWidget != null) {
-      // Handle widget selection (like Sketchware Pro)
-      // This would trigger selection callbacks
-    }
+    if (_draggedWidget != null) {}
   }
 
-  /// SKETCHWARE PRO STYLE: Reset drag state
   void _resetDragState() {
     _isDragging = false;
     _isLongPressDetected = false;
@@ -277,34 +225,22 @@ class DragController extends ChangeNotifier {
     onViewPaneActive?.call(false);
   }
 
-  /// SKETCHWARE PRO STYLE: Check if position is in delete zone
   bool _isPositionInDeleteZone(Offset position) {
-    // This will be implemented based on the actual delete zone position
-    // For now, we'll use a simple bottom area check
     final screenHeight =
         PlatformDispatcher.instance.views.first.physicalSize.height /
             PlatformDispatcher.instance.views.first.devicePixelRatio;
-    return position.dy > screenHeight - 120; // Bottom 120px area
+    return position.dy > screenHeight - 120;
   }
 
-  /// SKETCHWARE PRO STYLE: Check if position is in view pane
   bool _isPositionInViewPane(Offset position) {
-    // This will be implemented based on the actual view pane position
-    // For now, we'll use a simple area check excluding the delete zone
     final screenHeight =
         PlatformDispatcher.instance.views.first.physicalSize.height /
             PlatformDispatcher.instance.views.first.devicePixelRatio;
-    return position.dy < screenHeight - 120; // Above delete zone
+    return position.dy < screenHeight - 120;
   }
 
-  /// SKETCHWARE PRO STYLE: Calculate drop position within view pane
   Offset _calculateDropPosition(Offset position) {
-    // Convert global position to local position within view pane
-    // This is a simplified implementation
-    return Offset(
-      position.dx - 120, // Subtract palette width
-      position.dy - 100, // Subtract header height
-    );
+    return position;
   }
 
   /// Set callbacks
@@ -324,15 +260,7 @@ class DragController extends ChangeNotifier {
     this.onViewPaneActive = onViewPaneActive;
   }
 
-  /// Update delete zone bounds (called from parent widget)
-  void updateDeleteZoneBounds(Rect bounds) {
-    // This will be used to store the actual delete zone bounds
-    // Implementation will be added when integrating with the main widget
-  }
+  void updateDeleteZoneBounds(Rect bounds) {}
 
-  /// Update view pane bounds (called from parent widget)
-  void updateViewPaneBounds(Rect bounds) {
-    // This will be used to store the actual view pane bounds
-    // Implementation will be added when integrating with the main widget
-  }
+  void updateViewPaneBounds(Rect bounds) {}
 }

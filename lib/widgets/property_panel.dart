@@ -7,8 +7,6 @@ import 'property_items/property_text_box.dart';
 import 'property_items/property_color_box.dart';
 import 'property_items/property_selector_box.dart';
 
-/// Property Panel (Bottom) - EXACTLY matches Sketchware Pro's ViewProperty
-/// Displays and manages widget properties with real-time updates
 class PropertyPanel extends StatefulWidget {
   final FlutterWidgetBean selectedWidget;
   final List<FlutterWidgetBean> allWidgets;
@@ -43,10 +41,8 @@ class _PropertyPanelState extends State<PropertyPanel> {
     super.initState();
     _propertyViewModel = PropertyViewModel();
 
-    // Select the widget to load its properties
     _propertyViewModel.selectWidget(widget.selectedWidget);
 
-    // SKETCHWARE PRO STYLE: Debug logging for initialization
     print('🚀 PROPERTY PANEL INIT: Widget ${widget.selectedWidget.id}');
     print('🚀 INITIAL PROPERTIES: ${widget.selectedWidget.properties}');
   }
@@ -55,18 +51,15 @@ class _PropertyPanelState extends State<PropertyPanel> {
   void didUpdateWidget(PropertyPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // SKETCHWARE PRO STYLE: Debug logging for widget updates
     print('🔄 PROPERTY PANEL UPDATE: Widget ${widget.selectedWidget.id}');
     print('🔄 OLD PROPERTIES: ${oldWidget.selectedWidget.properties}');
     print('🔄 NEW PROPERTIES: ${widget.selectedWidget.properties}');
 
     if (oldWidget.selectedWidget.id != widget.selectedWidget.id) {
-      // Widget changed, update the property view model
       print('🔄 WIDGET ID CHANGED - Updating PropertyViewModel');
       _propertyViewModel.selectWidget(widget.selectedWidget);
     } else if (_hasPropertiesChanged(oldWidget.selectedWidget.properties,
         widget.selectedWidget.properties)) {
-      // Same widget but properties changed, update the property view model
       print('🔄 PROPERTIES CHANGED - Updating PropertyViewModel');
       _propertyViewModel.selectWidget(widget.selectedWidget);
     } else {
@@ -80,12 +73,11 @@ class _PropertyPanelState extends State<PropertyPanel> {
       value: _propertyViewModel,
       child: Consumer<PropertyViewModel>(
         builder: (context, propertyViewModel, child) {
-          // SKETCHWARE PRO STYLE: Debug logging for PropertyPanel build
           print('🏗️ PROPERTY PANEL BUILD: Widget ${widget.selectedWidget.id}');
           print('🏗️ WIDGET PROPERTIES: ${widget.selectedWidget.properties}');
 
           return Container(
-            height: 170, // EXACTLY 170dp like Sketchware Pro
+            height: 170,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainer,
               border: Border(
@@ -97,13 +89,10 @@ class _PropertyPanelState extends State<PropertyPanel> {
             ),
             child: Column(
               children: [
-                // Widget Selector Header (like Sketchware Pro)
                 _buildWidgetSelectorHeader(),
 
-                // Property Groups (horizontal tabs like Sketchware Pro)
                 _buildPropertyGroups(),
 
-                // Property Content
                 Expanded(
                   child: _buildPropertyContent(propertyViewModel),
                 ),
@@ -116,7 +105,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   Widget _buildWidgetSelectorHeader() {
-    // SKETCHWARE PRO STYLE: Ensure selected widget exists in the list
     final selectedWidgetExists =
         widget.allWidgets.any((w) => w.id == widget.selectedWidget.id);
     final dropdownValue =
@@ -141,13 +129,12 @@ class _PropertyPanelState extends State<PropertyPanel> {
                 return DropdownMenuItem(
                   value: widgetBean.id,
                   child: Text(
-                    widgetBean.id, // SKETCHWARE PRO STYLE: Show just the ID
+                    widgetBean.id,
                     style: const TextStyle(fontSize: 12),
                   ),
                 );
               }).toList(),
               onChanged: (value) {
-                // SKETCHWARE PRO STYLE: Handle widget selection from dropdown
                 if (value != null && widget.onWidgetSelected != null) {
                   final selectedWidget = widget.allWidgets.firstWhere(
                     (w) => w.id == value,
@@ -161,14 +148,12 @@ class _PropertyPanelState extends State<PropertyPanel> {
 
           const SizedBox(width: 8),
 
-          // Delete Button
           IconButton(
             icon: const Icon(Icons.delete, size: 20),
             onPressed: () => _showDeleteDialog(),
             tooltip: 'Delete Widget',
           ),
 
-          // Save Button
           IconButton(
             icon: const Icon(Icons.save, size: 20),
             onPressed: () => _saveWidget(),
@@ -228,12 +213,10 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   Widget _buildBasicProperties(PropertyViewModel propertyViewModel) {
-    // Get properties based on widget type (like Sketchware Pro)
     final properties = _getPropertiesForWidgetType(widget.selectedWidget.type);
 
     return Row(
       children: [
-        // Horizontal Scrolling Property Items
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -246,7 +229,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
           ),
         ),
 
-        // See All Floating Button (like Sketchware Pro)
         Container(
           width: 60,
           height: 82,
@@ -898,7 +880,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
 
       case PropertyType.resource:
       default:
-        // For resource type or any other type, show as text for now
         return PropertyTextBox(
           label: property.label,
           value: value,
@@ -908,7 +889,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
     }
   }
 
-  /// Check if properties have actually changed by comparing values
   bool _hasPropertiesChanged(
       Map<String, dynamic> oldProps, Map<String, dynamic> newProps) {
     if (oldProps.length != newProps.length) return true;
@@ -926,7 +906,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   String _getPropertyValue(String key) {
-    // SKETCHWARE PRO STYLE: Debug logging for property value retrieval
     print(
         '🔍 GETTING PROPERTY VALUE: $key for widget ${widget.selectedWidget.id}');
     print('🔍 WIDGET PROPERTIES: ${widget.selectedWidget.properties}');
@@ -1022,10 +1001,8 @@ class _PropertyPanelState extends State<PropertyPanel> {
     final updatedProperties =
         Map<String, dynamic>.from(widget.selectedWidget.properties);
 
-    // Convert value based on property type
     dynamic convertedValue = value;
 
-    // Handle numeric properties
     if (key.contains('textSize') ||
         key.contains('iconSize') ||
         key.contains('borderWidth') ||
@@ -1035,21 +1012,16 @@ class _PropertyPanelState extends State<PropertyPanel> {
     } else if (key.contains('lines')) {
       convertedValue = int.tryParse(value) ?? 1;
     } else if (key == 'property_single_line' || key == 'property_enabled') {
-      // Handle boolean properties
       convertedValue = value == 'true';
     } else if (key == 'property_layout_width' ||
         key == 'property_layout_height') {
-      // Handle layout dimensions
       convertedValue = double.tryParse(value) ?? 0.0;
     } else if (key == 'property_margin' || key == 'property_padding') {
-      // Handle margin/padding
       convertedValue = double.tryParse(value) ?? 0.0;
     }
 
-    // Map property keys to actual widget property names
     String propertyKey = key.replaceFirst('property_', '');
 
-    // Handle special property mappings
     switch (key) {
       case 'property_text_style':
         propertyKey = 'textStyle';
@@ -1100,13 +1072,11 @@ class _PropertyPanelState extends State<PropertyPanel> {
         propertyKey = 'clipBehavior';
         break;
       default:
-        // Use the property key as is
         break;
     }
 
     updatedProperties[propertyKey] = convertedValue;
 
-    // Update layout bean for layout changes (like Sketchware Pro)
     LayoutBean? updatedLayout;
     if (key == 'property_layout_width' || key == 'property_layout_height') {
       final currentLayout = widget.selectedWidget.layout;
@@ -1130,7 +1100,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
     print('🔄 PROPERTY KEY: $propertyKey');
     print('🔄 UPDATED WIDGET: ${updatedWidget.id}');
 
-    // Notify parent of property change
     widget.onPropertyChanged(updatedWidget);
   }
 
@@ -1212,7 +1181,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   void _saveWidget() {
-    // Save widget changes
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Widget saved successfully'),
@@ -1238,7 +1206,6 @@ class _PropertyPanelState extends State<PropertyPanel> {
   }
 
   void _addEvent(String eventName) {
-    // Add event to widget
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Added $eventName event'),
@@ -1277,11 +1244,11 @@ class PropertyCheckboxItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120,
-      height: 60, // EXACTLY like Sketchware Pro
+      height: 60,
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[200], // Light grey background like Sketchware Pro
-        borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: Colors.grey[300]!,
           width: 1,
@@ -1292,24 +1259,22 @@ class PropertyCheckboxItem extends StatelessWidget {
         child: InkWell(
           onTap: () => onChanged(!value),
           borderRadius:
-              BorderRadius.circular(8), // Match container border radius
+              BorderRadius.circular(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon on top - EXACTLY like Sketchware Pro
               Icon(
                 icon,
-                size: 20, // Slightly smaller icon like Sketchware Pro
+                size: 20,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
 
-              const SizedBox(height: 4), // Small spacing
+              const SizedBox(height: 4),
 
-              // Property name below icon - EXACTLY like Sketchware Pro
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12, // Smaller text like Sketchware Pro
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -1345,11 +1310,11 @@ class PropertyMeasureItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120,
-      height: 60, // EXACTLY like Sketchware Pro
+      height: 60,
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[200], // Light grey background like Sketchware Pro
-        borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: Colors.grey[300]!,
           width: 1,
@@ -1360,24 +1325,22 @@ class PropertyMeasureItem extends StatelessWidget {
         child: InkWell(
           onTap: () => _showMeasureDialog(context),
           borderRadius:
-              BorderRadius.circular(8), // Match container border radius
+              BorderRadius.circular(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon on top - EXACTLY like Sketchware Pro
               Icon(
                 icon,
-                size: 20, // Slightly smaller icon like Sketchware Pro
+                size: 20,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
 
-              const SizedBox(height: 4), // Small spacing
+              const SizedBox(height: 4),
 
-              // Property name below icon - EXACTLY like Sketchware Pro
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12, // Smaller text like Sketchware Pro
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -1434,7 +1397,7 @@ class PropertyMeasureItem extends StatelessWidget {
   }
 }
 
-// Property Indent Item - EXACTLY matches Sketchware Pro's PropertyIndentItem
+// Property Indent Item - EXACTLY matches Sketchware Pro's PropertyIndentItem 
 class PropertyIndentItem extends StatelessWidget {
   final String label;
   final String value;
@@ -1455,11 +1418,11 @@ class PropertyIndentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120,
-      height: 60, // EXACTLY like Sketchware Pro
+      height: 60,
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[200], // Light grey background like Sketchware Pro
-        borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: Colors.grey[300]!,
           width: 1,
@@ -1470,24 +1433,22 @@ class PropertyIndentItem extends StatelessWidget {
         child: InkWell(
           onTap: () => _showIndentDialog(context),
           borderRadius:
-              BorderRadius.circular(8), // Match container border radius
+              BorderRadius.circular(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon on top - EXACTLY like Sketchware Pro
               Icon(
                 icon,
-                size: 20, // Slightly smaller icon like Sketchware Pro
+                size: 20,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
 
-              const SizedBox(height: 4), // Small spacing
+              const SizedBox(height: 4),
 
-              // Property name below icon - EXACTLY like Sketchware Pro
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12, // Smaller text like Sketchware Pro
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),

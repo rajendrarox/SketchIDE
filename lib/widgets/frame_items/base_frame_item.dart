@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
-import '../../models/sketchware_item_interface.dart';
+import '../../models/sketchide_item_interface.dart';
 import '../../controllers/mobile_frame_touch_controller.dart';
 import '../../services/selection_service.dart';
 
 /// SKETCHWARE PRO STYLE: Base class for all frame items that matches Item* classes
 /// This provides the common interface and functionality that all Sketchware Pro Item* classes have
 abstract class BaseFrameItem extends StatefulWidget
-    implements SketchwareItemInterface {
+    implements SketchideItemInterface {
   final FlutterWidgetBean widgetBean;
   final MobileFrameTouchController? touchController;
   final SelectionService? selectionService;

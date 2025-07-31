@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 import '../../services/icon_utils.dart';
 
-/// WidgetIcon - Simple palette widget for Icon (matches Sketchware Pro's IconImageView)
-/// Display-only widget for palette, no interactive features
 class WidgetIcon extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -39,7 +37,6 @@ class WidgetIcon extends StatelessWidget {
     return IconUtils.getIconFromName(iconName);
   }
 
-  /// Create a FlutterWidgetBean for Icon (matches Sketchware Pro's getBean())
   static FlutterWidgetBean createBean({
     String? id,
     Map<String, dynamic>? properties,
@@ -63,8 +60,8 @@ class WidgetIcon extends StatelessWidget {
       ),
       events: {},
       layout: LayoutBean(
-        width: -2, // WRAP_CONTENT
-        height: -2, // WRAP_CONTENT
+        width: -2,
+        height: -2,
         marginLeft: 0,
         marginTop: 0,
         marginRight: 0,

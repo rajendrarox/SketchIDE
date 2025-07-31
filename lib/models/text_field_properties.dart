@@ -1,5 +1,4 @@
-/// TextFieldProperties - EXACTLY matches Sketchware Pro's TextBean pattern for EditText
-/// Strongly typed properties for TextField widgets to avoid type conversion issues
+
 class TextFieldProperties {
   final String text;
   final String hint;
@@ -19,12 +18,12 @@ class TextFieldProperties {
     this.textSize = 12,
     this.textColor = 0xff000000,
     this.hintColor = 0xff607d8b,
-    this.inputType = 1, // INPUT_TYPE_TEXT
-    this.imeOption = 0, // IME_OPTION_NORMAL
+    this.inputType = 1, 
+    this.imeOption = 0, 
     this.singleLine = 0,
     this.line = 0,
     this.textFont = 'default_font',
-    this.textType = 0, // TEXT_TYPE_NORMAL
+    this.textType = 0, 
   });
 
   factory TextFieldProperties.fromJson(Map<String, dynamic> json) {
@@ -87,7 +86,7 @@ class TextFieldProperties {
     );
   }
 
-  // Safe parsing methods
+ 
   static int? _parseInt(dynamic value) {
     if (value == null) return null;
     if (value is int) return value;

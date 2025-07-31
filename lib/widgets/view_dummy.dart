@@ -4,14 +4,7 @@ import '../services/text_property_service.dart';
 import '../services/color_utils.dart';
 import '../services/icon_utils.dart';
 
-/// ViewDummy - EXACTLY matches Sketchware Pro's ViewDummy functionality
-///
-/// SKETCHWARE PRO FEATURES:
-/// - Real-time bitmap creation of dragged widget
-/// - Semi-transparent overlay (50% alpha)
-/// - Precise position tracking
-/// - Allow/Disallow visual states
-/// - Widget behavior and properties preservation
+
 class ViewDummy extends StatefulWidget {
   final bool isVisible;
   final bool isAllowed;
@@ -53,28 +46,23 @@ class _ViewDummyState extends State<ViewDummy> {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Create widget preview (SAFE approach without bitmap creation)
   Future<void> _createWidgetBitmap() async {
     if (widget.draggedWidget == null) return;
 
     try {
-      // SKETCHWARE PRO STYLE: Use widget preview instead of bitmap to avoid OpenGL errors
       setState(() {
         _isImageReady = true;
       });
     } catch (e) {
       print('ViewDummy: Error creating widget preview: $e');
-      // Fallback to widget preview
       setState(() {
         _isImageReady = true;
       });
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Build temporary widget for bitmap creation
   Widget _buildTempWidget() {
     if (widget.widgetBean != null) {
-      // Create widget based on FlutterWidgetBean (like Sketchware Pro)
       switch (widget.widgetBean!.type) {
         case 'Text':
           return Container(
@@ -134,7 +122,6 @@ class _ViewDummyState extends State<ViewDummy> {
       }
     }
 
-    // Fallback widget
     return Container(
       width: 80,
       height: 40,
@@ -161,16 +148,12 @@ class _ViewDummyState extends State<ViewDummy> {
   }
 
   Widget _buildDummyContent() {
-    // SKETCHWARE PRO EXACT: ViewDummy shows semi-transparent copy of the actual widget
-    // NOT colored borders or plus icons - just the widget at 50% alpha
     return Opacity(
-      opacity: 0.5, // SKETCHWARE PRO: setAlpha(0.5f) = 50% transparency
+      opacity: 0.5,
       child: Stack(
         children: [
-          // Show the actual widget preview (like Sketchware Pro's bitmap)
           _buildWidgetPreview(),
 
-          // Show "not allowed" icon when drop is invalid (like Sketchware Pro)
           if (!widget.isAllowed)
             Positioned.fill(
               child: Container(
@@ -190,7 +173,6 @@ class _ViewDummyState extends State<ViewDummy> {
   }
 
   Widget _buildWidgetPreview() {
-    // SKETCHWARE PRO STYLE: Show actual widget preview with proper sizing (like bitmap creation)
     if (widget.widgetBean != null) {
       final widgetBean = widget.widgetBean!;
       return Container(
@@ -201,7 +183,6 @@ class _ViewDummyState extends State<ViewDummy> {
       );
     }
 
-    // Default preview when no widget bean
     return Container(
       width: 100,
       height: 50,
@@ -224,7 +205,6 @@ class _ViewDummyState extends State<ViewDummy> {
     final type = widget.widgetBean!.type;
     final properties = widget.widgetBean!.properties;
 
-    // SKETCHWARE PRO STYLE: Show actual widget properties and behavior
     switch (type) {
       case 'Text':
         return Center(
@@ -341,7 +321,6 @@ class _ViewDummyState extends State<ViewDummy> {
     if (colorValue is Color) return colorValue;
 
     if (colorValue is String) {
-      // Handle hex colors
       if (colorValue.startsWith('#')) {
         try {
           return Color(int.parse(colorValue.replaceFirst('#', '0xFF')));
@@ -350,7 +329,6 @@ class _ViewDummyState extends State<ViewDummy> {
         }
       }
 
-      // Handle named colors
       switch (colorValue.toLowerCase()) {
         case 'red':
           return Colors.red;

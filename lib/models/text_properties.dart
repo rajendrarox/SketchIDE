@@ -1,5 +1,4 @@
-/// TextProperties - EXACTLY matches Sketchware Pro's TextBean
-/// Strongly typed properties for Text widgets to avoid type conversion issues
+
 class TextProperties {
   final String text;
   final int textSize;
@@ -12,7 +11,7 @@ class TextProperties {
     this.text = 'Text Widget',
     this.textSize = 12,
     this.textColor = 0xff000000,
-    this.textType = 0, // TEXT_TYPE_NORMAL
+    this.textType = 0, 
     this.textFont = 'default_font',
     this.line = 0,
   });

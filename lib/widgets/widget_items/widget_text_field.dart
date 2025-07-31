@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/flutter_widget_bean.dart';
 
-/// WidgetTextField - Simple palette widget for TextField (matches Sketchware Pro's IconEditText)
-/// Display-only widget for palette, no interactive features
 class WidgetTextField extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -42,7 +40,6 @@ class WidgetTextField extends StatelessWidget {
     return widgetBean.properties['hint'] ?? 'Edit Text';
   }
 
-  /// Create a FlutterWidgetBean for TextField (matches Sketchware Pro's getBean())
   static FlutterWidgetBean createBean({
     String? id,
     Map<String, dynamic>? properties,
@@ -56,9 +53,9 @@ class WidgetTextField extends StatelessWidget {
         'textSize': 14.0,
         'textColor': 0xFF000000,
         'hintColor': 0xFF757575,
-        'inputType': 1, // TEXT
-        'imeOption': 0, // NORMAL
-        'singleLine': 1, // TRUE
+        'inputType': 1,
+        'imeOption': 0,
+        'singleLine': 1,
         ...?properties,
       },
       children: [],
@@ -70,8 +67,8 @@ class WidgetTextField extends StatelessWidget {
       ),
       events: {},
       layout: LayoutBean(
-        width: -2, // WRAP_CONTENT
-        height: -2, // WRAP_CONTENT
+        width: -2,
+        height: -2,
         marginLeft: 0,
         marginTop: 0,
         marginRight: 0,

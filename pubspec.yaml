@@ -9,10 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path_provider: ^2.1.5 # Scope Storage path
-  flutter_native_splash: ^2.4.3 # Splash Screen
-  logging: ^1.2.0 # file serve
-  sqflite: ^2.4.1
+  path_provider: ^2.1.5 
+  flutter_native_splash: ^2.4.3 
+  logging: ^1.2.0 
   path: ^1.9.0
   get: ^4.6.6
   image_picker: ^1.1.2

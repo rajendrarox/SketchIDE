@@ -4,8 +4,6 @@ import '../../models/sketchide_item_interface.dart';
 import '../../controllers/mobile_frame_touch_controller.dart';
 import '../../services/selection_service.dart';
 
-/// SKETCHWARE PRO STYLE: Base class for all frame items that matches Item* classes
-/// This provides the common interface and functionality that all Sketchware Pro Item* classes have
 abstract class BaseFrameItem extends StatefulWidget
     implements SketchideItemInterface {
   final FlutterWidgetBean widgetBean;
@@ -29,8 +27,6 @@ abstract class BaseFrameItem extends StatefulWidget
 
   @override
   void setBean(FlutterWidgetBean viewBean) {
-    // In Flutter, we can't modify the widgetBean directly, but this matches the interface
-    // The actual bean is managed by the parent widget
   }
 
   @override
@@ -38,8 +34,6 @@ abstract class BaseFrameItem extends StatefulWidget
 
   @override
   void setFixed(bool fixed) {
-    // In Flutter, we can't modify the widgetBean directly, but this matches the interface
-    // The actual fixed status is managed by the parent widget
   }
 
   @override
@@ -49,8 +43,6 @@ abstract class BaseFrameItem extends StatefulWidget
 
   @override
   void setSelection(bool selection) {
-    // In Flutter, selection is managed by the SelectionService
-    // This matches the interface pattern from Sketchware Pro
     if (selection) {
       selectionService?.selectWidget(widgetBean);
     } else {
@@ -58,14 +50,11 @@ abstract class BaseFrameItem extends StatefulWidget
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Get the selection color (matches 0x9599d5d0)
   Color getSelectionColor() => const Color(0x9599d5d0);
 
-  /// SKETCHWARE PRO STYLE: Get the density factor (matches wB.a(context, 1.0f))
   double getDensityFactor(BuildContext context) =>
       MediaQuery.of(context).devicePixelRatio;
 
-  /// SKETCHWARE PRO STYLE: Build the selection painter (matches onDraw with canvas.drawRect)
   CustomPainter buildSelectionPainter() {
     return SelectionPainter(
       isSelected: getSelection(),
@@ -73,11 +62,9 @@ abstract class BaseFrameItem extends StatefulWidget
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build the main content (to be implemented by subclasses)
   Widget buildContent(BuildContext context);
 }
-
-/// SKETCHWARE PRO STYLE: Base state for frame items
+  
 class _BaseFrameItemState extends State<BaseFrameItem> {
   @override
   Widget build(BuildContext context) {
@@ -88,7 +75,6 @@ class _BaseFrameItemState extends State<BaseFrameItem> {
   }
 }
 
-/// SKETCHWARE PRO STYLE: Selection painter that matches the onDraw pattern from Item* classes
 class SelectionPainter extends CustomPainter {
   final bool isSelected;
   final Color selectionColor;
@@ -101,7 +87,6 @@ class SelectionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (isSelected) {
-      // SKETCHWARE PRO STYLE: Draw selection rectangle like Item*.onDraw()
       final paint = Paint()
         ..color = selectionColor
         ..style = PaintingStyle.fill;
@@ -111,7 +96,6 @@ class SelectionPainter extends CustomPainter {
         paint,
       );
 
-      // SKETCHWARE PRO STYLE: Add border like Item*.onDraw()
       final borderPaint = Paint()
         ..color = selectionColor
         ..style = PaintingStyle.stroke

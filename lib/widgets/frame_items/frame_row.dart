@@ -5,8 +5,6 @@ import '../../services/selection_service.dart';
 import '../../services/child_widget_service.dart';
 import '../../services/layout_property_service.dart';
 
-/// FrameRow - Mobile frame version of Row widget (matches Sketchware Pro's ItemLinearLayout)
-/// Enhanced touch handling, selection visual feedback, and drag capabilities
 class FrameRow extends StatefulWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -47,7 +45,6 @@ class _FrameRowState extends State<FrameRow> {
     _setupTouchController();
   }
 
-  /// SKETCHWARE PRO STYLE: Setup touch controller callbacks
   void _setupTouchController() {
     widget.touchController?.setCallbacks(
       onWidgetSelected: widget.onWidgetSelected,
@@ -56,7 +53,6 @@ class _FrameRowState extends State<FrameRow> {
       onWidgetDragEnd: widget.onWidgetDragEnd,
       onWidgetLongPress: (widget) {
         print('🎯 FRAME ROW LONG PRESS: ${widget.id}');
-        // Handle long press feedback
       },
       onDragStateChanged: (isDragging) {
         print('🎯 FRAME ROW DRAG STATE: ${widget.widgetBean.id} - $isDragging');
@@ -69,37 +65,29 @@ class _FrameRowState extends State<FrameRow> {
     final isSelected =
         widget.selectionService?.isWidgetSelected(widget.widgetBean) ?? false;
 
-    // SKETCHWARE PRO STYLE: Get exact position and size like ItemLinearLayout
     final position = widget.widgetBean.position;
     final layout = widget.widgetBean.layout;
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like wB.a(context, value)
     final density = MediaQuery.of(context).devicePixelRatio;
 
-    // SKETCHWARE PRO STYLE: Handle width/height like ViewPane.updateLayout()
     double? width = position.width * widget.scale;
     double? height = position.height * widget.scale;
 
-    // SKETCHWARE PRO STYLE: Handle MATCH_PARENT and positive values
     if (layout.width == -1) {
-      // MATCH_PARENT - Mobile frame handles width via Positioned(right: 0)
-      width = null; // ✅ Let parent constraints determine width
+      width = null; 
     } else if (layout.width > 0) {
       width = layout.width * density * widget.scale;
     }
 
     if (layout.height == -1) {
-      // MATCH_PARENT - Let Container handle full height
-      height = null; // ✅ Let parent constraints determine height
+      height = null; 
     } else if (layout.height > 0) {
       height = layout.height * density * widget.scale;
     }
 
     return GestureDetector(
-      // FLUTTER FIX: Ensure tap events are captured
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        // SKETCHWARE PRO STYLE: Handle widget selection on tap
         print('🎯 FRAME ROW TAP: ${widget.widgetBean.id}');
         if (widget.selectionService != null) {
           widget.selectionService!.selectWidget(widget.widgetBean);
@@ -133,23 +121,21 @@ class _FrameRowState extends State<FrameRow> {
         painter: _SelectionPainter(isSelected),
         child: Container(
           key: _widgetKey,
-          // SKETCHWARE PRO STYLE: Use exact width/height like ItemLinearLayout
           width: width != null && width! > 0
               ? width
-              : null, // ✅ Handle nullable width
+              : null, 
           height: height != null && height! > 0
               ? height
-              : null, // ✅ Handle nullable height
-          // SKETCHWARE PRO STYLE: Minimum size like ItemLinearLayout (32dp)
+              : null, 
           constraints: BoxConstraints(
             minWidth: width == null
                 ? 0
                 : 32 *
                     density *
-                    widget.scale, // ✅ No minWidth when using parent constraints
+                    widget.scale, 
             minHeight: 32 *
                 density *
-                widget.scale, // ✅ EXACT: 32dp like ItemLinearLayout
+                widget.scale, 
           ),
           child: _buildRowContent(),
         ),
@@ -157,18 +143,15 @@ class _FrameRowState extends State<FrameRow> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build row content with properties
   Widget _buildRowContent() {
     final backgroundColor = _getBackgroundColor();
     final mainAxisAlignment = _getMainAxisAlignment();
     final crossAxisAlignment = _getCrossAxisAlignment();
     final childWidgets = _buildChildWidgets();
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
     final density = MediaQuery.of(context).devicePixelRatio;
     final scaledFontSize = 12 * density * widget.scale;
 
-    // SKETCHWARE PRO STYLE: Apply padding from layout bean like ItemLinearLayout
     final padding = EdgeInsets.fromLTRB(
       widget.widgetBean.layout.paddingLeft * density * widget.scale,
       widget.widgetBean.layout.paddingTop * density * widget.scale,
@@ -177,24 +160,20 @@ class _FrameRowState extends State<FrameRow> {
     );
 
     return Container(
-      // SKETCHWARE PRO STYLE: Full width container like ItemLinearLayout
-      width: double.infinity, // ✅ FORCE FULL WIDTH - no right edge padding
-      // SKETCHWARE PRO STYLE: No height constraint - let content determine height
-      padding: padding, // ✅ Apply 8dp padding like Sketchware Pro
+      width: double.infinity, 
+      padding: padding, 
       decoration: BoxDecoration(
         color: backgroundColor,
-        // EXACT SKETCHWARE PRO: Selection background like ItemLinearLayout.onDraw()
         border: Border.all(
-          color: const Color(0x60000000), // Sketchware Pro border color
+          color: const Color(0x60000000), 
           width: 1.0 * widget.scale,
         ),
-        // EXACT SKETCHWARE PRO: Selection highlight
         boxShadow: (widget.selectionService?.selectedWidget?.id ==
                 widget.widgetBean.id)
             ? [
                 BoxShadow(
                   color:
-                      const Color(0x9599d5d0), // Sketchware Pro selection color
+                      const Color(0x9599d5d0), 
                   blurRadius: 0,
                   spreadRadius: 2.0 * widget.scale,
                 ),
@@ -207,11 +186,10 @@ class _FrameRowState extends State<FrameRow> {
               crossAxisAlignment: crossAxisAlignment,
               children: childWidgets,
             )
-          : Container(), // Clean empty container - no placeholder text or icon
+          : Container(), 
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build child widgets using enhanced service
   List<Widget> _buildChildWidgets() {
     return ChildWidgetService().buildChildWidgets(
       widget.widgetBean,
@@ -223,7 +201,6 @@ class _FrameRowState extends State<FrameRow> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build sample items for preview
   List<Widget> _buildSampleItems() {
     return [
       _buildSampleItem('Item 1'),
@@ -232,7 +209,6 @@ class _FrameRowState extends State<FrameRow> {
     ];
   }
 
-  /// SKETCHWARE PRO STYLE: Build sample item
   Widget _buildSampleItem(String text) {
     return Container(
       margin: EdgeInsets.all(4 * widget.scale),
@@ -251,30 +227,25 @@ class _FrameRowState extends State<FrameRow> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get main axis alignment using LayoutPropertyService
   MainAxisAlignment _getMainAxisAlignment() {
     final alignment = widget.widgetBean.properties['mainAxisAlignment'];
     return _layoutPropertyService.parseMainAxisAlignment(alignment);
   }
 
-  /// SKETCHWARE PRO STYLE: Get cross axis alignment using LayoutPropertyService
   CrossAxisAlignment _getCrossAxisAlignment() {
     final alignment = widget.widgetBean.properties['crossAxisAlignment'];
     return _layoutPropertyService.parseCrossAxisAlignment(alignment);
   }
 
-  /// SKETCHWARE PRO STYLE: Get main axis size using LayoutPropertyService
   MainAxisSize _getMainAxisSize() {
     final size = widget.widgetBean.properties['mainAxisSize'];
     return _layoutPropertyService.parseMainAxisSize(size);
   }
 
-  /// SKETCHWARE PRO STYLE: Get background color (matches ItemLinearLayout)
   Color _getBackgroundColor() {
     final color = widget.widgetBean.properties['backgroundColor'];
     if (color != null) {
       if (color is int) {
-        // SKETCHWARE PRO STYLE: Handle 0xffffff as transparent
         if (color == 0xffffff) {
           return Colors.transparent;
         }
@@ -283,7 +254,6 @@ class _FrameRowState extends State<FrameRow> {
         try {
           final colorInt =
               int.parse(color.substring(1), radix: 16) + 0xFF000000;
-          // SKETCHWARE PRO STYLE: Handle #FFFFFF as transparent
           if (colorInt == 0xFFFFFFFF) {
             return Colors.transparent;
           }
@@ -296,34 +266,29 @@ class _FrameRowState extends State<FrameRow> {
     return Colors.transparent;
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch start
   void _handleTouchStart(Offset position) {
     print('🎯 FRAME ROW TOUCH START: ${widget.widgetBean.id}');
     widget.touchController
         ?.handleTouchStart(widget.widgetBean, position, _widgetKey);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch move
   void _handleTouchMove(Offset position) {
     widget.touchController?.handleTouchMove(position);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch end
   void _handleTouchEnd(Offset position) {
     print('🎯 FRAME ROW TOUCH END: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchEnd(position);
   }
 
-  /// EXACT SKETCHWARE PRO: Build empty row placeholder like ItemLinearLayout
   Widget _buildEmptyRowPlaceholder() {
     return Container(
-      width: double.infinity, // ✅ ENSURE PLACEHOLDER ALSO TAKES FULL WIDTH
+      width: double.infinity, 
       padding: EdgeInsets.all(8 * widget.scale),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // EXACT SKETCHWARE PRO: Horizontal layout icon like Sketchware Pro
           Container(
             width: 20 * widget.scale,
             height: 12 * widget.scale,
@@ -372,13 +337,11 @@ class _FrameRowState extends State<FrameRow> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch cancel
   void _handleTouchCancel() {
     print('🎯 FRAME ROW TOUCH CANCEL: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchCancel();
   }
 
-  /// SKETCHWARE PRO STYLE: Notify parent about widget selection
   void _notifyWidgetSelected() {
     print('🚀 NOTIFYING WIDGET SELECTION: ${widget.widgetBean.id}');
     if (widget.touchController != null) {
@@ -389,7 +352,6 @@ class _FrameRowState extends State<FrameRow> {
   }
 }
 
-/// SKETCHWARE PRO STYLE: Custom painter for selection visual feedback (matches ItemLinearLayout.onDraw)
 class _SelectionPainter extends CustomPainter {
   final bool isSelected;
 
@@ -398,12 +360,10 @@ class _SelectionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (isSelected) {
-      // SKETCHWARE PRO STYLE: Use exact same color as ItemLinearLayout (0x9599d5d0)
       final paint = Paint()
         ..color = const Color(0x9599d5d0)
         ..style = PaintingStyle.fill;
 
-      // Draw selection rectangle (matches ItemLinearLayout.onDraw)
       canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
     }
   }

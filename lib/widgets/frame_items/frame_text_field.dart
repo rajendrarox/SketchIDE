@@ -3,10 +3,9 @@ import '../../models/flutter_widget_bean.dart';
 import '../../controllers/mobile_frame_touch_controller.dart';
 import '../../services/selection_service.dart';
 import '../../services/color_utils.dart';
+import '../../services/widget_sizing_service.dart'; // Added import for WidgetSizingService
 import 'base_frame_item.dart';
 
-/// SKETCHWARE PRO STYLE: Frame TextField Widget that matches ItemEditText exactly
-/// Implements the same interface pattern as Sketchware Pro's ItemEditText
 class FrameTextField extends BaseFrameItem {
   const FrameTextField({
     super.key,
@@ -27,7 +26,6 @@ class FrameTextField extends BaseFrameItem {
   }
 }
 
-/// SKETCHWARE PRO STYLE: Frame TextField Content Widget
 class _FrameTextFieldContent extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final MobileFrameTouchController? touchController;
@@ -45,30 +43,25 @@ class _FrameTextFieldContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final widgetKey = GlobalKey();
 
-    /// SKETCHWARE PRO STYLE: Get exact position and size like ItemEditText
     final position = widgetBean.position;
     final layout = widgetBean.layout;
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like wB.a(context, value)
-    final density = MediaQuery.of(context).devicePixelRatio;
-
-    // SKETCHWARE PRO STYLE: Handle width/height like ViewPane.updateLayout()
+    // SKETCHWARE PRO STYLE: Use wB.a() pattern - convert DP to pixels once
     double width = position.width * scale;
     double height = position.height * scale;
 
-    // SKETCHWARE PRO STYLE: If width/height are positive, convert dp to pixels
     if (layout.width > 0) {
-      width = layout.width * density * scale;
+      // SKETCHWARE PRO STYLE: wB.a(getContext(), (float) layout.width)
+      width = WidgetSizingService.convertDpToPixels(context, layout.width.toDouble()) * scale;
     }
     if (layout.height > 0) {
-      height = layout.height * density * scale;
+      // SKETCHWARE PRO STYLE: wB.a(getContext(), (float) layout.height)
+      height = WidgetSizingService.convertDpToPixels(context, layout.height.toDouble()) * scale;
     }
 
     return GestureDetector(
-      // FLUTTER FIX: Ensure tap events are captured
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        // SKETCHWARE PRO STYLE: Handle widget selection on tap
         print('🎯 FRAME TEXT FIELD TAP: ${widgetBean.id}');
         if (selectionService != null) {
           selectionService!.selectWidget(widgetBean);
@@ -77,7 +70,6 @@ class _FrameTextFieldContent extends StatelessWidget {
         _notifyWidgetSelected();
       },
       onTapDown: (details) {
-        // Additional tap down handling if needed
         print('🎯 FRAME TEXT FIELD TAP DOWN: ${widgetBean.id}');
       },
       onLongPressStart: (details) {
@@ -100,86 +92,81 @@ class _FrameTextFieldContent extends StatelessWidget {
       },
       child: Container(
         key: widgetKey,
-        // SKETCHWARE PRO STYLE: Use exact width/height like ItemEditText
         width: width > 0 ? width : null,
         height: height > 0 ? height : null,
-        // SKETCHWARE PRO STYLE: Minimum size like ItemEditText (32dp)
         constraints: BoxConstraints(
-          minWidth: 32 * density * scale,
-          minHeight: 32 * density * scale,
+          minWidth: 32 * scale, // SKETCHWARE PRO STYLE: Simple scaling
+          minHeight: 32 * scale, // SKETCHWARE PRO STYLE: Simple scaling
         ),
         child: _buildTextFieldContent(context),
       ),
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build text field content (matches ItemEditText)
   Widget _buildTextFieldContent(BuildContext context) {
+    final isSelected = selectionService?.selectedWidget?.id == widgetBean.id;
     final backgroundColor = _getBackgroundColor();
     final cornerRadius = _getCornerRadius();
-    final contentPadding = _getContentPadding(context);
-
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
-    final density = MediaQuery.of(context).devicePixelRatio;
-    final scaledCornerRadius = cornerRadius * density * scale;
 
     return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(scaledCornerRadius),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1 * density * scale,
+      // SKETCHWARE PRO STYLE: Use background fill for selection like ItemEditText
+      color: isSelected ? const Color(0x9599d5d0) : Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(cornerRadius * scale),
+          border: Border.all(
+            color: Colors.grey[400]!,
+            width: 1 * scale,
+          ),
         ),
-      ),
-      child: TextField(
-        enabled: false, // SKETCHWARE PRO STYLE: Read-only in design mode
-        controller: TextEditingController(text: _getText()),
-        style: _getTextStyle(context),
-        decoration: InputDecoration(
-          hintText: _getHint(),
-          hintStyle: _getHintStyle(context),
-          contentPadding: contentPadding,
-          border: InputBorder.none,
+        child: TextField(
+          enabled: false, // Disabled like Sketchware Pro
+          controller: TextEditingController(text: _getText()),
+          style: _getTextStyle(context),
+          decoration: InputDecoration(
+            hintText: _getHint(),
+            hintStyle: _getHintStyle(context),
+            contentPadding: _getContentPadding(context),
+            border: InputBorder.none,
+            // SKETCHWARE PRO STYLE: Remove default padding
+            isDense: true,
+          ),
         ),
       ),
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get hint text (matches ItemEditText)
   String _getHint() {
     final hint = widgetBean.properties['hint']?.toString() ?? '';
 
-    // SKETCHWARE PRO STYLE: If hint is empty, show default content like ItemEditText
+    // SKETCHWARE PRO STYLE: Default hint text like EditText
     if (hint.isEmpty) {
-      return 'Enter text'; // SKETCHWARE PRO STYLE: Default hint like IconEditText.getBean()
+      return 'Enter text';
     }
 
     return hint;
   }
 
-  /// SKETCHWARE PRO STYLE: Get text content (matches ItemEditText)
   String _getText() {
     final text = widgetBean.properties['text']?.toString() ?? '';
 
-    // SKETCHWARE PRO STYLE: If text is empty, show default content like ItemEditText
+    // SKETCHWARE PRO STYLE: Default text like EditText
     if (text.isEmpty) {
-      return 'Edit Text'; // SKETCHWARE PRO STYLE: Default text like IconEditText.getBean()
+      return 'Edit Text';
     }
 
     return text;
   }
 
-  /// SKETCHWARE PRO STYLE: Get text style (matches ItemEditText)
   TextStyle _getTextStyle(BuildContext context) {
     final fontSize = _parseDouble(widgetBean.properties['textSize']) ?? 14.0;
     final textColor = ColorUtils.parseColor(
             widgetBean.properties['textColor'] ?? '#000000') ??
         Colors.black;
 
-    // SKETCHWARE PRO STYLE: Convert sp to pixels like Android
-    final density = MediaQuery.of(context).devicePixelRatio;
-    final scaledFontSize = fontSize * density * scale;
+    // SKETCHWARE PRO STYLE: Use raw font size without density scaling
+    final scaledFontSize = fontSize * scale; // Remove density scaling!
 
     return TextStyle(
       fontSize: scaledFontSize,
@@ -187,16 +174,14 @@ class _FrameTextFieldContent extends StatelessWidget {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get hint style (matches ItemEditText)
   TextStyle _getHintStyle(BuildContext context) {
     final hintColor = ColorUtils.parseColor(
             widgetBean.properties['hintColor'] ?? '#757575') ??
         Colors.grey;
 
-    // SKETCHWARE PRO STYLE: Convert sp to pixels like Android
-    final density = MediaQuery.of(context).devicePixelRatio;
+    // SKETCHWARE PRO STYLE: Use raw font size without density scaling
     final fontSize = _parseDouble(widgetBean.properties['textSize']) ?? 14.0;
-    final scaledFontSize = fontSize * density * scale;
+    final scaledFontSize = fontSize * scale; // Remove density scaling!
 
     return TextStyle(
       fontSize: scaledFontSize,
@@ -204,38 +189,33 @@ class _FrameTextFieldContent extends StatelessWidget {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get background color (matches ItemEditText)
   Color _getBackgroundColor() {
     final backgroundColor =
         widgetBean.properties['backgroundColor']?.toString() ?? '#FFFFFF';
 
     // SKETCHWARE PRO STYLE: Handle white background like ItemEditText
     if (backgroundColor == '#FFFFFF' || backgroundColor == '#ffffff') {
-      return Colors
-          .transparent; // SKETCHWARE PRO STYLE: Transparent for white background
+      return Colors.transparent; 
     }
 
     return ColorUtils.parseColor(backgroundColor) ?? Colors.transparent;
   }
 
-  /// SKETCHWARE PRO STYLE: Get corner radius (matches ItemEditText)
   double _getCornerRadius() {
     final radius = widgetBean.properties['cornerRadius'];
     if (radius is num) {
       return radius.toDouble();
     }
-    return 4.0;
+    return 4.0; // SKETCHWARE PRO STYLE: Default corner radius
   }
 
-  /// SKETCHWARE PRO STYLE: Get content padding (matches ItemEditText)
   EdgeInsets _getContentPadding(BuildContext context) {
-    final density = MediaQuery.of(context).devicePixelRatio;
-    final padding = 8.0 * density * scale;
+    // SKETCHWARE PRO STYLE: Use raw padding without density scaling
+    final padding = 8.0 * scale; // Remove density scaling!
 
     return EdgeInsets.all(padding);
   }
 
-  /// SKETCHWARE PRO STYLE: Parse double from various types
   double? _parseDouble(dynamic value) {
     if (value == null) return null;
     if (value is num) return value.toDouble();
@@ -245,7 +225,6 @@ class _FrameTextFieldContent extends StatelessWidget {
     return null;
   }
 
-  /// SKETCHWARE PRO STYLE: Notify parent about widget selection
   void _notifyWidgetSelected() {
     print('🚀 NOTIFYING WIDGET SELECTION: ${widgetBean.id}');
     if (touchController != null) {

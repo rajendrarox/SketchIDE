@@ -3,10 +3,9 @@ import '../../models/flutter_widget_bean.dart';
 import '../../controllers/mobile_frame_touch_controller.dart';
 import '../../services/selection_service.dart';
 import '../../services/color_utils.dart';
+import '../../services/widget_sizing_service.dart'; // Added import for WidgetSizingService
 import 'base_frame_item.dart';
 
-/// SKETCHWARE PRO STYLE: Frame Icon Widget that matches ItemImageView exactly
-/// Implements the same interface pattern as Sketchware Pro's ItemImageView
 class FrameIcon extends BaseFrameItem {
   const FrameIcon({
     super.key,
@@ -27,7 +26,6 @@ class FrameIcon extends BaseFrameItem {
   }
 }
 
-/// SKETCHWARE PRO STYLE: Frame Icon Content Widget
 class _FrameIconContent extends StatelessWidget {
   final FlutterWidgetBean widgetBean;
   final MobileFrameTouchController? touchController;
@@ -45,30 +43,25 @@ class _FrameIconContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final widgetKey = GlobalKey();
 
-    /// SKETCHWARE PRO STYLE: Get exact position and size like ItemImageView
     final position = widgetBean.position;
     final layout = widgetBean.layout;
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like wB.a(context, value)
-    final density = MediaQuery.of(context).devicePixelRatio;
-
-    // SKETCHWARE PRO STYLE: Handle width/height like ViewPane.updateLayout()
+    // SKETCHWARE PRO STYLE: Use wB.a() pattern - convert DP to pixels once
     double width = position.width * scale;
     double height = position.height * scale;
 
-    // SKETCHWARE PRO STYLE: If width/height are positive, convert dp to pixels
     if (layout.width > 0) {
-      width = layout.width * density * scale;
+      // SKETCHWARE PRO STYLE: wB.a(getContext(), (float) layout.width)
+      width = WidgetSizingService.convertDpToPixels(context, layout.width.toDouble()) * scale;
     }
     if (layout.height > 0) {
-      height = layout.height * density * scale;
+      // SKETCHWARE PRO STYLE: wB.a(getContext(), (float) layout.height)
+      height = WidgetSizingService.convertDpToPixels(context, layout.height.toDouble()) * scale;
     }
 
     return GestureDetector(
-      // FLUTTER FIX: Ensure tap events are captured
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        // SKETCHWARE PRO STYLE: Handle widget selection on tap
         print('🎯 FRAME ICON TAP: ${widgetBean.id}');
         if (selectionService != null) {
           selectionService!.selectWidget(widgetBean);
@@ -77,72 +70,62 @@ class _FrameIconContent extends StatelessWidget {
         _notifyWidgetSelected();
       },
       onTapDown: (details) {
-        // Additional tap down handling if needed
         print('🎯 FRAME ICON TAP DOWN: ${widgetBean.id}');
       },
       onLongPressStart: (details) {
-        // Handle long press start
       },
       onLongPressMoveUpdate: (details) {
-        // Handle long press move update
       },
       onLongPressEnd: (details) {
-        // Handle long press end
       },
       onPanStart: (details) {
-        // Handle pan start
       },
       onPanUpdate: (details) {
-        // Handle pan update
       },
       onPanEnd: (details) {
-        // Handle pan end
       },
       child: Container(
         key: widgetKey,
-        // SKETCHWARE PRO STYLE: Use exact width/height like ItemImageView
         width: width > 0 ? width : null,
         height: height > 0 ? height : null,
-        // SKETCHWARE PRO STYLE: Minimum size like ItemImageView (32dp)
         constraints: BoxConstraints(
-          minWidth: 32 * density * scale,
-          minHeight: 32 * density * scale,
+          minWidth: 32 * scale, // Removed density scaling
+          minHeight: 32 * scale, // Removed density scaling
         ),
         child: _buildIconContent(context),
       ),
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build icon content (matches ItemImageView)
   Widget _buildIconContent(BuildContext context) {
-    final backgroundColor = _getBackgroundColor();
+    final isSelected = selectionService?.selectedWidget?.id == widgetBean.id;
     final iconSize = _getIconSize(context);
 
     return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-      ),
+      // SKETCHWARE PRO STYLE: Use background fill for selection like ItemImageView
+      color: isSelected ? const Color(0x9599d5d0) : Colors.transparent,
+      // SKETCHWARE PRO STYLE: Center icon like ImageView
       child: Center(
-        child: Icon(
-          _getIconData(),
-          size: iconSize,
-          color: _getIconColor(),
+        child: Padding(
+          // SKETCHWARE PRO STYLE: Add proper padding like ImageView
+          padding: EdgeInsets.all(4.0 * scale),
+          child: Icon(
+            _getIconData(),
+            size: iconSize,
+            color: _getIconColor(),
+          ),
         ),
       ),
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get icon data (matches ItemImageView)
   IconData _getIconData() {
     final iconName = widgetBean.properties['icon']?.toString() ?? '';
 
-    // SKETCHWARE PRO STYLE: If icon is empty, show default icon like ItemImageView
     if (iconName.isEmpty) {
-      return Icons
-          .image; // SKETCHWARE PRO STYLE: Default icon like IconImageView.getBean()
+      return Icons.image; // SKETCHWARE PRO STYLE: Default icon
     }
 
-    // Map icon names to IconData
     switch (iconName.toLowerCase()) {
       case 'home':
         return Icons.home;
@@ -330,41 +313,23 @@ class _FrameIconContent extends StatelessWidget {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Get icon size (matches ItemImageView)
   double _getIconSize(BuildContext context) {
-    final iconSize = widgetBean.properties['iconSize'];
-    if (iconSize is num) {
-      // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
-      final density = MediaQuery.of(context).devicePixelRatio;
-      return iconSize.toDouble() * density * scale;
-    }
-    // SKETCHWARE PRO STYLE: Default icon size like ItemImageView
-    final density = MediaQuery.of(context).devicePixelRatio;
-    return 24.0 * density * scale;
+    final iconSize = _parseDouble(widgetBean.properties['iconSize']) ?? 24.0;
+    
+    // SKETCHWARE PRO STYLE: Use raw icon size without density scaling
+    return iconSize * scale; // Remove density scaling!
   }
 
-  /// SKETCHWARE PRO STYLE: Get icon color (matches ItemImageView)
   Color _getIconColor() {
-    final iconColor =
-        widgetBean.properties['iconColor']?.toString() ?? '#000000';
+    final iconColor = widgetBean.properties['iconColor']?.toString() ?? '#000000';
     return ColorUtils.parseColor(iconColor) ?? Colors.black;
   }
 
-  /// SKETCHWARE PRO STYLE: Get background color (matches ItemImageView)
   Color _getBackgroundColor() {
-    final backgroundColor =
-        widgetBean.properties['backgroundColor']?.toString() ?? '#FFFFFF';
-
-    // SKETCHWARE PRO STYLE: Handle white background like ItemImageView
-    if (backgroundColor == '#FFFFFF' || backgroundColor == '#ffffff') {
-      return Colors
-          .transparent; // SKETCHWARE PRO STYLE: Transparent for white background
-    }
-
-    return ColorUtils.parseColor(backgroundColor) ?? Colors.transparent;
+    // SKETCHWARE PRO STYLE: No background for icons like ItemImageView
+    return Colors.transparent;
   }
 
-  /// SKETCHWARE PRO STYLE: Notify parent about widget selection
   void _notifyWidgetSelected() {
     print('🚀 NOTIFYING WIDGET SELECTION: ${widgetBean.id}');
     if (touchController != null) {
@@ -372,5 +337,14 @@ class _FrameIconContent extends StatelessWidget {
     } else {
       print('🚀 WARNING: touchController is null!');
     }
+  }
+
+  double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      return double.tryParse(value);
+    }
+    return null;
   }
 }

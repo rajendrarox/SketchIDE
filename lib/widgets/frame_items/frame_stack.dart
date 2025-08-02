@@ -5,8 +5,6 @@ import '../../services/selection_service.dart';
 import '../../services/child_widget_service.dart';
 import '../../services/layout_property_service.dart';
 
-/// FrameStack - Mobile frame version of Stack widget (matches Sketchware Pro's ItemRelativeLayout)
-/// Enhanced touch handling, selection visual feedback, and drag capabilities
 class FrameStack extends StatefulWidget {
   final FlutterWidgetBean widgetBean;
   final double scale;
@@ -47,7 +45,6 @@ class _FrameStackState extends State<FrameStack> {
     _setupTouchController();
   }
 
-  /// SKETCHWARE PRO STYLE: Setup touch controller callbacks
   void _setupTouchController() {
     widget.touchController?.setCallbacks(
       onWidgetSelected: widget.onWidgetSelected,
@@ -56,7 +53,6 @@ class _FrameStackState extends State<FrameStack> {
       onWidgetDragEnd: widget.onWidgetDragEnd,
       onWidgetLongPress: (widget) {
         print('🎯 FRAME STACK LONG PRESS: ${widget.id}');
-        // Handle long press feedback
       },
       onDragStateChanged: (isDragging) {
         print(
@@ -70,18 +66,14 @@ class _FrameStackState extends State<FrameStack> {
     final isSelected =
         widget.selectionService?.isWidgetSelected(widget.widgetBean) ?? false;
 
-    // SKETCHWARE PRO STYLE: Get exact position and size like ItemCardView
     final position = widget.widgetBean.position;
     final layout = widget.widgetBean.layout;
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like wB.a(context, value)
     final density = MediaQuery.of(context).devicePixelRatio;
 
-    // SKETCHWARE PRO STYLE: Handle width/height like ViewPane.updateLayout()
     double width = position.width * widget.scale;
     double height = position.height * widget.scale;
 
-    // SKETCHWARE PRO STYLE: If width/height are positive, convert dp to pixels
     if (layout.width > 0) {
       width = layout.width * density * widget.scale;
     }
@@ -90,10 +82,8 @@ class _FrameStackState extends State<FrameStack> {
     }
 
     return GestureDetector(
-      // FLUTTER FIX: Ensure tap events are captured
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        // SKETCHWARE PRO STYLE: Handle widget selection on tap
         print('🎯 FRAME STACK TAP: ${widget.widgetBean.id}');
         if (widget.selectionService != null) {
           widget.selectionService!.selectWidget(widget.widgetBean);
@@ -127,10 +117,8 @@ class _FrameStackState extends State<FrameStack> {
         painter: _SelectionPainter(isSelected),
         child: Container(
           key: _widgetKey,
-          // SKETCHWARE PRO STYLE: Use exact width/height like ItemCardView
           width: width > 0 ? width : null,
           height: height > 0 ? height : null,
-          // SKETCHWARE PRO STYLE: Minimum size like ItemCardView (32dp)
           constraints: BoxConstraints(
             minWidth: 32 * density * widget.scale,
             minHeight: 32 * density * widget.scale,
@@ -141,23 +129,19 @@ class _FrameStackState extends State<FrameStack> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build stack content with properties
   Widget _buildStackContent() {
     final backgroundColor = _getBackgroundColor();
     final alignment = _getAlignment();
     final fit = _getFit();
     final childWidgets = _buildChildWidgets();
 
-    // SKETCHWARE PRO STYLE: Convert dp to pixels like Android
     final density = MediaQuery.of(context).devicePixelRatio;
 
     return Container(
-      // SKETCHWARE PRO STYLE: Minimum size like ItemCardView
       constraints: BoxConstraints(
         minWidth: 32 * density * widget.scale,
         minHeight: 32 * density * widget.scale,
       ),
-      // SKETCHWARE PRO STYLE: Background color handling like ItemCardView
       color: backgroundColor,
       child: childWidgets.isNotEmpty
           ? Stack(
@@ -191,7 +175,6 @@ class _FrameStackState extends State<FrameStack> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build child widgets using enhanced service
   List<Widget> _buildChildWidgets() {
     return ChildWidgetService().buildChildWidgets(
       widget.widgetBean,
@@ -203,7 +186,6 @@ class _FrameStackState extends State<FrameStack> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build sample items for preview
   List<Widget> _buildSampleItems() {
     return [
       _buildSampleItem('Item 1', Alignment.topLeft),
@@ -212,7 +194,7 @@ class _FrameStackState extends State<FrameStack> {
     ];
   }
 
-  /// SKETCHWARE PRO STYLE: Build sample item
+ 
   Widget _buildSampleItem(String text, Alignment alignment) {
     return Positioned(
       left: alignment.x * 20 * widget.scale,
@@ -234,30 +216,28 @@ class _FrameStackState extends State<FrameStack> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get alignment using LayoutPropertyService
   Alignment _getAlignment() {
     final alignment = widget.widgetBean.properties['alignment'];
     return _layoutPropertyService.parseAlignment(alignment);
   }
 
-  /// SKETCHWARE PRO STYLE: Get fit using LayoutPropertyService
+  
   StackFit _getFit() {
     final fit = widget.widgetBean.properties['fit'];
     return _layoutPropertyService.parseStackFit(fit);
   }
 
-  /// SKETCHWARE PRO STYLE: Get clip behavior using LayoutPropertyService
+  
   Clip _getClipBehavior() {
     final clipBehavior = widget.widgetBean.properties['clipBehavior'];
     return _layoutPropertyService.parseClipBehavior(clipBehavior);
   }
 
-  /// SKETCHWARE PRO STYLE: Get background color (matches ItemCardView)
+  
   Color _getBackgroundColor() {
     final color = widget.widgetBean.properties['backgroundColor'];
     if (color != null) {
       if (color is int) {
-        // SKETCHWARE PRO STYLE: Handle 0xffffff as white
         if (color == 0xffffff) {
           return Colors.white;
         }
@@ -266,7 +246,7 @@ class _FrameStackState extends State<FrameStack> {
         try {
           final colorInt =
               int.parse(color.substring(1), radix: 16) + 0xFF000000;
-          // SKETCHWARE PRO STYLE: Handle #FFFFFF as white
+          
           if (colorInt == 0xFFFFFFFF) {
             return Colors.white;
           }
@@ -279,31 +259,31 @@ class _FrameStackState extends State<FrameStack> {
     return Colors.white;
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch start
+  
   void _handleTouchStart(Offset position) {
     print('🎯 FRAME STACK TOUCH START: ${widget.widgetBean.id}');
     widget.touchController
         ?.handleTouchStart(widget.widgetBean, position, _widgetKey);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch move
+  
   void _handleTouchMove(Offset position) {
     widget.touchController?.handleTouchMove(position);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch end
+  
   void _handleTouchEnd(Offset position) {
     print('🎯 FRAME STACK TOUCH END: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchEnd(position);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle touch cancel
+  
   void _handleTouchCancel() {
     print('🎯 FRAME STACK TOUCH CANCEL: ${widget.widgetBean.id}');
     widget.touchController?.handleTouchCancel();
   }
 
-  /// SKETCHWARE PRO STYLE: Notify parent about widget selection
+  
   void _notifyWidgetSelected() {
     print('🚀 NOTIFYING WIDGET SELECTION: ${widget.widgetBean.id}');
     if (widget.touchController != null) {
@@ -314,7 +294,7 @@ class _FrameStackState extends State<FrameStack> {
   }
 }
 
-/// SKETCHWARE PRO STYLE: Custom painter for selection visual feedback (matches ItemRelativeLayout.onDraw)
+
 class _SelectionPainter extends CustomPainter {
   final bool isSelected;
 
@@ -323,12 +303,12 @@ class _SelectionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (isSelected) {
-      // SKETCHWARE PRO STYLE: Use exact same color as ItemRelativeLayout (0x9599d5d0)
+      
       final paint = Paint()
         ..color = const Color(0x9599d5d0)
         ..style = PaintingStyle.fill;
 
-      // Draw selection rectangle (matches ItemRelativeLayout.onDraw)
+      
       canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
     }
   }

@@ -11,7 +11,6 @@ import 'source_code_viewer_screen.dart';
 import 'pubspec_configuration_screen.dart';
 import 'dependencies_screen.dart';
 
-/// Design Activity Screen - Main visual editor screen
 class DesignActivityScreen extends StatefulWidget {
   final String projectId;
 
@@ -155,13 +154,11 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
   }
 
   Widget _buildBody(DesignViewModel viewModel) {
-    // SKETCHWARE PRO STYLE: Fixed mobile frame position - no up/down movement
     const double propertyPanelHeight = 170.0;
     final bool isPropertyPanelVisible = viewModel.selectedWidget != null;
 
     return Stack(
       children: [
-        // Main content area - SKETCHWARE PRO STYLE: Fixed position at top
         Positioned.fill(
           child: PageView(
             controller: _pageController,
@@ -177,28 +174,26 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
             ],
           ),
         ),
-        // Property panel - SKETCHWARE PRO STYLE: Slides up from bottom (overlays mobile frame)
         Positioned(
           left: 0,
           right: 0,
           bottom: 0,
           child: AnimatedSwitcher(
             duration: const Duration(
-                milliseconds: 300), // SKETCHWARE PRO: 300ms AutoTransition
+                milliseconds: 300), 
             switchInCurve:
-                Curves.decelerate, // SKETCHWARE PRO: DecelerateInterpolator
+                Curves.decelerate, 
             switchOutCurve:
-                Curves.easeIn, // SKETCHWARE PRO: Smooth hide animation
+                Curves.easeIn, 
             transitionBuilder: (Widget child, Animation<double> animation) {
-              // SKETCHWARE PRO STYLE: Slide up from bottom animation
               return SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(0.0, 1.0), // Start below screen
-                  end: const Offset(0.0, 0.0), // End at normal position
+                  begin: const Offset(0.0, 1.0), 
+                  end: const Offset(0.0, 0.0), 
                 ).animate(CurvedAnimation(
                   parent: animation,
                   curve: Curves
-                      .decelerate, // SKETCHWARE PRO: DecelerateInterpolator
+                      .decelerate, 
                 )),
                 child: child,
               );
@@ -216,7 +211,6 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
       double propertyPanelHeight) {
     return Row(
       children: [
-        // Left palette - fixed 120dp width
         Container(
           width: 120,
           decoration: BoxDecoration(
@@ -243,11 +237,11 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
             color: Theme.of(context).colorScheme.surface,
             child: Align(
               alignment: Alignment
-                  .topLeft, // SKETCHWARE PRO: Fixed at top, not centered
+                  .topLeft, 
               child: Container(
-                // SKETCHWARE PRO STYLE: Fixed mobile frame size that NEVER changes
-                width: 360, // Fixed width like Sketchware Pro
-                height: 640, // Fixed height like Sketchware Pro - NEVER changes
+                
+                width: 360, 
+                height: 640, 
                 child: FlutterDeviceFrame(
                   widgets: viewModel.widgets,
                   selectedWidget: viewModel.selectedWidget,
@@ -256,7 +250,7 @@ class _DesignActivityScreenState extends State<DesignActivityScreen>
                   onWidgetAdded: (widget, {Size? containerSize}) =>
                       viewModel.addWidget(widget, containerSize: containerSize),
                   onBackgroundTapped: () => viewModel
-                      .clearSelection(), // SKETCHWARE PRO: Clear selection on background tap
+                      .clearSelection(), 
                 ),
               ),
             ),

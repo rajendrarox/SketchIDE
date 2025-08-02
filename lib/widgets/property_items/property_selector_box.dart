@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'base_property_box.dart';
 
-/// Selector Property Box - EXACTLY matches Sketchware Pro's PropertySelectorItem
-/// Handles dropdown selection for properties like text style, orientation, etc.
+
 class PropertySelectorBox extends BasePropertyBox {
   final Function(String) onChanged;
   final List<String> options;
@@ -23,11 +22,11 @@ class PropertySelectorBox extends BasePropertyBox {
   Widget build(BuildContext context) {
     return Container(
       width: _getBoxWidth(),
-      height: 60, // EXACTLY like Sketchware Pro
+      height: 60, 
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[200], // Light grey background like Sketchware Pro
-        borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+        color: Colors.grey[200], 
+        borderRadius: BorderRadius.circular(8), 
         border: Border.all(
           color: Colors.grey[300]!,
           width: 1,
@@ -38,24 +37,22 @@ class PropertySelectorBox extends BasePropertyBox {
         child: InkWell(
           onTap: enabled ? () => _showSelectorDialog(context) : null,
           borderRadius:
-              BorderRadius.circular(8), // Match container border radius
+              BorderRadius.circular(8), 
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon on top - EXACTLY like Sketchware Pro
               Icon(
                 icon,
-                size: 20, // Slightly smaller icon like Sketchware Pro
+                size: 20, 
                 color: Theme.of(context).colorScheme.onSurface,
               ),
 
-              const SizedBox(height: 4), // Small spacing
+              const SizedBox(height: 4), 
 
-              // Property name below icon - EXACTLY like Sketchware Pro
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12, // Smaller text like Sketchware Pro
+                  fontSize: 12, 
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
@@ -104,5 +101,5 @@ class PropertySelectorBox extends BasePropertyBox {
     );
   }
 
-  double _getBoxWidth() => 120; // Default width like Sketchware Pro
+  double _getBoxWidth() => 120; 
 }

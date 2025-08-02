@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Base Property Box - EXACTLY matches Sketchware Pro's property item design
-/// All property boxes have the same 60dp height and consistent layout
 abstract class BasePropertyBox extends StatelessWidget {
   final String label;
   final String value;
@@ -24,36 +22,33 @@ abstract class BasePropertyBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: _getBoxWidth(),
-      height: 60, // EXACTLY like Sketchware Pro
+      height: 60, 
       margin: const EdgeInsets.only(right: 8),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: enabled ? onTap : null,
-          // NO rounded corners - flat design like Sketchware Pro
           child: Stack(
             children: [
-              // Icon - positioned absolutely like Sketchware Pro
               Positioned(
                 left: 8,
-                top: 18, // Center vertically in 60dp height
+                top: 18, 
                 child: Icon(
                   icon,
-                  size: 24, // EXACTLY like Sketchware Pro
+                  size: 24, 
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
 
-              // Label - positioned absolutely like Sketchware Pro
               Positioned(
-                left: 40, // 24dp icon + 8dp margin + 8dp spacing
-                top: 10, // 10dp from top like Sketchware Pro
+                left: 40, 
+                top: 10, 
                 right:
                     trailing != null ? 60 : 16, // Account for trailing widget
                 child: Text(
                   label,
                   style: TextStyle(
-                    fontSize: 16, // EXACTLY like Sketchware Pro
+                    fontSize: 16, 
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
@@ -61,16 +56,15 @@ abstract class BasePropertyBox extends StatelessWidget {
                 ),
               ),
 
-              // Value - positioned absolutely like Sketchware Pro
               Positioned(
-                left: 40, // Same left margin as label
-                top: 32, // Below label
+                left: 40, 
+                top: 32, 
                 right:
                     trailing != null ? 60 : 16, // Account for trailing widget
                 child: Text(
                   value.isEmpty ? 'Enter value' : value,
                   style: TextStyle(
-                    fontSize: 14, // EXACTLY like Sketchware Pro
+                    fontSize: 14, 
                     color: value.isEmpty
                         ? Theme.of(context)
                             .colorScheme
@@ -96,11 +90,9 @@ abstract class BasePropertyBox extends StatelessWidget {
     );
   }
 
-  /// Override this to customize box width
-  double _getBoxWidth() => 120; // Default width like Sketchware Pro
+  double _getBoxWidth() => 120; 
 
-  /// Override this to customize content area
   Widget _buildCustomContent(BuildContext context) {
-    return const SizedBox.shrink(); // Not used with absolute positioning
+    return const SizedBox.shrink(); 
   }
 }

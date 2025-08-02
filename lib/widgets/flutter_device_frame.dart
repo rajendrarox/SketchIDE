@@ -15,22 +15,6 @@ import '../services/icon_utils.dart';
 import 'view_dummy.dart';
 import 'dart:math' as math;
 
-/// Flutter Device Frame (Center) - EXACTLY matches Sketchware Pro's ViewPane
-///
-/// SKETCHWARE PRO STYLE DESIGN:
-/// - Rectangular vertical frame (no rounded phone frame)
-/// - Blue status bar (0xff0084c2) with "main.dart" and system indicators
-/// - Blue AppBar (0xff008dcd) with "AppBar" text (Flutter terminology)
-/// - Pure white content area with grid
-/// - Red highlight colors (matches Sketchware Pro)
-/// - Optional ViewDummy for enhanced feedback
-/// - Maintains sophisticated ViewInfo system
-///
-/// FEATURES:
-/// - Coordinate-based drop zone detection
-/// - Scale-aware widget positioning
-/// - Enhanced drag feedback (optional)
-/// - Grid background for alignment
 class FlutterDeviceFrame extends StatefulWidget {
   final List<FlutterWidgetBean> widgets;
   final FlutterWidgetBean? selectedWidget;
@@ -38,7 +22,7 @@ class FlutterDeviceFrame extends StatefulWidget {
   final Function(FlutterWidgetBean)? onWidgetMoved;
   final Function(FlutterWidgetBean, {Size? containerSize})? onWidgetAdded;
   final VoidCallback?
-      onBackgroundTapped; // SKETCHWARE PRO: Clear selection on background tap
+      onBackgroundTapped; 
 
   const FlutterDeviceFrame({
     super.key,
@@ -47,7 +31,7 @@ class FlutterDeviceFrame extends StatefulWidget {
     this.onWidgetSelected,
     this.onWidgetMoved,
     this.onWidgetAdded,
-    this.onBackgroundTapped, // SKETCHWARE PRO: Callback for background taps
+    this.onBackgroundTapped, 
   });
 
   @override
@@ -57,12 +41,11 @@ class FlutterDeviceFrame extends StatefulWidget {
 class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
   view_service.ViewInfoService? _viewInfoService;
   double _scale = 1.0;
-  bool _showViewDummy = true; // Optional ViewDummy toggle
+  bool _showViewDummy = true; 
 
   // ANDROID NATIVE: Touch service for native-like touch handling
   late AndroidNativeTouchService _androidTouchService;
 
-  // SKETCHWARE PRO STYLE: ViewDummy state management
   bool _isViewDummyVisible = false;
   bool _isViewDummyAllowed = false;
   Offset _viewDummyPosition = Offset.zero;
@@ -146,9 +129,9 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Handle widget drag start
+  
   void _handleWidgetDragStart(FlutterWidgetBean widget, Offset position) {
-    // TODO: Implement drag start logic for existing widgets
+      
   }
 
   /// SKETCHWARE PRO STYLE: Handle widget drag update
@@ -162,9 +145,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
   void _handleWidgetDragEnd(FlutterWidgetBean widget, Offset position) {
     // TODO: Implement drag end logic for existing widgets
   }
-
-  // SKETCHWARE PRO STYLE: Drop zone detection is now handled directly by ViewInfoService
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -185,16 +166,14 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: const SizedBox.shrink(), // Removed DeleteZone
+            child: const SizedBox.shrink(), 
           ),
         ],
       ),
     );
   }
 
-  // REMOVED: _buildDeviceHeader - User requested no blue header like Sketchware Pro
 
-  // SKETCHWARE PRO STYLE: Fixed mobile frame exactly like Sketchware Pro (no center, no extra spacing)
   Widget _buildRectangularMobileFrame() {
     return LayoutBuilder(
       builder: (context, constraints) {

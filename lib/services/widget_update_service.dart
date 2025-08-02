@@ -177,14 +177,14 @@ class WidgetUpdateService {
 
   // Helper methods for parsing values
   double? _getWidth(int width) {
-    if (width == LayoutBean.MATCH_PARENT) return double.infinity;
-    if (width == LayoutBean.WRAP_CONTENT) return null;
+    if (width == LayoutBean.EXPANDED) return double.infinity;
+    if (width == LayoutBean.SHRINK_WRAP) return null;
     return width.toDouble();
   }
 
   double? _getHeight(int height) {
-    if (height == LayoutBean.MATCH_PARENT) return double.infinity;
-    if (height == LayoutBean.WRAP_CONTENT) return null;
+    if (height == LayoutBean.EXPANDED) return double.infinity;
+    if (height == LayoutBean.SHRINK_WRAP) return null;
     return height.toDouble();
   }
 

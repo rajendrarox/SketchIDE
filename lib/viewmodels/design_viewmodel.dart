@@ -184,7 +184,7 @@ class DesignViewModel extends ChangeNotifier {
     final layoutBean =
         WidgetSizingService.getLayoutBean(widget.type, containerSize);
 
-    // SKETCHWARE PRO STYLE: Calculate proper position
+    // SKETCHWARE PRO STYLE: Calculate proper position using UNIFIED approach
     final widgetSize =
         WidgetSizingService.getWidgetSize(widget.type, containerSize);
     final dropPosition = widget.position;
@@ -192,7 +192,7 @@ class DesignViewModel extends ChangeNotifier {
       Offset(dropPosition.x, dropPosition.y),
       widgetSize,
       containerSize,
-      widgetType: widget.type, // Pass widget type for special positioning
+      // SKETCHWARE PRO STYLE: UNIFIED - No widget type specific logic
     );
 
     // SKETCHWARE PRO STYLE: Update widget with proper sizing

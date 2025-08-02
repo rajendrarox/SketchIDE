@@ -1,16 +1,17 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/flutter_widget_bean.dart';
 
 /// WidgetSizingService - EXACTLY matches Sketchware Pro's widget sizing logic
 /// Handles proper sizing, density conversion, and exact frame scaling for dropped widgets
 class WidgetSizingService {
-  // SKETCHWARE PRO STYLE: Default widget dimensions (like ViewEditor.java:90-91)
-  static const int DEFAULT_WIDGET_WIDTH = 50; // I = 50
-  static const int DEFAULT_WIDGET_HEIGHT = 30; // J = 30
+  // FLUTTER NAMING CONVENTIONS (not Android/XML)
+  static const int EXPANDED = -1;           // Flutter: MainAxisSize.max
+  static const int SHRINK_WRAP = -2;        // Flutter: MainAxisSize.min
 
-  // SKETCHWARE PRO STYLE: Layout constants (like ViewGroup.LayoutParams)
-  static const int MATCH_PARENT = -1;
-  static const int WRAP_CONTENT = -2;
+  // FLUTTER STYLE: Default widget dimensions
+  static const int DEFAULT_WIDGET_WIDTH = 50;
+  static const int DEFAULT_WIDGET_HEIGHT = 30;
 
   // ====================================================================
   // EXACT SKETCHIDE DENSITY CONVERSION (matches Sketchware Pro wB.a())
@@ -145,57 +146,57 @@ class WidgetSizingService {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get proper widget size based on type (like ViewEditor.java:730-735)
+  ///  Get proper widget size based on type (like ViewEditor.java:730-735)
   static Size getWidgetSize(String widgetType, Size availableSize) {
     switch (widgetType) {
       case 'Row':
       case 'HorizontalLayout':
-        // SKETCHWARE PRO STYLE: Horizontal layouts use MATCH_PARENT width, WRAP_CONTENT height
+        // FLUTTER STYLE: Horizontal layouts use EXPANDED width, SHRINK_WRAP height
         return Size(
-            availableSize.width, 32.0); // ✅ EXACT: 32dp like ItemLinearLayout
+            availableSize.width, 32.0); 
 
       case 'Column':
       case 'VerticalLayout':
-        // SKETCHWARE PRO STYLE: Vertical layouts use WRAP_CONTENT width, MATCH_PARENT height
+        // FLUTTER STYLE: Vertical layouts use SHRINK_WRAP width, EXPANDED height
         return Size(
-            32.0, availableSize.height); // ✅ EXACT: 32dp like ItemLinearLayout
+            32.0, availableSize.height); 
 
       case 'Container':
-        // FLUTTER CONTAINER STYLE: Containers use MATCH_PARENT width, WRAP_CONTENT height like Row
+        // FLUTTER CONTAINER STYLE: Containers use EXPANDED width, SHRINK_WRAP height like Row
         return Size(availableSize.width, 50.0); // Default height like Row
 
       case 'Text':
       case 'TextView':
-        // SKETCHWARE PRO STYLE: Text widgets use WRAP_CONTENT
+        // FLUTTER STYLE: Text widgets use SHRINK_WRAP
         return Size(50.0, 30.0); // EXACT Sketchware Pro default
 
       case 'Button':
-        // SKETCHWARE PRO STYLE: Buttons use WRAP_CONTENT
+        // FLUTTER STYLE: Buttons use SHRINK_WRAP
         return Size(80.0, 40.0); // EXACT Sketchware Pro default
 
       case 'Icon':
       case 'IconButton':
-        // SKETCHWARE PRO STYLE: Icons use fixed size
+        //  Icons use fixed size
         return Size(48.0, 48.0); // Standard icon size
 
       case 'TextField':
       case 'EditText':
-        // SKETCHWARE PRO STYLE: Text fields use MATCH_PARENT width
+        // FLUTTER STYLE: Text fields use EXPANDED width
         return Size(availableSize.width, 50.0); // Full width, standard height
 
       case 'Stack':
       case 'RelativeLayout':
-        // SKETCHWARE PRO STYLE: Stacks use MATCH_PARENT
+        // FLUTTER STYLE: Stacks use EXPANDED
         return Size(availableSize.width, availableSize.height);
 
       default:
-        // SKETCHWARE PRO STYLE: Default size
+        //  Default size
         return Size(
             DEFAULT_WIDGET_WIDTH.toDouble(), DEFAULT_WIDGET_HEIGHT.toDouble());
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Get layout parameters for widget type (like ViewPane.java:680-688)
+  ///  Get layout parameters for widget type (like ViewPane.java:680-688)
   static LayoutBean getLayoutBean(String widgetType, Size availableSize) {
     final size = getWidgetSize(widgetType, availableSize);
 
@@ -205,72 +206,72 @@ class WidgetSizingService {
     switch (widgetType) {
       case 'Row':
       case 'HorizontalLayout':
-        // SKETCHWARE PRO STYLE: MATCH_PARENT width, WRAP_CONTENT height
-        width = MATCH_PARENT;
-        height = WRAP_CONTENT;
+        // FLUTTER STYLE: EXPANDED width, SHRINK_WRAP height
+        width = EXPANDED;
+        height = SHRINK_WRAP;
         break;
 
       case 'Column':
       case 'VerticalLayout':
-        // SKETCHWARE PRO STYLE: WRAP_CONTENT width, MATCH_PARENT height
-        width = WRAP_CONTENT;
-        height = MATCH_PARENT;
+        // FLUTTER STYLE: SHRINK_WRAP width, EXPANDED height
+        width = SHRINK_WRAP;
+        height = EXPANDED;
         break;
 
       case 'Container':
-        // SKETCHWARE PRO STYLE: MATCH_PARENT width, WRAP_CONTENT height like CardView
-        width = MATCH_PARENT;
-        height = WRAP_CONTENT;
+        // FLUTTER STYLE: EXPANDED width, SHRINK_WRAP height like CardView
+        width = EXPANDED;
+        height = SHRINK_WRAP;
         break;
 
       case 'Text':
       case 'TextView':
-        // SKETCHWARE PRO STYLE: WRAP_CONTENT
-        width = WRAP_CONTENT;
-        height = WRAP_CONTENT;
+        // FLUTTER STYLE: SHRINK_WRAP
+        width = SHRINK_WRAP;
+        height = SHRINK_WRAP;
         break;
 
       case 'Button':
-        // SKETCHWARE PRO STYLE: WRAP_CONTENT
-        width = WRAP_CONTENT;
-        height = WRAP_CONTENT;
+        // FLUTTER STYLE: SHRINK_WRAP
+        width = SHRINK_WRAP;
+        height = SHRINK_WRAP;
         break;
 
       case 'Icon':
       case 'IconButton':
-        // SKETCHWARE PRO STYLE: Fixed size
+        // FLUTTER STYLE: Fixed size
         width = 48;
         height = 48;
         break;
 
       case 'TextField':
       case 'EditText':
-        // SKETCHWARE PRO STYLE: MATCH_PARENT width
-        width = MATCH_PARENT;
-        height = WRAP_CONTENT;
+        // FLUTTER STYLE: EXPANDED width
+        width = EXPANDED;
+        height = SHRINK_WRAP;
         break;
 
       case 'Image':
       case 'ImageView':
-        // SKETCHWARE PRO STYLE: Default size
+        // FLUTTER STYLE: Default size
         width = 80;
         height = 80;
         break;
 
       case 'Stack':
-        // SKETCHWARE PRO STYLE: MATCH_PARENT
-        width = MATCH_PARENT;
-        height = MATCH_PARENT;
+        // FLUTTER STYLE: EXPANDED
+        width = EXPANDED;
+        height = EXPANDED;
         break;
 
       case 'ListView':
-        // SKETCHWARE PRO STYLE: MATCH_PARENT
-        width = MATCH_PARENT;
-        height = MATCH_PARENT;
+        // FLUTTER STYLE: EXPANDED
+        width = EXPANDED;
+        height = EXPANDED;
         break;
 
       default:
-        // SKETCHWARE PRO STYLE: Default size
+        // FLUTTER STYLE: Default size
         width = DEFAULT_WIDGET_WIDTH;
         height = DEFAULT_WIDGET_HEIGHT;
         break;
@@ -279,26 +280,24 @@ class WidgetSizingService {
     return LayoutBean(
       width: width,
       height: height,
-      marginLeft: 8.0, // SKETCHWARE PRO STYLE: Default margin
+      marginLeft: 8.0, 
       marginTop: 8.0,
       marginRight: 8.0,
       marginBottom: 8.0,
-      paddingLeft: 8, // SKETCHWARE PRO STYLE: Default padding
+      paddingLeft: 8, 
       paddingTop: 8,
       paddingRight: 8,
       paddingBottom: 8,
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Calculate proper position for dropped widget (like ViewPane.java:782)
+  ///  Calculate proper position for dropped widget (like ViewPane.java:782)
   static Offset calculateDropPosition(
       Offset dropPosition, Size widgetSize, Size containerSize,
       {String? widgetType}) {
-    if (widgetType == 'Row' || widgetType == 'Column') {
-      return Offset(0.0, 0.0);
-    }
-
-    return Offset(0.0, 0.0);
+    // UNIFIED: Same positioning for ALL widget types (like Sketchware Pro)
+    // Sketchware Pro uses unified updateView(x, y, width, height) for all widgets
+    return Offset(dropPosition.dx, dropPosition.dy);
   }
 
   static FlutterWidgetBean calculateHierarchicalPosition(
@@ -350,10 +349,10 @@ class WidgetSizingService {
     return maxIndex + 1;
   }
 
-  /// SKETCHWARE PRO STYLE: Get available container size (like ViewEditor.java:873)
+  /// Get available container size (like ViewEditor.java:873)
   static Size getAvailableContainerSize(Size totalSize) {
-    // SKETCHWARE PRO STYLE: Account for status bar and toolbar
-    const double statusBarHeight = 25.0;
+    //  Account for status bar and toolbar
+    const double statusBarHeight = 30.0;
     const double toolbarHeight = 48.0;
     const double margin = 16.0;
 
@@ -363,10 +362,10 @@ class WidgetSizingService {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Validate widget placement (like ViewPane.java:782)
+  /// Validate widget placement 
   static bool isValidPlacement(
       Offset position, Size widgetSize, Size containerSize) {
-    // SKETCHWARE PRO STYLE: Check if widget fits within container
+    // Check if widget fits within container
     if (position.dx < 0 || position.dy < 0) return false;
     if (position.dx + widgetSize.width > containerSize.width) return false;
     if (position.dy + widgetSize.height > containerSize.height) return false;
@@ -375,7 +374,6 @@ class WidgetSizingService {
   }
 }
 
-/// EXACT equivalent of Sketchware Pro's scaling result
 class SketchIDEScaling {
   final double displayWidth;
   final double displayHeight;

@@ -81,27 +81,27 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     super.dispose();
   }
 
-  /// SKETCHWARE PRO STYLE: Initialize ViewInfoService safely
+  ///  Initialize ViewInfoService safely
   void _initializeViewInfoService() {
     if (_viewInfoService == null || _viewInfoService!.disposed) {
       _viewInfoService = view_service.ViewInfoService();
     } else {
-      // SKETCHWARE PRO STYLE: Reset service for tab switching
+      //  Reset service for tab switching
       _viewInfoService!.resetForTabSwitch();
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Check if service is available
+  ///  Check if service is available
   bool get _isServiceAvailable =>
       _viewInfoService != null && !_viewInfoService!.disposed;
 
-  /// SKETCHWARE PRO STYLE: Get ViewInfoService safely
+  ///  Get ViewInfoService safely
   view_service.ViewInfoService get _safeViewInfoService {
     _initializeViewInfoService();
     return _viewInfoService!;
   }
 
-  /// SKETCHWARE PRO STYLE: Initialize mobile frame controllers
+  ///  Initialize mobile frame controllers
   void _initializeMobileFrameControllers() {
     _touchController = MobileFrameTouchController();
     _selectionService = SelectionService();
@@ -134,14 +134,14 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       
   }
 
-  /// SKETCHWARE PRO STYLE: Handle widget drag update
+  ///  Handle widget drag update
   void _handleWidgetDragUpdate(FlutterWidgetBean widget, Offset position) {
     // TODO: Implement drag update logic for existing widgets
     // Call the widget's onWidgetMoved callback
     this.widget.onWidgetMoved?.call(widget);
   }
 
-  /// SKETCHWARE PRO STYLE: Handle widget drag end
+  ///  Handle widget drag end
   void _handleWidgetDragEnd(FlutterWidgetBean widget, Offset position) {
     // TODO: Implement drag end logic for existing widgets
   }
@@ -154,7 +154,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         children: [
           Column(
             children: [
-              // SKETCHWARE PRO STYLE: No header - mobile frame starts from top
+              //  No header - mobile frame starts from top
               Expanded(
                 child: _buildRectangularMobileFrame(),
               ),
@@ -212,10 +212,10 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         final double var3 = math.min((var9 - var4 * 2) / displayWidth,
             (var8 - var5 * 2) / displayHeight);
 
-        // EXACT SKETCHWARE PRO: Apply scaling (like ViewEditor.java:880-881)
+        //  Apply scaling (like ViewEditor.java:880-881)
         final double finalScale = var3 * _scale;
 
-        // EXACT SKETCHWARE PRO: Final frame dimensions
+        //  Final frame dimensions
         final double frameWidth = displayWidth * finalScale;
         final double frameHeight = displayHeight * finalScale;
 
@@ -500,52 +500,69 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
 
     switch (type) {
       case 'Text':
-        return Center(
-          child: Text(
-            TextPropertyService.getText(properties),
-            style: TextPropertyService.getTextStyle(context, properties, 1.0),
-            textAlign: _parseTextAlign(properties['textAlign'] ?? 'left'),
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.circular(2),
+            color: Colors.white.withOpacity(0.8),
+          ),
+          child: Center(
+            child: Text(
+              TextPropertyService.getText(properties),
+              style: TextPropertyService.getTextStyle(context, properties, 1.0),
+              textAlign: _parseTextAlign(properties['textAlign'] ?? 'left'),
+            ),
           ),
         );
       case 'Button':
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.blue,
+            border: Border.all(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(4),
+            color: Colors.blue.withOpacity(0.8),
           ),
-          child: Text(
-            properties['text'] ?? 'Button',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+          child: Center(
+            child: Text(
+              properties['text'] ?? 'Button',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         );
       case 'TextField':
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: Colors.white,
+            border: Border.all(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.grey),
+            color: Colors.white.withOpacity(0.8),
           ),
-          child: Text(
-            properties['hint'] ?? 'Text Field',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
+          child: Center(
+            child: Text(
+              properties['hint'] ?? 'Text Field',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
             ),
           ),
         );
       case 'Icon':
-        return Center(
-          child: Icon(
-            IconUtils.getIconFromName(properties['iconName'] ?? 'star'),
-            color: Colors.black,
-            size: double.tryParse(properties['iconSize']?.toString() ?? '24') ??
-                24,
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.circular(2),
+            color: Colors.white.withOpacity(0.8),
+          ),
+          child: Center(
+            child: Icon(
+              IconUtils.getIconFromName(properties['iconName'] ?? 'star'),
+              color: Colors.black,
+              size: double.tryParse(properties['iconSize']?.toString() ?? '24') ??
+                  24,
+            ),
           ),
         );
       case 'Row':
@@ -554,7 +571,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(2),
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
           child: Center(
             child: Text(
@@ -570,8 +587,8 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       case 'Container':
         return Container(
           decoration: BoxDecoration(
-            color: ColorUtils.parseColor(properties['backgroundColor']) ??
-                Colors.white,
+            color: (ColorUtils.parseColor(properties['backgroundColor']) ??
+                Colors.white).withOpacity(0.8),
             borderRadius: BorderRadius.circular(
               double.tryParse(properties['borderRadius']?.toString() ?? '0') ??
                   0,
@@ -600,7 +617,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(2),
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
           child: const Center(
             child: Text(
@@ -614,13 +631,20 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
           ),
         );
       default:
-        return Center(
-          child: Text(
-            type,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.circular(2),
+            color: Colors.white.withOpacity(0.8),
+          ),
+          child: Center(
+            child: Text(
+              type,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         );
@@ -798,6 +822,15 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     switch (widgetType) {
       case 'Text':
         return TextPropertyService.getDefaultProperties();
+      case 'Button':
+        return {
+          'text': 'Button',
+          'textSize': '14.0',
+          'textColor': '#FFFFFF',
+          'backgroundColor': '#2196F3',
+          'cornerRadius': '4.0',
+          'textAlign': 'center',
+        };
       case 'TextField':
         return {
           'text': '',
@@ -812,7 +845,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         };
       case 'Container':
         return {
-          'backgroundColor': '#FFFFFF', // Match Row widget - white background
+          'backgroundColor': '#FFFFFF', 
           'borderColor':
               '#60000000', // Match Row widget - semi-transparent black border
           'borderWidth': '1.0',
@@ -853,15 +886,15 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Get default layout for widget type
+  ///  Get default layout for widget type
   LayoutBean _getDefaultLayout(String widgetType) {
     switch (widgetType) {
       case 'Text':
       case 'TextField':
       case 'Icon':
         return LayoutBean(
-          width: LayoutBean.WRAP_CONTENT,
-          height: LayoutBean.WRAP_CONTENT,
+          width: LayoutBean.SHRINK_WRAP,
+          height: LayoutBean.SHRINK_WRAP,
           marginLeft: 8,
           marginTop: 8,
           marginRight: 8,
@@ -873,8 +906,8 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         );
       case 'Container':
         return LayoutBean(
-          width: LayoutBean.MATCH_PARENT,
-          height: LayoutBean.WRAP_CONTENT,
+          width: LayoutBean.EXPANDED,
+          height: LayoutBean.SHRINK_WRAP,
           marginLeft: 8,
           marginTop: 8,
           marginRight: 8,
@@ -888,8 +921,8 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       case 'Column':
       case 'Stack':
         return LayoutBean(
-          width: LayoutBean.MATCH_PARENT,
-          height: LayoutBean.WRAP_CONTENT,
+          width: LayoutBean.EXPANDED,
+          height: LayoutBean.SHRINK_WRAP,
           marginLeft: 8,
           marginTop: 8,
           marginRight: 8,
@@ -901,8 +934,8 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         );
       default:
         return LayoutBean(
-          width: LayoutBean.WRAP_CONTENT,
-          height: LayoutBean.WRAP_CONTENT,
+          width: LayoutBean.SHRINK_WRAP,
+          height: LayoutBean.SHRINK_WRAP,
           marginLeft: 8,
           marginTop: 8,
           marginRight: 8,
@@ -915,7 +948,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Update ViewDummy state for visual feedback
+  ///  Update ViewDummy state for visual feedback
   void _updateViewDummy(
       bool isAllowed, Offset position, FlutterWidgetBean widget) {
     final shouldUpdate = _isViewDummyVisible != true ||
@@ -933,7 +966,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Hide ViewDummy
+  ///  Hide ViewDummy
   void _hideViewDummy() {
     setState(() {
       _isViewDummyVisible = false;
@@ -941,7 +974,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     });
   }
 
-  /// SKETCHWARE PRO STYLE: Update visual feedback (like ViewPane.java:747)
+  ///  Update visual feedback 
   void _updateVisualFeedback(FlutterWidgetBean widget, Size widgetSize) {
     final dropZone = _safeViewInfoService.currentDropZone;
     final shouldShow = dropZone != null;
@@ -964,14 +997,14 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     });
   }
 
-  /// SKETCHWARE PRO STYLE: Get widget size based on type
+  ///  Get widget size based on type
   Size _getWidgetSize(FlutterWidgetBean widget) {
     switch (widget.type) {
       case 'Row':
       case 'Column':
         return const Size(200, 100); // Layout widgets
       case 'Stack':
-        return const Size(200, 150); // Stack widget with proper dimensions
+        return const Size(200, 200); // Stack widget with proper dimensions
       case 'Container':
         return const Size(150, 80); // Container widget
       case 'Text':
@@ -987,13 +1020,13 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  /// SKETCHWARE PRO STYLE: Generate unique widget ID
+  ///  Generate unique widget ID
   String _generateWidgetId(String widgetType) {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     return '${widgetType.toLowerCase()}_$timestamp';
   }
 
-  // SKETCHWARE PRO STYLE WIDGET RENDERING
+  //  WIDGET RENDERING
   Widget _buildSketchwareProWidgets(double scale) {
     _safeViewInfoService.clearViewInfos();
 
@@ -1016,7 +1049,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Get root widgets (widgets without parents)
+  ///  Get root widgets (widgets without parents)
   List<FlutterWidgetBean> _getRootWidgets() {
     return widget.widgets
         .where((widget) =>
@@ -1026,7 +1059,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         .toList();
   }
 
-  /// SKETCHWARE PRO STYLE: Build widget with selection capability
+  /// Build widget with selection capability
   Widget _buildSketchwareProWidget(FlutterWidgetBean widgetBean) {
     final isSelected = widget.selectedWidget?.id == widgetBean.id;
     final widgetKey = GlobalKey();
@@ -1045,7 +1078,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     );
 
     if ((widgetBean.type == 'Row' || widgetBean.type == 'Container') &&
-        widgetBean.layout.width == LayoutBean.MATCH_PARENT) {
+        widgetBean.layout.width == LayoutBean.EXPANDED) {
       return Positioned(
         left: 0,
         top: 0,
@@ -1056,7 +1089,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         ),
       );
     } else if (widgetBean.type == 'Column' &&
-        widgetBean.layout.height == LayoutBean.MATCH_PARENT) {
+        widgetBean.layout.height == LayoutBean.EXPANDED) {
       return Positioned(
         left: 0,
         top: 0,
@@ -1079,7 +1112,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  // SKETCHWARE PRO STYLE POSITION CALCULATION
+  //  POSITION CALCULATION
   WidgetPosition _calculateWidgetPosition(
       FlutterWidgetBean widgetBean, double scale) {
     // SKETCHWARE PRO STYLE: Get available container size
@@ -1088,24 +1121,24 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
           _safeViewInfoService.containerSize.height),
     );
 
-    // Like Sketchware Pro's LayoutParams system
+    //  LayoutParams system
     double width = widgetBean.position.width * scale;
     double height = widgetBean.position.height * scale;
 
-    // Handle MATCH_PARENT and WRAP_CONTENT like Sketchware Pro
-    if (widgetBean.layout.width == LayoutBean.MATCH_PARENT) {
+    // Handle EXPANDED and SHRINK_WRAP like Flutter
+    if (widgetBean.layout.width == LayoutBean.EXPANDED) {
       width = containerSize.width * scale; // Available width
-    } else if (widgetBean.layout.width == LayoutBean.WRAP_CONTENT) {
+    } else if (widgetBean.layout.width == LayoutBean.SHRINK_WRAP) {
       width = _calculateWrapContentWidth(widgetBean, scale);
     }
 
-    if (widgetBean.layout.height == LayoutBean.MATCH_PARENT) {
+    if (widgetBean.layout.height == LayoutBean.EXPANDED) {
       height = containerSize.height * scale; // Available height
-    } else if (widgetBean.layout.height == LayoutBean.WRAP_CONTENT) {
+    } else if (widgetBean.layout.height == LayoutBean.SHRINK_WRAP) {
       height = _calculateWrapContentHeight(widgetBean, scale);
     }
 
-    // SKETCHWARE PRO STYLE: Use position coordinates for positioning
+    //  Use position coordinates for positioning
     return WidgetPosition(
       left: widgetBean.position.x * scale,
       top: widgetBean.position.y * scale,
@@ -1116,14 +1149,14 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
 
   double _calculateWrapContentWidth(
       FlutterWidgetBean widgetBean, double scale) {
-    // Calculate based on content like Sketchware Pro
+    // Calculate based on content 
     switch (widgetBean.type) {
       case 'Text':
         final text = widgetBean.properties['text'] ?? 'Text';
         final fontSize =
             double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
         return (text.length * fontSize * 0.6 + 16) *
-            scale; // Approximate text width
+            scale; 
       case 'Button':
         final text = widgetBean.properties['text'] ?? 'Button';
         final fontSize =
@@ -1144,7 +1177,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
 
   double _calculateWrapContentHeight(
       FlutterWidgetBean widgetBean, double scale) {
-    // Calculate based on content like Sketchware Pro
+    // Calculate based on content 
     switch (widgetBean.type) {
       case 'Text':
         final fontSize =
@@ -1166,7 +1199,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  // SKETCHWARE PRO STYLE: Drop zone detection is now handled by ViewInfoService
+  //  Drop zone detection is now handled by ViewInfoService
 
   // Build real widget with proper scale using Android Native Factory Service
   Widget _buildRealWidgetWithScale(FlutterWidgetBean widgetBean, double scale) {
@@ -1181,7 +1214,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       context: context,
     );
 
-    // SKETCHWARE PRO STYLE: Return frame widget with touch capabilities
+    //  Return frame widget with touch capabilities
     return createdWidget;
   }
 
@@ -1274,7 +1307,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     }
   }
 
-  // SKETCHWARE PRO STYLE: Enhanced ViewDummy overlay (EXACTLY like Sketchware Pro)
+  //  Enhanced ViewDummy overlay 
   Widget _buildViewDummyOverlay() {
     if (!_isViewDummyVisible || _viewDummyWidget == null) {
       return const SizedBox.shrink();
@@ -1290,7 +1323,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
     );
   }
 
-  /// SKETCHWARE PRO STYLE: Build widget preview for ViewDummy
+  ///  Build widget preview for ViewDummy
   Widget _buildWidgetPreview(FlutterWidgetBean widget) {
     switch (widget.type) {
       case 'Text':
@@ -1354,7 +1387,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
   }
 }
 
-// SKETCHWARE PRO STYLE DATA STRUCTURES
+//  DATA STRUCTURES
 class WidgetPosition {
   final double left;
   final double top;

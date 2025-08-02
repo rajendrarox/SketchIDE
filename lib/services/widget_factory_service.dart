@@ -130,8 +130,8 @@ class WidgetFactoryService {
           position: PositionBean(x: 0, y: 0, width: 50, height: 30),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -2, // WRAP_CONTENT
+            width: -2, // SHRINK_WRAP
+            height: -2, // SHRINK_WRAP
             paddingLeft: 8, // Like Sketchware Pro
             paddingTop: 8, // Like Sketchware Pro
             paddingRight: 8, // Like Sketchware Pro
@@ -159,8 +159,8 @@ class WidgetFactoryService {
           position: PositionBean(x: 0, y: 0, width: 80, height: 40),
           events: {},
           layout: LayoutBean(
-            width: -2, // WRAP_CONTENT
-            height: -2, // WRAP_CONTENT
+            width: -2, // SHRINK_WRAP
+            height: -2, // SHRINK_WRAP
             paddingLeft: 8, // Like Sketchware Pro
             paddingTop: 8, // Like Sketchware Pro
             paddingRight: 8, // Like Sketchware Pro

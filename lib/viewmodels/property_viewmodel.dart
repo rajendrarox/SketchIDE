@@ -273,9 +273,9 @@ class PropertyViewModel extends ChangeNotifier {
     if (value is String) {
       switch (value.toLowerCase()) {
         case 'wrap content':
-          return -2; // WRAP_CONTENT
+          return -2; // SHRINK_WRAP
         case 'match parent':
-          return -1; // MATCH_PARENT
+          return -1; // EXPANDED
         default:
           return int.tryParse(value) ?? -2;
       }

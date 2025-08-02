@@ -219,26 +219,19 @@ class ViewInfoService extends ChangeNotifier {
   /// SKETCHWARE PRO STYLE: Calculate hierarchical drop position (like ViewPane.java:782)
   Offset _calculateHierarchicalDropPosition(
       ViewInfo viewInfo, Size widgetSize) {
+    // SKETCHWARE PRO STYLE: UNIFIED positioning for ALL widget types (like ViewPane.java)
+    // Sketchware Pro uses same logic for all widgets - container hierarchy determines position
+    
+    final rect = viewInfo.rect;
+
     // SKETCHWARE PRO STYLE: For root container, drop at top-left with margins
     if (viewInfo.parentId == null || viewInfo.parentId == 'root') {
       return Offset(8.0, 8.0);
     }
 
-    // SKETCHWARE PRO STYLE: For child widgets, drop at the exact hierarchical position
-    // This should be the fixed drop target location, not relative to existing widgets
-    final rect = viewInfo.rect;
-
-    // SKETCHWARE PRO STYLE: Calculate the fixed drop position based on hierarchy
-    // For containers, drop at top-left with margins
-    if (viewInfo.viewType == 'Container' ||
-        viewInfo.viewType == 'LinearLayout' ||
-        viewInfo.viewType == 'RelativeLayout' ||
-        viewInfo.viewType == 'FrameLayout') {
-      return Offset(rect.left + 8.0, rect.top + 8.0);
-    }
-
-    // SKETCHWARE PRO STYLE: For other widgets, drop at their position
-    return Offset(rect.left, rect.top);
+    // SKETCHWARE PRO STYLE: UNIFIED - All widgets use same positioning logic
+    // Container hierarchy determines position, not widget type
+    return Offset(rect.left + 8.0, rect.top + 8.0);
   }
 
   /// SKETCHWARE PRO STYLE: Validate drop zone for position (like ViewEditor.java:327)
@@ -271,25 +264,11 @@ class ViewInfoService extends ChangeNotifier {
   /// SKETCHWARE PRO STYLE: Validate view type for drop (like ViewEditor.java)
   bool _validateViewTypeForDrop(
       ViewInfo viewInfo, Offset position, Size widgetSize) {
-    final viewType = viewInfo.viewType;
-
-    switch (viewType) {
-      case 'LinearLayout':
-        // SKETCHWARE PRO STYLE: Linear layouts accept all widgets
-        return true;
-      case 'RelativeLayout':
-        // SKETCHWARE PRO STYLE: Relative layouts accept all widgets
-        return true;
-      case 'FrameLayout':
-        // SKETCHWARE PRO STYLE: Frame layouts accept all widgets
-        return true;
-      case 'Container':
-        // SKETCHWARE PRO STYLE: Containers accept all widgets
-        return true;
-      default:
-        // SKETCHWARE PRO STYLE: Default validation
-        return true;
-    }
+    // SKETCHWARE PRO STYLE: UNIFIED validation for ALL widget types
+    // Sketchware Pro accepts all widgets in all containers - no widget type restrictions
+    
+    // SKETCHWARE PRO STYLE: All containers accept all widgets
+    return true;
   }
 
   /// SKETCHWARE PRO STYLE: Set highlight color based on drop zone type

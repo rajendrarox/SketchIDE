@@ -418,16 +418,17 @@ class LayoutBean {
     );
   }
 
-  static const int MATCH_PARENT = -1;
-  static const int WRAP_CONTENT = -2;
-  static const int GRAVITY_NONE = 0;
-  static const int GRAVITY_LEFT = 3;
-  static const int GRAVITY_TOP = 48;
-  static const int GRAVITY_RIGHT = 5;
-  static const int GRAVITY_BOTTOM = 80;
-  static const int GRAVITY_CENTER_HORIZONTAL = 1;
-  static const int GRAVITY_CENTER_VERTICAL = 16;
-  static const int GRAVITY_CENTER = 17;
-  static const int ORIENTATION_VERTICAL = 1;
-  static const int ORIENTATION_HORIZONTAL = 0;
+  // FLUTTER NAMING CONVENTIONS (not Android/XML)
+  static const int EXPANDED = -1;           // Flutter: MainAxisSize.max
+  static const int SHRINK_WRAP = -2;        // Flutter: MainAxisSize.min
+  static const int ALIGNMENT_NONE = 0;      // Flutter: Alignment.topLeft
+  static const int ALIGNMENT_LEFT = 3;      // Flutter: Alignment.centerLeft
+  static const int ALIGNMENT_TOP = 48;      // Flutter: Alignment.topCenter
+  static const int ALIGNMENT_RIGHT = 5;     // Flutter: Alignment.centerRight
+  static const int ALIGNMENT_BOTTOM = 80;   // Flutter: Alignment.bottomCenter
+  static const int ALIGNMENT_CENTER_HORIZONTAL = 1;  // Flutter: Alignment.center
+  static const int ALIGNMENT_CENTER_VERTICAL = 16;   // Flutter: Alignment.center
+  static const int ALIGNMENT_CENTER = 17;   // Flutter: Alignment.center
+  static const int AXIS_VERTICAL = 1;       // Flutter: Axis.vertical
+  static const int AXIS_HORIZONTAL = 0;     // Flutter: Axis.horizontal
 }

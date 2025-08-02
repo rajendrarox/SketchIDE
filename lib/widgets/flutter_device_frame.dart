@@ -507,6 +507,22 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
             textAlign: _parseTextAlign(properties['textAlign'] ?? 'left'),
           ),
         );
+      case 'Button':
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            properties['text'] ?? 'Button',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        );
       case 'TextField':
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -960,6 +976,8 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         return const Size(150, 80); // Container widget
       case 'Text':
         return const Size(120, 30); // Text widget
+      case 'Button':
+        return const Size(120, 40); // Button widget
       case 'TextField':
         return const Size(150, 40); // Text field widget
       case 'Icon':
@@ -1100,7 +1118,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       FlutterWidgetBean widgetBean, double scale) {
     // Calculate based on content like Sketchware Pro
     switch (widgetBean.type) {
-      case 'TextView':
+      case 'Text':
         final text = widgetBean.properties['text'] ?? 'Text';
         final fontSize =
             double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
@@ -1111,6 +1129,14 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         final fontSize =
             double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
         return (text.length * fontSize * 0.6 + 32) * scale; // Button padding
+      case 'TextField':
+        final text = widgetBean.properties['hint'] ?? 'Text Field';
+        final fontSize =
+            double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
+        return (text.length * fontSize * 0.6 + 32) * scale; // TextField padding
+      case 'Icon':
+        final iconSize = double.tryParse(widgetBean.properties['iconSize']?.toString() ?? '24') ?? 24.0;
+        return (iconSize + 16) * scale; // Icon size + padding
       default:
         return widgetBean.position.width * scale;
     }
@@ -1120,7 +1146,7 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
       FlutterWidgetBean widgetBean, double scale) {
     // Calculate based on content like Sketchware Pro
     switch (widgetBean.type) {
-      case 'TextView':
+      case 'Text':
         final fontSize =
             double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
         return (fontSize + 8) * scale; // Text height + padding
@@ -1128,6 +1154,13 @@ class _FlutterDeviceFrameState extends State<FlutterDeviceFrame> {
         final fontSize =
             double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
         return (fontSize + 16) * scale; // Button height
+      case 'TextField':
+        final fontSize =
+            double.tryParse(widgetBean.properties['fontSize'] ?? '14') ?? 14.0;
+        return (fontSize + 16) * scale; // TextField height
+      case 'Icon':
+        final iconSize = double.tryParse(widgetBean.properties['iconSize']?.toString() ?? '24') ?? 24.0;
+        return (iconSize + 16) * scale; // Icon size + padding
       default:
         return widgetBean.position.height * scale;
     }
